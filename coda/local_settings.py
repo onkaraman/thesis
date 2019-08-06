@@ -1,0 +1,7 @@
+engine = "django.db.backends.postgresql_psycopg2"
+name = "coda"
+user = "postgres"
+password = "localintern19"
+host = "localhost"
+port = ""
+local_ger_code = "de_DE.utf8"
