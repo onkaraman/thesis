@@ -1,0 +1,50 @@
+{% load staticfiles %}
+
+<html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+              integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+              crossorigin="anonymous">
+
+        <script src="{% static 'js/jquery-2.2.4.min.js' %}"></script>
+        <script src="{% static 'js/jquery-dateformat.js' %}"></script>
+        <script src="{% static 'js/jquery.cookie.js' %}"></script>
+        <script src="{% static 'js/jquery-ui_1-12-1.js' %}"></script>
+
+        <script src="{% static 'js/bootstrap.js' %}"></script>
+        <script src="{% static 'js/daimler_main.js' %}"></script>
+
+        <script src="{% static 'js/base.js' %}"></script>
+
+        {% with "CODA" as name%}
+            {% block headers %}
+            {% endblock %}
+        {% endwith %}
+
+        <title>CODA</title>
+    </head>
+
+    <body>
+        <div id="container">
+            <div id="top-bar">
+                <img src="{% static "img/img_logo_daimler_svg.svg" %}" id="logo" />
+                <div class="top-button">
+                    <i class="fas fa-plus top-icon" id="new-project-icon"></i>
+                    <p>Neues Projekt erstellen</p>
+                </div>
+                <div class="top-button">
+                    <i class="fas fa-chevron-right top-icon"></i>
+                    <p>Projekt laden</p>
+                </div>
+
+            </div>
+        </div>
+    </body>
+</html>
