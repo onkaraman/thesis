@@ -3,9 +3,8 @@
     --cyan-primary: #00677f;
     --cyan-lo: #5097ab;
 
-    --grey-strong: #444444;
-    --grey-mid: #707070;
-    --grey-lo: #9e9e9e;
+    --grey: #444444;
+    --grey-lo: #d6d6d6;
 
     --red-strong: #440e07;
     --red-mid: #72170c;
@@ -16,9 +15,7 @@
     --orange-mid: #eba550;
     --orange-lo: #f0be7d;
 
-    --green-strong: #6ea046;
-    --green-mid: #8cb46e;
-    --green-lo: #aac891;
+    --green: #6ea046;
 }
 
 
@@ -33,7 +30,7 @@ p {
 #logo {
     width: 114px;
     margin-top: 5px;
-    margin-right: 100px;
+    margin-right: 55px;
 }
 
 #spinner {
@@ -58,14 +55,36 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', end
     width: 100%;
 }
 
+#project-name {
+    display: inline-flex;
+    margin-right: 2px;
+    background-color: white;
+    height: fit-content;
+    padding: 12px 12px;
+}
+
+#project-name p {
+    font-size: 15px;
+    margin-top: 2px;
+}
+
 .top-button {
     display: inline-flex;
-    margin-top: 14px;
+    margin-right: -1px;
+    padding: 12px 8px;
+    padding-right: 22px;
+    border-right: 1px solid var(--grey-lo);
+    border-left: 1px solid var(--grey-lo);
 }
 
 .top-button:hover {
     cursor: pointer;
-    color: var(--cyan-primary);
+    background-color: var(--grey-lo);
+}
+
+.top-button p {
+    font-size: 15px;
+    margin-top: 2px;
 }
 
 .top-icon {
@@ -80,11 +99,78 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', end
     margin-right: 5px;
 }
 
-.top-button p {
-    font-size: 15px;
-    margin-top: 2px;
-    margin-right: 65px;
+#save-icon {
+    top: 0;
+    right: 1px;
+    bottom: 0;
+    position: absolute;
+    height: fit-content;
+    border-right: none;
 }
+
+#left-panel {
+    width: 220px;
+    background-color: #ededed;
+    height: -webkit-fill-available;
+    border-right: 1px solid #d6d6d6;
+    padding-top: 30px;
+}
+
+.panel-header {
+    font-size: 15px;
+    margin-left: 17px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.panel-header-distance {
+    margin-top: 34px;
+}
+
+#tq-icon {
+    margin-top: 7px;
+    font-size: 13px;
+}
+
+.panel-button {
+    display: inline-flex;
+    margin-top: 8px;
+    width: 100%;
+    border-top: 1px solid #b5b5b5;
+    border-bottom: 1px solid #b5b5b5;
+    padding-left: 19px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    background-color: var(--cyan-lo);
+    color: white;
+}
+
+.panel-button:hover {
+    background-color: var(--cyan-primary);
+    cursor: pointer;
+}
+
+.panel-button-accented {
+    background-color: var(--cyan-strong);
+}
+
+.panel-icon {
+    margin-top: 4px;
+}
+
+.panel-button p {
+    margin-left: 8px;
+    margin-top: 1px;
+}
+
+#endfusion-button {
+    background-color: var(--green);
+}
+
+#endfusion-button:hover {
+    background-color: var(--cyan-primary);
+}
+
 
 .hint {
     width: 420px;
