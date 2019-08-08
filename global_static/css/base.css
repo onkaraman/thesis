@@ -8,16 +8,22 @@
 
     --red-strong: #440e07;
     --red-mid: #72170c;
-    --red-lo: #c8a0a0;
     --red-contrast: #850000;
 
-    --orange-strong: #e69123;
-    --orange-mid: #eba550;
-    --orange-lo: #f0be7d;
-
+    --orange: #e69123;
     --green: #6ea046;
 }
 
+h1 {
+    margin-top: 0px;
+    margin-bottom: 2px;
+}
+
+h3 {
+    margin-top: 0px;
+    font-size: 23px;
+    padding-left: 2px;
+}
 
 p {
     margin: 0;
@@ -56,7 +62,7 @@ p {
 
 #project-name {
     display: inline-flex;
-    margin-right: 2px;
+    margin-left: 1px;
     background-color: white;
     height: fit-content;
     padding: 12px 12px;
@@ -107,6 +113,11 @@ p {
     border-right: none;
 }
 
+#panels {
+    display: inline-flex;
+}
+
+/* Left Panel */
 #left-panel {
     width: 220px;
     background-color: #ededed;
@@ -181,42 +192,51 @@ p {
     background-color: var(--cyan-primary);
 }
 
-
-.hint {
-    width: 420px;
-    display: none;
-    border-radius: 4px;
-    background-color: #c8c8c8;
-    padding: 5px 10px;
+/* Center Panel */
+#center-panel {
+    padding-left: 50px;
+    padding-top: 32px;
 }
 
-.error {
-    color: #9f1924 !important;
-    width: 420px !important;
-    clear: both;
-    margin-top: 4px;
-    padding: 5px 10px;
-    background-color: #e6d2d2 !important;
-    display: none;
-    border-radius: 4px;
+/* Right Panel */
+#right-panel {
+    padding-top: 30px;
+    position: absolute;
+    width: 280px;
+    height: -webkit-fill-available;
+    border-left: 1px solid #d6d6d6;
+    background-color: #ededed;
+    top: 49px;
+    right: 0px;
+    bottom: 0;
 }
 
-.dropdown-menu > li > a {
-    color: #000000;
+#rules-header {
+    font-size: 15px;
+    margin-left: 17px;
+    font-weight: 600;
+    margin-bottom: 5px;
 }
 
-#footer {
+#add-rule-button {
     display: inline-flex;
+    margin-top: 8px;
     width: 100%;
-    margin: 0 auto;
-    margin-top: 30px;
-    margin-bottom: 50px;
-    border-top: 1px solid #c5c5c5;
-    padding-top: 15px;
-    padding-left: 3px;
-    font-size: 14px;
+    border-top: 1px solid #b5b5b5;
+    border-bottom: 1px solid #b5b5b5;
+    padding-left: 19px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    background-color: var(--cyan-lo);
+    color: white;
 }
 
-.footer-block {
-    margin-right: 58px;
+#add-rule-button:hover {
+    background-color: var(--cyan-primary);
+    cursor: pointer;
+}
+
+#add-rule-button p {
+    margin-left: 8px;
+    margin-top: 1px;
 }

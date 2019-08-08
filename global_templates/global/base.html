@@ -53,33 +53,48 @@
                 </div>
             </div>
 
-            <div id="left-panel">
-                <p class="panel-header">Optionen</p>
-                <div class="panel-button">
-                    <i class="fas fa-plus panel-icon"></i>
-                    <p>Teilquelle hinzufügen</p>
+            <div id="panels">
+                <div id="left-panel">
+                    <p class="panel-header">Optionen</p>
+                    <div class="panel-button">
+                        <i class="fas fa-plus panel-icon"></i>
+                        <p>Teilquelle hinzufügen</p>
+                    </div>
+
+                    <p class="panel-header panel-header-distance">Quellen</p>
+                    <div class="panel-button panel-button-accented">
+                        <i class="far fa-clone panel-icon"></i>
+                        <p>Teilquelle A</p>
+                    </div>
+                    <div class="panel-button panel-button-accented">
+                        <i class="far fa-clone panel-icon"></i>
+                        <p>Teilquelle B</p>
+                    </div>
+
+                    <p class="panel-header panel-header-distance">Teilfusion</p>
+                    <div class="panel-button panel-button-accented">
+                        <i class="fas fa-project-diagram" id="tq-icon"></i>
+                        <p>Regelmodule erstellen</p>
+                    </div>
+
+                    <p class="panel-header panel-header-distance">Endfusion</p>
+                    <div class="panel-button" id="endfusion-button">
+                        <i class="fas fa-angle-double-right panel-icon"></i>
+                        <p>Exportieren</p>
+                    </div>
                 </div>
 
-                <p class="panel-header panel-header-distance">Quellen</p>
-                <div class="panel-button panel-button-accented">
-                    <i class="far fa-clone panel-icon"></i>
-                    <p>Teilquelle A</p>
-                </div>
-                <div class="panel-button panel-button-accented">
-                    <i class="far fa-clone panel-icon"></i>
-                    <p>Teilquelle B</p>
+                <div id="center-panel">
+                    <h1>Teilquelle hinzufügen</h1>
+                    <h3>Importieren Sie eine lokale Datei um sie als Teilquelle nutzen zu können</h3>
                 </div>
 
-                <p class="panel-header panel-header-distance">Teilfusion</p>
-                <div class="panel-button panel-button-accented">
-                    <i class="fas fa-project-diagram" id="tq-icon"></i>
-                    <p>Regelmodule erstellen</p>
-                </div>
-
-                <p class="panel-header panel-header-distance">03. Endfusion</p>
-                <div class="panel-button" id="endfusion-button">
-                    <i class="fas fa-angle-double-right panel-icon"></i>
-                    <p>Exportieren</p>
+                <div id="right-panel">
+                    <p id="rules-header">Regelmodule</p>
+                    <div id="add-rule-button">
+                        <i class="fas fa-plus panel-icon"></i>
+                        <p>Regelmodul erstellen</p>
+                    </div>
                 </div>
             </div>
 
