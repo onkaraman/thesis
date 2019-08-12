@@ -7,11 +7,18 @@ from security.args_checker import ArgsChecker
 from user_profile.models import UserProfile
 
 
-def render_sign_up(request):
+def render_login(request):
+    """
+    render_login
+    """
+    return render(request, "user_profile/login.html")
+
+
+def render_signup(request):
     """
     Will render the sign up view to make new registrations possible.
     """
-    return render(request, "user_profile/sign_up.html")
+    return render(request, "user_profile/signup.html")
 
 
 def do_sign_up(request):

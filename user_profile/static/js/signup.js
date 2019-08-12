@@ -1,11 +1,3 @@
-function hide_controls() {
-    $("#left-panel").hide();
-    $("#right-panel").hide();
-    $("#project-name").hide();
-    $(".top-button").hide();
-    $("#left-panel-hamburger").css("opacity", "0");
-}
-
 function request_signup() {
     let error = $("#server-response");
     error.hide();

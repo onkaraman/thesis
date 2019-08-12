@@ -24,6 +24,15 @@ function is_valid_email(emailAddress) {
     return pattern.test(emailAddress);
 }
 
+function hide_controls() {
+    $("#left-panel").hide();
+    $("#right-panel").hide();
+    $("#project-name").hide();
+    $(".top-button").hide();
+    $("#left-panel-hamburger").css("opacity", "0");
+}
+
+
 function left_panel_toggle() {
     if ($("#left-panel").width() > 100) {
         $("#left-panel").css("width", "56px");

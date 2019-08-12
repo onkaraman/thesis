@@ -1,0 +1,27 @@
+{% extends "global/base.html" %}
+{% load staticfiles %}
+
+{% block headers %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <script src="{% static 'js/login.js' %}"></script>
+    <title>CODA Login</title>
+{% endblock %}
+
+{% block content %}
+    <h1>Anmelden</h1>
+    <h3>Geben Sie Ihre Anmeldedaten an um CODA nutzen zu können</h3>
+
+    <div id="login-form">
+        <p id="server-response">Server Fehler</p>
+
+        <input type="text" class="form-control" placeholder="Ihre Corp. E-Mail" id="corp-mail">
+        <input type="password" class="form-control" placeholder="Ihr Passwort" id="password">
+
+        <button type="submit" class="btn btn-primary" id="login-button">Bei CODA einloggen</button>
+
+        <p id="signup-link">
+            Noch nicht angemeldet? <a href="/signup">Hier können Sie sich anmelden</a>
+        </p>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,30 @@
+#login-form {
+    margin-top: 20px;
+    width: 410px;
+}
+
+#server-response {
+    display: none;
+    border: 1px solid var(--red-contrast);
+    margin-bottom: 17px;
+    font-size: 15px;
+    padding: 5px 10px;
+    background-color: #ffe0e0;
+    color: #752222;
+}
+
+#corp-mail {
+    margin-bottom: 13px;
+}
+
+#login-button {
+    margin-top: 18px;
+    width: 100%;
+}
+
+#signup-link {
+    margin-top: 10px;
+    font-size: 15px;
+    text-align: center;
+}
+
