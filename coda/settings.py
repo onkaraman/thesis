@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'user_profile',
+    'security_token',
     'tq_file'
 ]
 

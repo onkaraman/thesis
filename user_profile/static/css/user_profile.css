@@ -1,0 +1,33 @@
+#signup-form {
+    margin-top: 40px;
+    width: 410px;
+}
+
+.form-descriptor {
+    font-size: 17px;
+    margin-bottom: 3px;
+    margin-left: 4px;
+}
+
+#corp-mail {
+    margin-bottom: 20px;
+}
+
+#password-r {
+    margin-top: 12px;
+}
+
+#signup-button {
+    margin-top: 18px;
+    width: 100%;
+}
+
+#server-response {
+    display: none;
+    border: 1px solid var(--red-contrast);
+    margin-bottom: 17px;
+    font-size: 15px;
+    padding: 4px 10px;
+    background-color: #ffe0e0;
+    color: #752222;
+}

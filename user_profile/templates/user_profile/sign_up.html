@@ -1,1 +1,30 @@
 {% extends "global/base.html" %}
+{% load staticfiles %}
+
+{% block headers %}
+    <link rel="stylesheet" href="{% static 'css/user_profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+    <script src="{% static 'js/user_profile.js' %}"></script>
+    <title>CODA Registrieren</title>
+{% endblock %}
+
+{% block content %}
+    <h1>Registrierung</h1>
+    <h3>Melden Sie sich bei CODA an um alle Features nutzen zu können</h3>
+
+    <div id="signup-form">
+        <p id="server-response">Server Fehler</p>
+
+        <p class="form-descriptor">Ihre Daimler E-Mail Adresse zur internen Zuordnung</p>
+        <input type="text" class="form-control" placeholder="Ihre Corp. E-Mail" id="corp-mail">
+
+        <p class="form-descriptor">Ihr Passwort nur für CODA. Mindestens 8 Zeichen.</p>
+
+        <input type="password" class="form-control" placeholder="Ihr Passwort" id="password">
+
+        <input type="password" class="form-control" placeholder="Ihr Passwort (wiederholen)"
+               id="password-r">
+
+        <button type="submit" class="btn btn-primary" id="signup-button">Bei CODA registrieren</button>
+    </div>
+{% endblock %}

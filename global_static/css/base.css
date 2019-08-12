@@ -29,6 +29,10 @@ p {
     margin: 0;
 }
 
+.btn {
+    border-radius: 0px;
+}
+
 #container {
 
 }
@@ -54,7 +58,7 @@ p {
     background: linear-gradient(45deg,  #ededed 0%,#fefefe 59%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', endColorstr='#fefefe',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
-    border-bottom: 1px solid #d6d6d6;
+    outline: 1px solid #d6d6d6;
     height: 49px;
     display: inline-flex;
     width: 100%;
