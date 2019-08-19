@@ -14,16 +14,19 @@
     <div id="signup-form">
         <p id="server-response">Server Fehler</p>
 
-        <p class="form-descriptor">Ihre Daimler E-Mail Adresse zur internen Zuordnung</p>
-        <input type="text" class="form-control" placeholder="Ihre Corp. E-Mail" id="corp-mail">
+        <form id="signup-form-p"> {% csrf_token %}
+            <p class="form-descriptor">Ihre Daimler E-Mail Adresse zur internen Zuordnung</p>
+            <input type="text" class="form-control" placeholder="Ihre Corp. E-Mail" id="corp-mail"
+                value="jb@daimler.com">
 
-        <p class="form-descriptor">Ihr Passwort nur für CODA. Mindestens 8 Zeichen.</p>
+            <p class="form-descriptor">Ihr Passwort nur für CODA. Mindestens 8 Zeichen.</p>
 
-        <input type="password" class="form-control" placeholder="Ihr Passwort" id="password">
+            <input type="password" class="form-control" placeholder="Ihr Passwort" id="password">
 
-        <input type="password" class="form-control" placeholder="Ihr Passwort (wiederholen)"
-               id="password-r">
+            <input type="password" class="form-control" placeholder="Ihr Passwort (wiederholen)"
+                   id="password-r">
 
-        <button type="submit" class="btn btn-primary" id="signup-button">Bei CODA registrieren</button>
+            <button type="submit" class="btn btn-primary" id="signup-button">Bei CODA registrieren</button>
+        </form>
     </div>
 {% endblock %}

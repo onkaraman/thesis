@@ -29,13 +29,13 @@ def do_sign_up(request):
     msg = ""
     token = None
 
-    if "email" in request.GET and not ArgsChecker.str_is_malicious(request.GET["email"]) \
-            and "pw1" in request.GET and not ArgsChecker.str_is_malicious(request.GET["pw1"]) \
-            and "pw2" in request.GET and not ArgsChecker.str_is_malicious(request.GET["pw2"]):
+    if "email" in request.POST and not ArgsChecker.str_is_malicious(request.POST["email"]) \
+            and "pw1" in request.POST and not ArgsChecker.str_is_malicious(request.POST["pw1"]) \
+            and "pw2" in request.POST and not ArgsChecker.str_is_malicious(request.POST["pw2"]):
 
-        email = request.GET["email"]
-        pw1 = request.GET["pw1"]
-        pw2 = request.GET["pw2"]
+        email = request.POST["email"]
+        pw1 = request.POST["pw1"]
+        pw2 = request.POST["pw2"]
 
         if "@daimler.com" not in email:
             msg = "Email not from company"
@@ -48,10 +48,10 @@ def do_sign_up(request):
                 try:
                     user = User.objects.create(
                         email=email,
-                        password=make_password(pw1)
-                    )
-                    my_group = Group.objects.get(name='Users')
-                    my_group.user_set.add(user)
+                        password=make_password(pw1))
+
+                    user_group = Group.objects.get(name='Users')
+                    user_group.user_set.add(user)
                     token = UserProfile.objects.get(user=user).token.code
                     success = True
                 except Exception as exc:

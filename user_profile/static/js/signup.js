@@ -4,10 +4,13 @@ function request_signup() {
     start_loading_animation();
 
     $.ajax({
+        type: 'POST',
+        headers:{
+            "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val()
+        },
         url: "/api/user/set_signup",
         data: {
             "email": $("#corp-mail").val(),
-            // TODO: Über POST
             "pw1": $("#password").val(),
             "pw2": $("#password-r").val()
         },

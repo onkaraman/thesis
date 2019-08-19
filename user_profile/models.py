@@ -22,8 +22,10 @@ class UserProfile(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         profile = UserProfile.objects.create(user=instance)
+
         token = SecurityToken()
         token.generate_token_code()
         token.save()
+
         profile.token = token
         profile.save()
