@@ -108,13 +108,21 @@ p {
     margin-right: 5px;
 }
 
-#save-icon {
+#top-stick-right {
     top: 0;
     right: 1px;
     bottom: 0;
     position: absolute;
     height: fit-content;
     border-right: none;
+}
+
+#user-icon {
+    border-right: none;
+}
+
+#save-icon {
+
 }
 
 #panels {

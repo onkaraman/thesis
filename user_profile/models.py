@@ -28,4 +28,5 @@ def create_user_profile(sender, instance, created, **kwargs):
         token.save()
 
         profile.token = token
+        profile.user = instance
         profile.save()

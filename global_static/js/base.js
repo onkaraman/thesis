@@ -78,6 +78,23 @@ function stop_loading_animation() {
     });
 }
 
+function request_template_include(url, data_dict) {
+    start_loading_animation();
+
+    $.ajax({
+        url: url,
+        data: data_dict,
+        success: function (data) {
+            stop_loading_animation();
+            let json = JSON.parse(data);
+            let html = json.html.replace( new RegExp( "\>[\s]+\<" , "g" ) , "><" );
+            $("#center-panel").html(html);
+        },
+        error: function (data, exception) {
+            alert(data.responseText);
+        }
+    });
+}
 
 var main = function () {
     $("#left-panel-hamburger").click(function (e) {

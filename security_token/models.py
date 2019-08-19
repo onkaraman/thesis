@@ -20,6 +20,9 @@ class SecurityToken(models.Model):
         self.code = str(uuid.uuid4()) + str(random.randint(0, 1000))
         return self.code
 
+    def __str__(self):
+        return "#%d: %s" % (self.pk, self.code)
+
 
 def security_token_pre_save(sender, instance, **kwargs):
     if len(instance.code) <= 20:

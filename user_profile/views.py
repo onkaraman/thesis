@@ -2,6 +2,7 @@ import json
 from django.shortcuts import render
 from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse
+from django.template.loader import render_to_string
 from django.contrib.auth.models import User, Group
 from security.args_checker import ArgsChecker
 from user_profile.models import UserProfile
@@ -19,6 +20,17 @@ def render_signup(request):
     Will render the sign up view to make new registrations possible.
     """
     return render(request, "user_profile/signup.html")
+
+
+def render_settings(request):
+    """
+    render_settings
+    """
+    rendered = render_to_string("user_profile/_settings.html")
+    return HttpResponse(json.dumps(
+        {
+            "html": str(rendered)
+        }))
 
 
 def do_sign_up(request):
