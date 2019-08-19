@@ -2,9 +2,9 @@ import json
 from django.shortcuts import render
 from django.contrib.auth.hashers import make_password
 from django.http import HttpResponse
-from django.template.loader import render_to_string
 from django.contrib.auth.models import User, Group
 from security.args_checker import ArgsChecker
+import dashboard.includer as dashboard_includer
 from user_profile.models import UserProfile
 
 
@@ -26,11 +26,7 @@ def render_settings(request):
     """
     render_settings
     """
-    rendered = render_to_string("user_profile/_settings.html")
-    return HttpResponse(json.dumps(
-        {
-            "html": str(rendered)
-        }))
+    return dashboard_includer.get_as_json("user_profile/_settings.html")
 
 
 def do_sign_up(request):

@@ -88,6 +88,8 @@ function request_template_include(url, data_dict) {
             stop_loading_animation();
             let json = JSON.parse(data);
             let html = json.html.replace( new RegExp( "\>[\s]+\<" , "g" ) , "><" );
+
+            $("head link#dynamic-css").attr("href", json.css);
             $("#center-panel").html(html);
         },
         error: function (data, exception) {
