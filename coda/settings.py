@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'dashboard',
     'user_profile',
+    'project',
     'security_token',
     'tq_file'
 ]

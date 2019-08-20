@@ -63,7 +63,6 @@ function hide_controls() {
     $("#left-panel-hamburger").css("opacity", "0");
 }
 
-
 function left_panel_toggle() {
     if ($("#left-panel").width() > 100) {
         $("#left-panel").css("width", "56px");
@@ -135,11 +134,60 @@ function request_template_include(url, data_dict) {
     });
 }
 
+function request_start_new_project() {
+    start_loading_animation();
+    $.ajax({
+        url: "/api/project/new",
+        success: function (data) {
+            stop_loading_animation();
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                $("#project-name p").text(json.name)
+            }
+        },
+        error: function (data, exception) {
+            alert(data.responseText);
+        }
+    });
+}
+
+function start_new_project() {
+    $("#left-panel").show("slide", {direction: "left"}, 300);
+    $("#project-name").show();
+    request_start_new_project();
+}
+
 var main = function () {
+    $("#logo").click(function (e) {
+        window.location = "/";
+    });
+
     $("#left-panel-hamburger").click(function (e) {
         left_panel_toggle();
     });
 
+    $("#new-project").click(function (e) {
+        start_new_project();
+    });
+
+    $("#project-name").click(function (e) {
+        $("#project-name p").hide();
+        $("#name-rename").val($("#project-name p ").text());
+        $("#name-rename").show();
+        $("#name-rename").focus();
+    });
+
+    $("#name-rename").keyup(function (e) {
+        if (e.key === "Escape") {
+            $("#name-rename").hide();
+            $("#project-name p").show();
+        } else if (e.key === "Enter") {
+            $("#project-name p").text($("#name-rename").val());
+            $("#project-name p").show();
+            $("#name-rename").hide();
+        }
+    });
 };
 
 

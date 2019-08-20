@@ -13,9 +13,8 @@ class UserProfile(models.Model):
     """
     creation_date = models.DateTimeField(default=timezone.now)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    token = models.ForeignKey(SecurityToken,
-                              related_name='%(class)s_cookie_token',
-                              on_delete=models.CASCADE, null=True)
+    token = models.ForeignKey(SecurityToken, on_delete=models.CASCADE, null=True)
+    last_opened_project_id = models.IntegerField(null=True)
 
 
 @receiver(post_save, sender=User)

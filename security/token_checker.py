@@ -10,8 +10,8 @@ def token_is_valid(request):
     if "token" in request.COOKIES:
         token = StringStripper.remove_malicious(request.COOKIES["token"])
         try:
-            user = UserProfile.objects.get(token__code=token)
-            if not user.token.has_expired():
-                return user
+            user_profile = UserProfile.objects.get(token__code=token)
+            if not user_profile.token.has_expired():
+                return user_profile
         except ObjectDoesNotExist:
             return False
