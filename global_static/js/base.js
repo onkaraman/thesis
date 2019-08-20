@@ -144,6 +144,8 @@ function request_start_new_project() {
 
             if (json.success) {
                 $("#project-name p").text(json.name)
+                $("#left-panel").show("slide", {direction: "left"}, 300);
+                $("#project-name").show();
             }
         },
         error: function (data, exception) {
@@ -152,13 +154,41 @@ function request_start_new_project() {
     });
 }
 
+function request_rename_project(new_name) {
+    let name_rename = $("#name-rename");
+    let project_name_p = $("#project-name p");
+
+    start_loading_animation();
+    $.ajax({
+        url: "/api/project/rename",
+        data: {
+            "name": new_name
+        },
+        success: function (data) {
+            stop_loading_animation();
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                project_name_p.text(new_name);
+                project_name_p.show();
+                name_rename.hide();
+            }
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+            alert(data.responseText);
+        }
+    });
+}
+
 function start_new_project() {
-    $("#left-panel").show("slide", {direction: "left"}, 300);
-    $("#project-name").show();
     request_start_new_project();
 }
 
 var main = function () {
+    let name_rename = $("#name-rename");
+    let project_name_p = $("#project-name p");
+
     $("#logo").click(function (e) {
         window.location = "/";
     });
@@ -172,20 +202,18 @@ var main = function () {
     });
 
     $("#project-name").click(function (e) {
-        $("#project-name p").hide();
-        $("#name-rename").val($("#project-name p ").text());
-        $("#name-rename").show();
-        $("#name-rename").focus();
+        project_name_p.hide();
+        name_rename.val(project_name_p.text());
+        name_rename.show();
+        name_rename.focus();
     });
 
-    $("#name-rename").keyup(function (e) {
+    name_rename.keyup(function (e) {
         if (e.key === "Escape") {
-            $("#name-rename").hide();
-            $("#project-name p").show();
+            name_rename.hide();
+            project_name_p.show();
         } else if (e.key === "Enter") {
-            $("#project-name p").text($("#name-rename").val());
-            $("#project-name p").show();
-            $("#name-rename").hide();
+            request_rename_project(name_rename.val());
         }
     });
 };

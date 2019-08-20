@@ -18,4 +18,5 @@ urlpatterns = [
     url(r'^api/user/logout', user_profile_v.do_logout),
 
     url(r'^api/project/new', project_v.do_create_new),
+    url(r'^api/project/rename', project_v.do_rename),
 ]
