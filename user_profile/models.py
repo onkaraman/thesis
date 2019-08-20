@@ -25,7 +25,6 @@ def create_user_profile(sender, instance, created, **kwargs):
 
         token = SecurityToken()
         token.generate_token_code()
-        token.save()
 
         profile.token = token
         profile.user = instance

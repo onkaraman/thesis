@@ -8,7 +8,7 @@ function request_signup() {
         headers:{
             "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val()
         },
-        url: "/api/user/set_signup",
+        url: "/api/user/signup",
         data: {
             "email": $("#corp-mail").val(),
             "pw1": $("#password").val(),

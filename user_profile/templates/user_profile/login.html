@@ -12,6 +12,7 @@
     <h3>Geben Sie Ihre Anmeldedaten an um CODA nutzen zu können</h3>
 
     <div id="login-form">
+        {% csrf_token %}
         <p id="server-response">Server Fehler</p>
 
         <input type="text" class="form-control" placeholder="Ihre Corp. E-Mail" id="corp-mail">

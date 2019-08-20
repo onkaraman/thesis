@@ -1,14 +1,18 @@
 function request_login() {
-    $("#spinner").show();
+    start_loading_animation();
 
     $.ajax({
-        url: "/user/set_login",
+        type: 'POST',
+        headers:{
+            "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val()
+        },
+        url: "/api/user/login",
         data: {
             "email": $("#corp-mail").val(),
             "pw": $("#password").val()
         },
         success: function (data) {
-            $("#spinner").hide();
+            stop_loading_animation();
 
             var json = JSON.parse(data);
 
@@ -28,27 +32,28 @@ function request_login() {
 
 function validate() {
     let email = $("#corp-mail");
-    let pw1 = $("#password");
+    let pw = $("#password");
 
     let error = $("#server-response");
     error.hide();
 
-    if (!email.val().includes("@daimler.com")) {
+    if (!email.val().trim().endsWith("@daimler.com")) {
         error.show();
         error.text("Die E-Mail Adresse scheint nicht von Daimler zu sein.");
-    } else if (pw1.val().length < 8) {
+    } else if (pw.val().length < 8) {
         error.show();
         error.text("Das eingebene Passwort ist zu kurz.");
     } else {
-        //request_login();
+        return true;
     }
+    return false;
 }
 
 var main = function () {
     hide_controls();
 
     $("#login-button").click(function (e) {
-        validate();
+        if (validate()) request_login();
     });
 };
 

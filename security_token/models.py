@@ -18,6 +18,7 @@ class SecurityToken(models.Model):
 
     def generate_token_code(self):
         self.code = str(uuid.uuid4()) + str(random.randint(0, 1000))
+        self.save()
         return self.code
 
     def __str__(self):

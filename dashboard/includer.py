@@ -4,7 +4,15 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 
 
-def get_as_json(template_url):
+def get_static_path(filename):
+    if "." in filename:
+        extension = filename.split(".")[1]
+        return settings.STATIC_URL + "%s/%s" % (extension, filename)
+    else:
+        raise Exception("Filename needs to be defined with extension")
+
+
+def get_as_json(template_url, different_css=None, different_js=None):
     """
     get_as_json
     """
@@ -19,11 +27,19 @@ def get_as_json(template_url):
             name_as_list[0] = ""
             template_name = "".join(name_as_list)
 
+            css_path = get_static_path(template_name.replace("html", "css"))
+            if different_css:
+                css_path = get_static_path(different_css)
+
+            js_path = get_static_path(template_name.replace("html", "js"))
+            if different_js:
+                js_path = get_static_path(different_js)
+
             return HttpResponse(json.dumps(
                 {
                     "html": str(render_to_string(template_url)),
-                    "css": settings.STATIC_URL + "css/%s" % template_name.replace("html", "css"),
-                    "js": settings.STATIC_URL + "js/%s.js" % template_name.replace("html", "js"),
+                    "css": css_path,
+                    "js": js_path,
                 }))
 
         else:
