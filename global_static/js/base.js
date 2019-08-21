@@ -3,6 +3,7 @@ let next_anim_color = "#00aad2";
 let next_anim = true;
 
 
+// jQuery
 jQuery.extend({
     //https://stackoverflow.com/questions/690781/debugging-scripts-added-via-jquery-getscript-function
     getScript: function (url, callback) {
@@ -50,6 +51,8 @@ function getQueryParams(qs) {
 
 let $_GET = getQueryParams(document.location.search);
 
+
+// Helpers
 function is_valid_email(emailAddress) {
     var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
     return pattern.test(emailAddress);
@@ -61,6 +64,11 @@ function hide_controls() {
     $("#project-name").hide();
     $(".top-button").hide();
     $("#left-panel-hamburger").css("opacity", "0");
+}
+
+function fit_simple_modal() {
+    let simple_modal = $("#simple-modal");
+    simple_modal.css("margin-left", ($(document).width()/2)-simple_modal.outerWidth()/2);
 }
 
 function left_panel_toggle() {
@@ -108,6 +116,7 @@ function stop_loading_animation() {
     });
 }
 
+// Requests
 function request_template_include(url, data_dict) {
     start_loading_animation();
 
@@ -126,6 +135,7 @@ function request_template_include(url, data_dict) {
                 console.log("Included " + json.js);
             });
 
+            $("#center-panel").empty();
             $("#center-panel").html(html);
         },
         error: function (data, exception) {
@@ -182,11 +192,18 @@ function request_rename_project(new_name) {
     });
 }
 
+// UX
 function start_new_project() {
     request_start_new_project();
 }
 
+
 var main = function () {
+    fit_simple_modal();
+    $(window).resize(function () {
+        fit_simple_modal();
+    });
+
     let name_rename = $("#name-rename");
     let project_name_p = $("#project-name p");
 
@@ -217,6 +234,7 @@ var main = function () {
             request_rename_project(name_rename.val());
         }
     });
+
 };
 
 

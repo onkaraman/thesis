@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import Project
 import security.token_checker as token_checker
 import dashboard.includer as dashboard_includer
+from django.core.exceptions import ObjectDoesNotExist
 from security.args_checker import ArgsChecker
 
 
@@ -47,6 +48,24 @@ def do_rename(request):
     return HttpResponse(json.dumps({"success": success}))
 
 
+def do_delete_project(request):
+    """
+    do_delete_project
+    """
+    success = False
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user:
+        if "id" in request.GET and ArgsChecker.is_number(request.GET["id"]):
+            try:
+                project = Project.objects.get(pk=request.GET["id"], user_profile=valid_user)
+                project.archived = True
+                project.save()
+                success = True
+            except ObjectDoesNotExist:
+                pass
+    return HttpResponse(json.dumps({"success": success}))
+
+
 def render_user_projects(request):
     """
     render_overview
@@ -54,7 +73,7 @@ def render_user_projects(request):
     valid_user = token_checker.token_is_valid(request)
     dic = {}
     if valid_user:
-        projects = Project.objects.filter(user_profile=valid_user)
+        projects = Project.objects.filter(user_profile=valid_user, archived=False)
         project_list = []
         for p in projects:
             project_list.append({

@@ -21,4 +21,5 @@ urlpatterns = [
 
     url(r'^api/project/new', project_v.do_create_new),
     url(r'^api/project/rename', project_v.do_rename),
+    url(r'^api/project/delete', project_v.do_delete_project),
 ]

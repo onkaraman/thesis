@@ -8,6 +8,7 @@ class Project(models.Model):
     Project
     """
     creation_date = models.DateTimeField(default=timezone.now)
+    archived = models.BooleanField(default=False)
     name = models.CharField(max_length=100)
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
 
