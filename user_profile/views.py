@@ -28,8 +28,10 @@ def render_settings(request):
     """
     render_settings
     """
-    return dashboard_includer.get_as_json("user_profile/_settings.html",
-                                          different_js="user_settings.js")
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user:
+        return dashboard_includer.get_as_json("user_profile/_settings.html",
+                                              different_js="_user_settings.js")
 
 
 def do_login(request):

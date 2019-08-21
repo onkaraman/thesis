@@ -146,6 +146,7 @@ function request_start_new_project() {
                 $("#project-name p").text(json.name)
                 $("#left-panel").show("slide", {direction: "left"}, 300);
                 $("#project-name").show();
+                $("#left-panel-hamburger").css("opacity", "1");
             }
         },
         error: function (data, exception) {

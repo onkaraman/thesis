@@ -74,10 +74,9 @@ p {
 
 #project-name {
     display: inline-flex;
-    margin-left: 1px;
     background-color: white;
     height: fit-content;
-    padding: 12px 14px;
+    padding: 12px 19px;
 }
 
 #name-rename {

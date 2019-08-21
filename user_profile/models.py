@@ -16,6 +16,9 @@ class UserProfile(models.Model):
     token = models.ForeignKey(SecurityToken, on_delete=models.CASCADE, null=True)
     last_opened_project_id = models.IntegerField(null=True)
 
+    def __str__(self):
+        return "#%d: %s" % (self.pk, self.user.username)
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

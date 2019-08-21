@@ -5,6 +5,7 @@ from dashboard import views as dashboard_v
 from user_profile import views as user_profile_v
 from project import views as project_v
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', dashboard_v.render_dashboard),
@@ -12,6 +13,7 @@ urlpatterns = [
     url(r'^signup/$', user_profile_v.render_signup),
 
     url(r'^include/user/settings', user_profile_v.render_settings),
+    url(r'^include/project/user_projects', project_v.render_user_projects),
 
     url(r'^api/user/signup', user_profile_v.do_sign_up),
     url(r'^api/user/login', user_profile_v.do_login),

@@ -2,6 +2,7 @@ import json
 from django.http import HttpResponse
 from .models import Project
 import security.token_checker as token_checker
+import dashboard.includer as dashboard_includer
 from security.args_checker import ArgsChecker
 
 
@@ -44,3 +45,23 @@ def do_rename(request):
         success = True
 
     return HttpResponse(json.dumps({"success": success}))
+
+
+def render_user_projects(request):
+    """
+    render_overview
+    """
+    valid_user = token_checker.token_is_valid(request)
+    dic = {}
+    if valid_user:
+        projects = Project.objects.filter(user_profile=valid_user)
+        project_list = []
+        for p in projects:
+            project_list.append({
+                "id": p.pk,
+                "name": p.name,
+                "date": "Erstellt am %s" % p.creation_date.strftime('%d.%m.%Y'),
+            })
+
+        dic["projects"] = project_list
+        return dashboard_includer.get_as_json("project/_user_projects.html", template_context=dic)

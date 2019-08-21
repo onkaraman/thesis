@@ -9,6 +9,10 @@ function register_events() {
     $("#user-icon").click(function (e) {
         request_template_include("/include/user/settings", {});
     });
+
+    $("#load-project").click(function (e) {
+        request_template_include("/include/project/user_projects", {})
+    });
 }
 
 var main = function() {

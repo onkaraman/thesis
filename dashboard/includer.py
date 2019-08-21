@@ -12,7 +12,7 @@ def get_static_path(filename):
         raise Exception("Filename needs to be defined with extension")
 
 
-def get_as_json(template_url, different_css=None, different_js=None):
+def get_as_json(template_url, template_context=None, different_css=None, different_js=None):
     """
     get_as_json
     """
@@ -23,10 +23,6 @@ def get_as_json(template_url, different_css=None, different_js=None):
         template_name = t_spl[len(t_spl)-1]
 
         if template_name.startswith("_"):
-            name_as_list = list(template_name)
-            name_as_list[0] = ""
-            template_name = "".join(name_as_list)
-
             css_path = get_static_path(template_name.replace("html", "css"))
             if different_css:
                 css_path = get_static_path(different_css)
@@ -37,7 +33,7 @@ def get_as_json(template_url, different_css=None, different_js=None):
 
             return HttpResponse(json.dumps(
                 {
-                    "html": str(render_to_string(template_url)),
+                    "html": str(render_to_string(template_url, template_context)),
                     "css": css_path,
                     "js": js_path,
                 }))

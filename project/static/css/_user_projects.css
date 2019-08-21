@@ -1,0 +1,40 @@
+#project-list {
+    margin-top: 30px;
+}
+
+.project-item {
+    float: left;
+    width: 410px;
+    border-bottom: 1px solid var(--cyan-primary);
+    margin-bottom: 24px;
+    margin-right: 20px;
+    padding: 10px 16px 7px 12px;
+    background-color: #e6e6e6;
+}
+
+.project-delete {
+    float: right;
+    font-size: 17px;
+    margin-top: 13px;
+}
+
+.project-delete:hover {
+    color: var(--red-contrast);
+    cursor: pointer;
+}
+
+.project-item .name {
+    font-weight: 600;
+}
+
+.project-item .date {
+    font-size: 14px;
+}
+
+.project-item .click-area {
+    width: 93%;
+}
+
+.project-item .click-area:hover {
+    cursor: pointer;
+}

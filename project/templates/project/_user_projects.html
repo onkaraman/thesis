@@ -1,0 +1,11 @@
+{% load staticfiles %}
+
+<div id="user-projects-container">
+    <h1>Meine Projekte</h1>
+
+    <div id="project-list">
+        {% for project in projects %}
+            {% include "project_item.html" with id=project.id name=project.name date=project.date %}
+        {% endfor %}
+    </div>
+</div>
