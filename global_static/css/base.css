@@ -37,6 +37,14 @@ p {
     border-radius: 0px;
 }
 
+.error-message {
+    display: none;
+    border: 1px solid #d4b7b7;
+    padding: 4px 12px;
+    background-color: #ffe5e5;
+    color: var(--red-contrast);
+}
+
 #container {
 
 }

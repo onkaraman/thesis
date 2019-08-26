@@ -10,13 +10,14 @@ class FileParser(ABC):
     @abstractmethod
     def get_file_type(self):
         """
-        :return: A string containing the file type the inheriting class can parse.
+        :return: A string containing the file type (extension format)  the inheriting class can parse.
         """
-        pass
+        raise Exception("Method not implemented.")
 
     @abstractmethod
-    def start_parse(self):
+    def start_parse(self, file_path):
         """
         Will initiate the parsing process for the file.
         :return: The file path of the parsed file.
         """
+        raise Exception("Method not implemented.")

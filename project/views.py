@@ -84,3 +84,12 @@ def render_user_projects(request):
 
         dic["projects"] = project_list
         return dashboard_includer.get_as_json("project/_user_projects.html", template_context=dic)
+
+
+def render_new_project(request):
+    """
+    render_new_project
+    """
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user:
+        return dashboard_includer.get_as_json("project/_new_project.html")

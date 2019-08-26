@@ -70,7 +70,7 @@ WSGI_APPLICATION = 'coda.wsgi.application'
 try:
     if "DOCKER" in os.environ and os.environ["DOCKER"]:
         raise ImportError
-    print("[VANDA] Using local DB settings")
+    print("[CODA] Using local DB settings")
     from . import local_settings as ls
 
     DATABASES = {
@@ -136,3 +136,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'global_static')]
 TESTING = sys.argv[1:2] == ['test']
 FIXTURE_DIRS = [os.path.join(BASE_DIR, 'fixtures')]
+
+TQ_UPLOAD_DIR = "tmp_upload"

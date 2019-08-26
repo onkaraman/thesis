@@ -2,8 +2,7 @@ let delete_project_id = 0;
 
 // UX
 function hide_edit_controls() {
-    hide_controls();
-    $("#project-name").hide();
+    hide_top_bar_controls();
     $(".top-button").show();
     $("#save-icon").hide();
 }
@@ -25,15 +24,7 @@ function hide_simple_modal() {
 }
 
 function register_events() {
-    $("#user-icon").click(function (e) {
-        hide_edit_controls();
-        request_template_include("/include/user/settings", {});
-    });
 
-    $("#load-project").click(function (e) {
-        hide_edit_controls();
-        request_template_include("/include/project/user_projects", {})
-    });
 }
 
 // Requests

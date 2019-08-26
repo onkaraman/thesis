@@ -77,25 +77,29 @@
             <div id="panels">
                 <div id="left-panel">
                     <p class="panel-header">Optionen</p>
-                    <div class="panel-button">
+                    <div class="panel-button" id="add-tq">
                         <i class="fas fa-plus panel-icon"></i>
                         <p>Teilquelle hinzufügen</p>
                     </div>
 
                     <p class="panel-header panel-header-distance">Quellen</p>
-                    <div class="panel-button panel-button-accented">
-                        <i class="far fa-clone panel-icon"></i>
-                        <p>Teilquelle A</p>
-                    </div>
-                    <div class="panel-button panel-button-accented">
-                        <i class="far fa-clone panel-icon"></i>
-                        <p>Teilquelle B</p>
+                    <div id="tqs-container">
+                        <div class="panel-button panel-button-accented">
+                            <i class="far fa-clone panel-icon"></i>
+                            <p>Teilquelle A</p>
+                        </div>
+                        <div class="panel-button panel-button-accented">
+                            <i class="far fa-clone panel-icon"></i>
+                            <p>Teilquelle B</p>
+                        </div>
                     </div>
 
                     <p class="panel-header panel-header-distance">Teilfusion</p>
-                    <div class="panel-button panel-button-accented">
-                        <i class="fas fa-project-diagram" id="tq-icon"></i>
-                        <p>Regelmodule erstellen</p>
+                    <div id="rms-container">
+                        <div class="panel-button panel-button-accented">
+                            <i class="fas fa-project-diagram" id="tq-icon"></i>
+                            <p>Regelmodule erstellen</p>
+                        </div>
                     </div>
 
                     <p class="panel-header panel-header-distance">Endfusion</p>

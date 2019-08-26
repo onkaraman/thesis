@@ -58,7 +58,86 @@ function is_valid_email(emailAddress) {
     return pattern.test(emailAddress);
 }
 
-function hide_controls() {
+// Requests
+function request_template_include(url, data_dict) {
+    start_loading_animation();
+
+    $.ajax({
+        url: url,
+        data: data_dict,
+        success: function (data) {
+            stop_loading_animation();
+            let json = JSON.parse(data);
+            let html = json.html.replace(new RegExp("\>[\s]+\<", "g"), "><");
+
+            // Apply css
+            $("head link#dynamic-css").attr("href", json.css);
+            // Apply js
+            $.getScript(json.js, function () {
+                console.log("Included " + json.js);
+            });
+
+            $("#center-panel").empty();
+            $("#center-panel").html(html);
+        },
+        error: function (data, exception) {
+            alert(data.responseText);
+        }
+    });
+}
+
+function request_start_new_project() {
+    start_loading_animation();
+    $.ajax({
+        url: "/api/project/new",
+        success: function (data) {
+            stop_loading_animation();
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                $("#project-name p").text(json.name)
+                $("#left-panel").show("slide", {direction: "left"}, 300);
+                $("#project-name").show();
+                $("#left-panel-hamburger").css("opacity", "1");
+            }
+
+            request_template_include("/include/project/new");
+        },
+        error: function (data, exception) {
+            alert(data.responseText);
+        }
+    });
+}
+
+function request_rename_project(new_name) {
+    let name_rename = $("#name-rename");
+    let project_name_p = $("#project-name p");
+
+    start_loading_animation();
+    $.ajax({
+        url: "/api/project/rename",
+        data: {
+            "name": new_name
+        },
+        success: function (data) {
+            stop_loading_animation();
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                project_name_p.text(new_name);
+                project_name_p.show();
+                name_rename.hide();
+            }
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+            alert(data.responseText);
+        }
+    });
+}
+
+// UX
+function hide_top_bar_controls() {
     $("#left-panel").hide();
     $("#right-panel").hide();
     $("#project-name").hide();
@@ -116,83 +195,12 @@ function stop_loading_animation() {
     });
 }
 
-// Requests
-function request_template_include(url, data_dict) {
-    start_loading_animation();
-
-    $.ajax({
-        url: url,
-        data: data_dict,
-        success: function (data) {
-            stop_loading_animation();
-            let json = JSON.parse(data);
-            let html = json.html.replace(new RegExp("\>[\s]+\<", "g"), "><");
-
-            // Apply css
-            $("head link#dynamic-css").attr("href", json.css);
-            // Apply js
-            $.getScript(json.js, function () {
-                console.log("Included " + json.js);
-            });
-
-            $("#center-panel").empty();
-            $("#center-panel").html(html);
-        },
-        error: function (data, exception) {
-            alert(data.responseText);
-        }
-    });
+function reset_left_panel() {
+    $("#tqs-container").empty();
+    $("#rms-container").empty();
+    $("#endfusion-button").hide();
 }
 
-function request_start_new_project() {
-    start_loading_animation();
-    $.ajax({
-        url: "/api/project/new",
-        success: function (data) {
-            stop_loading_animation();
-            let json = JSON.parse(data);
-
-            if (json.success) {
-                $("#project-name p").text(json.name)
-                $("#left-panel").show("slide", {direction: "left"}, 300);
-                $("#project-name").show();
-                $("#left-panel-hamburger").css("opacity", "1");
-            }
-        },
-        error: function (data, exception) {
-            alert(data.responseText);
-        }
-    });
-}
-
-function request_rename_project(new_name) {
-    let name_rename = $("#name-rename");
-    let project_name_p = $("#project-name p");
-
-    start_loading_animation();
-    $.ajax({
-        url: "/api/project/rename",
-        data: {
-            "name": new_name
-        },
-        success: function (data) {
-            stop_loading_animation();
-            let json = JSON.parse(data);
-
-            if (json.success) {
-                project_name_p.text(new_name);
-                project_name_p.show();
-                name_rename.hide();
-            }
-        },
-        error: function (data, exception) {
-            stop_loading_animation();
-            alert(data.responseText);
-        }
-    });
-}
-
-// UX
 function start_new_project() {
     request_start_new_project();
 }
@@ -203,6 +211,7 @@ var main = function () {
     $(window).resize(function () {
         fit_simple_modal();
     });
+    reset_left_panel();
 
     let name_rename = $("#name-rename");
     let project_name_p = $("#project-name p");
@@ -233,6 +242,20 @@ var main = function () {
         } else if (e.key === "Enter") {
             request_rename_project(name_rename.val());
         }
+    });
+
+    $("#user-icon").click(function (e) {
+        hide_edit_controls();
+        request_template_include("/include/user/settings", {});
+    });
+
+    $("#load-project").click(function (e) {
+        hide_edit_controls();
+        request_template_include("/include/project/user_projects", {})
+    });
+
+    $("#add-tq").click(function (e) {
+        request_template_include("/include/tq/import", {})
     });
 
 };

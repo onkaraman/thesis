@@ -1,0 +1,26 @@
+{% load staticfiles %}
+
+<div id="add-tq-container">
+    <h1>Teilquelle hinzufügen</h1>
+    <h3>Strukturierte Dateien als Teilquellen dem Projekt hinzufügen</h3>
+
+    <div id="file-picker">
+        <form id="upload-form" enctype="multipart/form-data">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <p class="error-message" id="parse-error">
+                An error ocurred during parsing :(
+            </p>
+
+            <input type="file" name="file" id="file" class="inputfile"/>
+
+            <label for="file" id="file-browser-label">Datei wählen</label>
+            <p id="selected-file">No file selected</p>
+
+            <button type="submit" class="btn btn-primary" id="upload-button" disabled="true">
+                <i class="fas fa-folder-open"></i>
+                &nbsp;Upload and collect data
+            </button>
+
+        </form>
+    </div>
+</div>

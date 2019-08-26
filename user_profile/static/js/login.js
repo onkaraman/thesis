@@ -50,7 +50,7 @@ function validate() {
 }
 
 var main = function () {
-    hide_controls();
+    hide_top_bar_controls();
 
     $("#login-button").click(function (e) {
         if (validate()) request_login();
