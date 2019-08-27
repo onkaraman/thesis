@@ -1,3 +1,4 @@
+import json
 from django.db import models
 from django.utils import timezone
 from project.models import Project
@@ -12,6 +13,23 @@ class TQFile(models.Model):
     source_file_name = models.CharField(max_length=100)
     display_file_name = models.CharField(max_length=50)
     content_json = models.TextField()
+
+    def get_as_table(self):
+        """
+        get_as_table
+        """
+        loaded_js = json.loads(self.content_json)
+        columns = ["#"]
+
+        for row in loaded_js:
+            for i in row:
+                if i not in columns:
+                    columns.append(i)
+        return {
+            "cols": columns,
+            "rows": loaded_js,
+            "items": len(loaded_js)
+        }
 
     def __str__(self):
         return "#%d: %s" % (self.pk, self.display_file_name)

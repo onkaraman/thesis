@@ -64,9 +64,9 @@ def do_parse_tq(request):
         }))
 
 
-def render_tqs(request):
+def render_all_tqs(request):
     """
-    render_tqs
+    render_all_tqs
     """
     success = False
     tq_list = []
@@ -77,6 +77,7 @@ def render_tqs(request):
         project = Project.objects.get(pk=valid_user.last_opened_project_id)
         for tq in TQFile.objects.filter(project=project):
             tq_list.append({
+                "id": tq.pk,
                 "name": tq.display_file_name
             })
         success = True
@@ -88,9 +89,43 @@ def render_tqs(request):
         }))
 
 
-def render_import(request):
+def i_render_single_tq(request):
     """
-    render_import
+    i_render_single_tq
+    """
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user and "id" in request.GET and ArgsChecker.is_number(request.GET["id"]):
+        tq = TQFile.objects.get(pk=request.GET["id"])
+        dic = {
+            "id": tq.pk,
+            "name": tq.display_file_name,
+        }
+        return dashboard_includer.get_as_json("tq_file/_view.html", template_context=dic)
+
+
+def render_single_tq_table(request):
+    """
+    i_render_single_tq_table
+    """
+    success = False
+    table_data = None
+
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user and "id" in request.GET and ArgsChecker.is_number(request.GET["id"]):
+        tq = TQFile.objects.get(pk=request.GET["id"])
+        table_data = tq.get_as_table()
+        success = True
+
+    return HttpResponse(json.dumps(
+        {
+            "success": success,
+            "table_data": table_data
+        }))
+
+
+def i_render_import(request):
+    """
+    i_render_import
     """
     valid_user = token_checker.token_is_valid(request)
     if valid_user:

@@ -201,7 +201,7 @@ function stop_loading_animation() {
 
 function reset_left_panel() {
     $("#tqs-container").empty();
-    $("#rms-container").empty();
+    //$("#rms-container").empty();
     $("#endfusion-button").hide();
 }
 

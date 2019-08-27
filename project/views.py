@@ -89,7 +89,7 @@ def do_delete_project(request):
     return HttpResponse(json.dumps({"success": success}))
 
 
-def render_user_projects(request):
+def i_render_user_projects(request):
     """
     render_overview
     """
@@ -110,9 +110,9 @@ def render_user_projects(request):
         return dashboard_includer.get_as_json("project/_user_projects.html", template_context=dic)
 
 
-def render_new_project(request):
+def i_render_new_project(request):
     """
-    render_new_project
+    i_render_new_project
     """
     valid_user = token_checker.token_is_valid(request)
     if valid_user:

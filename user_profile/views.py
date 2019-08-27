@@ -24,9 +24,9 @@ def render_signup(request):
     return render(request, "user_profile/signup.html")
 
 
-def render_settings(request):
+def i_render_settings(request):
     """
-    render_settings
+    i_render_settings
     """
     valid_user = token_checker.token_is_valid(request)
     if valid_user:

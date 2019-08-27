@@ -1,7 +1,7 @@
 // UX
 function add_tq_ui(item) {
     $("#tqs-container").append(
-        '<div class="panel-button panel-button-accented">' +
+        '<div class="panel-button panel-button-accented tq-item" id="' + item.id + '">' +
             '<i class="far fa-clone panel-icon"></i>' +
             '<p>' + item.name + '</p>' +
         '</div>'
@@ -24,7 +24,7 @@ function request_load_project(id) {
             if (json.success) {
                 $("#project-name p").text(json.name);
                 show_new_project_ui();
-                request_tqs();
+                request_load_tqs();
             }
 
             request_template_include("/include/project/new");
@@ -35,7 +35,7 @@ function request_load_project(id) {
     });
 }
 
-function request_tqs() {
+function request_load_tqs() {
     start_loading_animation();
 
     $.ajax({
@@ -57,8 +57,12 @@ function request_tqs() {
     });
 }
 
+function request_view_tq(id) {
+    request_template_include("/include/tq/view", {"id": id});
+}
+
 var main = function () {
-    request_tqs();
+    request_load_tqs();
 
     let click_area = $(".project-item .click-area");
 
@@ -86,3 +90,9 @@ var main = function () {
 };
 
 $(document).ready(main);
+
+$(document).on("click", ".tq-item", function (e) {
+    e.preventDefault();
+    let id = $(e.currentTarget).attr("id")
+    request_view_tq(id);
+});

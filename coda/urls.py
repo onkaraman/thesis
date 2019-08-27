@@ -12,10 +12,12 @@ urlpatterns = [
     url(r'^login/$', user_profile_v.render_login, name="login"),
     url(r'^signup/$', user_profile_v.render_signup),
 
-    url(r'^include/user/settings', user_profile_v.render_settings),
-    url(r'^include/project/new', project_v.render_new_project),
-    url(r'^include/project/user_projects', project_v.render_user_projects),
-    url(r'^include/tq/import', tq_v.render_import),
+    # Includes
+    url(r'^include/user/settings', user_profile_v.i_render_settings),
+    url(r'^include/project/new', project_v.i_render_new_project),
+    url(r'^include/project/user_projects', project_v.i_render_user_projects),
+    url(r'^include/tq/import', tq_v.i_render_import),
+    url(r'^include/tq/view', tq_v.i_render_single_tq),
 
     # User API
     url(r'^api/user/signup', user_profile_v.do_sign_up),
@@ -29,7 +31,8 @@ urlpatterns = [
     url(r'^api/project/delete', project_v.do_delete_project),
 
     # TQ API,
-    url(r'^api/tq/load', tq_v.render_tqs),
+    url(r'^api/tq/load', tq_v.render_all_tqs),
     url(r'^api/tq/upload', tq_v.do_parse_tq),
+    url(r'^api/tq/view', tq_v.render_single_tq_table),
 ]
 
