@@ -1,10 +1,11 @@
 import json
-from django.shortcuts import render
 from django.conf import settings
 from django.http import HttpResponse
-from tq_file.file_parsers.file_parser_json import FileParserJSON
-from security.args_checker import ArgsChecker
 from django.middleware.csrf import get_token as get_csrf_token
+from tq_file.file_parsers.file_parser_json import FileParserJSON
+from tq_file.models import TQFile
+from project.models import Project
+from security.args_checker import ArgsChecker
 import security.token_checker as token_checker
 import dashboard.includer as dashboard_includer
 
@@ -32,7 +33,7 @@ def do_parse_tq(request):
 
             if not ArgsChecker.str_is_malicious(task_id) and not ArgsChecker.str_is_malicious(file.name):
                 filename_spl = file.name.split(".")
-                extension = filename_spl[len(filename_spl)-1]
+                extension = filename_spl[len(filename_spl) - 1]
 
                 file_path = "%s/%s" % (settings.TQ_UPLOAD_DIR, file.name)
 
@@ -43,7 +44,13 @@ def do_parse_tq(request):
                 json_parsed = delegate_to_parser(file_path, extension)
 
                 if json_parsed:
-                    # TODO: Save TQ, add to project, add to frontend
+                    tq = TQFile.objects.create(
+                        project=valid_user.get_project(),
+                        source_file_name=file.name,
+                        display_file_name=file.name,
+                        content_json=json_parsed
+                    )
+                    success = True
                 else:
                     msg = "Uploaded file not supported"
 
@@ -54,6 +61,30 @@ def do_parse_tq(request):
         {
             "success": success,
             "msg": msg
+        }))
+
+
+def render_tqs(request):
+    """
+    render_tqs
+    """
+    success = False
+    tq_list = []
+
+    valid_user = token_checker.token_is_valid(request)
+
+    if valid_user:
+        project = Project.objects.get(pk=valid_user.last_opened_project_id)
+        for tq in TQFile.objects.filter(project=project):
+            tq_list.append({
+                "name": tq.display_file_name
+            })
+        success = True
+
+    return HttpResponse(json.dumps(
+        {
+            "success": success,
+            "tqs": tq_list,
         }))
 
 

@@ -6,7 +6,6 @@ from user_profile import views as user_profile_v
 from project import views as project_v
 from tq_file import views as tq_v
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', dashboard_v.render_dashboard),
@@ -25,9 +24,12 @@ urlpatterns = [
 
     # Project API
     url(r'^api/project/new', project_v.do_create_new),
+    url(r'^api/project/load', project_v.do_load),
     url(r'^api/project/rename', project_v.do_rename),
     url(r'^api/project/delete', project_v.do_delete_project),
 
     # TQ API,
+    url(r'^api/tq/load', tq_v.render_tqs),
     url(r'^api/tq/upload', tq_v.do_parse_tq),
 ]
+

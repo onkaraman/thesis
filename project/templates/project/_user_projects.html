@@ -5,7 +5,7 @@
 
     <div id="project-list">
         {% for project in projects %}
-            {% include "project_item.html" with id=project.id name=project.name date=project.date %}
+            {% include "project_item.html" with id=project.id name=project.name date=project.date tq_len=project.tq_len %}
         {% endfor %}
     </div>
 </div>

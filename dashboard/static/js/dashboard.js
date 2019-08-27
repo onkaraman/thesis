@@ -23,9 +23,6 @@ function hide_simple_modal() {
     $("#spanner").fadeOut(100);
 }
 
-function register_events() {
-
-}
 
 // Requests
 function request_delete_project() {
@@ -55,7 +52,6 @@ function request_delete_project() {
 
 var main = function() {
     hide_edit_controls();
-    register_events();
 };
 
 $(document).ready(main);

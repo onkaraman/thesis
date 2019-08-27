@@ -95,10 +95,8 @@ function request_start_new_project() {
             let json = JSON.parse(data);
 
             if (json.success) {
-                $("#project-name p").text(json.name)
-                $("#left-panel").show("slide", {direction: "left"}, 300);
-                $("#project-name").show();
-                $("#left-panel-hamburger").css("opacity", "1");
+                $("#project-name p").text(json.name);
+                show_new_project_ui();
             }
 
             request_template_include("/include/project/new");
@@ -147,7 +145,7 @@ function hide_top_bar_controls() {
 
 function fit_simple_modal() {
     let simple_modal = $("#simple-modal");
-    simple_modal.css("margin-left", ($(document).width()/2)-simple_modal.outerWidth()/2);
+    simple_modal.css("margin-left", ($(document).width() / 2) - simple_modal.outerWidth() / 2);
 }
 
 function left_panel_toggle() {
@@ -160,6 +158,12 @@ function left_panel_toggle() {
         $(".panel-button p").show();
         $(".panel-header").show();
     }
+}
+
+function show_new_project_ui() {
+    $("#left-panel").show("slide", {direction: "left"}, 300);
+    $("#project-name").show();
+    $("#left-panel-hamburger").css("opacity", "1");
 }
 
 function animate_loading() {

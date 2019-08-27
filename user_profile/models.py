@@ -16,6 +16,10 @@ class UserProfile(models.Model):
     token = models.ForeignKey(SecurityToken, on_delete=models.CASCADE, null=True)
     last_opened_project_id = models.IntegerField(null=True)
 
+    def get_project(self):
+        from project.models import Project
+        return Project.objects.get(pk=self.last_opened_project_id)
+
     def __str__(self):
         return "#%d: %s" % (self.pk, self.user.username)
 

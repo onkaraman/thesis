@@ -27,8 +27,19 @@
     font-weight: 600;
 }
 
+.project-item .tq_len-container {
+    display: inline-flex;
+    font-size: 16px;
+    padding-left: 2px;
+}
+
+.tq_len-container .tq_len {
+    margin-left: 5px;
+}
+
 .project-item .date {
     font-size: 14px;
+    margin-top: 6px;
 }
 
 .project-item .click-area {
