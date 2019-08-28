@@ -102,7 +102,7 @@ def i_render_user_projects(request):
             project_list.append({
                 "id": p.pk,
                 "name": p.name,
-                "tq_len": len(TQFile.objects.filter(project=p)),
+                "tq_len": len(TQFile.objects.filter(project=p, archived=False)),
                 "date": "Erstellt am %s" % p.creation_date.strftime('%d.%m.%Y'),
             })
 

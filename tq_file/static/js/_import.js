@@ -9,7 +9,7 @@ function gen_uuid() {
     return uuid
 }
 
-function request_file_parse(task_id) {
+function request_tq_upload(task_id) {
     start_loading_animation();
     $("#upload-button").prop("disabled", true);
 
@@ -54,7 +54,7 @@ var main = function () {
         upload_button.prop("disabled", true);
 
         let task_id = gen_uuid();
-        request_file_parse(task_id);
+        request_tq_upload(task_id);
     });
 };
 

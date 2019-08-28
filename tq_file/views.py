@@ -18,9 +18,9 @@ def delegate_to_parser(file_path, extension):
     return False
 
 
-def do_parse_tq(request):
+def do_upload_tq(request):
     """
-    do_parse_tq
+    do_upload_tq
     """
     success = False
     msg = None
@@ -133,7 +133,7 @@ def i_render_single_tq(request):
         tq = TQFile.objects.get(pk=request.GET["id"], archived=False)
         dic = {
             "id": tq.pk,
-            "name": tq.display_file_name,
+            "name": tq.display_file_name
         }
         return dashboard_includer.get_as_json("tq_file/_view.html", template_context=dic)
 

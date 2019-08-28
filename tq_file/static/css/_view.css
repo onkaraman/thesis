@@ -31,14 +31,37 @@
     border-bottom: 3px solid var(--cyan-lo);
 }
 
+#pagination {
+    display: inline-flex;
+    margin-top: 5px;
+}
+
+#pagination .btn {
+    width: 55px;
+}
+
+#current-page {
+    font-size: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-top: 4px;
+}
+
+#properties {
+    margin-top: 50px;
+    font-size: 18px;
+}
+
 #remove-tq-button {
+    display: block;
+    margin-top: 20px;
     height: 32px;
     width: 270px;
     border: 1px solid var(--red-contrast);
     background-color: white;
     color: var(--red-contrast);
-    margin-top: 30px;
     padding-top: 3px;
+    margin-bottom: 60px;
 }
 
 #remove-tq-button:hover {
