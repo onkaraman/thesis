@@ -1,7 +1,51 @@
-#vis-table {
-
+#name-container:hover {
+    cursor: text;
 }
 
-#tq-table {
+#name-display {
+    display: inline-flex;
+}
 
+#tq-rename {
+    display: none;
+    font-size: 36px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    padding-left: 4px;
+    height: 56px;
+}
+
+#name-display .fas {
+    padding-top: 16px;
+    margin-left: 11px;
+    color: grey;
+}
+
+#vis-table {
+    width: 940px;
+    margin-top: 30px;
+}
+
+#head-tr th {
+    border-bottom: 3px solid var(--cyan-lo);
+}
+
+#remove-tq-button {
+    height: 32px;
+    width: 270px;
+    border: 1px solid var(--red-contrast);
+    background-color: white;
+    color: var(--red-contrast);
+    margin-top: 30px;
+    padding-top: 3px;
+}
+
+#remove-tq-button:hover {
+    color: white;
+    background-color: var(--red-contrast);
+}
+
+#remove-tq-button .far {
+    margin-right: 6px;
 }

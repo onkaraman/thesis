@@ -9,6 +9,7 @@ class TQFile(models.Model):
     Model which holds data of already parsed files.
     """
     creation_date = models.DateTimeField(default=timezone.now)
+    archived = models.BooleanField(default=False)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     source_file_name = models.CharField(max_length=100)
     display_file_name = models.CharField(max_length=50)

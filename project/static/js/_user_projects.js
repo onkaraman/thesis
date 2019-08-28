@@ -1,14 +1,3 @@
-// UX
-function add_tq_ui(item) {
-    $("#tqs-container").append(
-        '<div class="panel-button panel-button-accented tq-item" id="' + item.id + '">' +
-            '<i class="far fa-clone panel-icon"></i>' +
-            '<p>' + item.name + '</p>' +
-        '</div>'
-    );
-}
-
-
 // Requests
 function request_load_project(id) {
     start_loading_animation();
@@ -33,32 +22,6 @@ function request_load_project(id) {
             alert(data.responseText);
         }
     });
-}
-
-function request_load_tqs() {
-    start_loading_animation();
-
-    $.ajax({
-        url: "/api/tq/load",
-        success: function (data) {
-            stop_loading_animation();
-            let json = JSON.parse(data);
-
-            if (json.success) {
-                $("#tqs-container").empty();
-                json.tqs.forEach(function (item) {
-                    add_tq_ui(item);
-                });
-            }
-        },
-        error: function (data, exception) {
-            alert(data.responseText);
-        }
-    });
-}
-
-function request_view_tq(id) {
-    request_template_include("/include/tq/view", {"id": id});
 }
 
 var main = function () {
@@ -86,13 +49,7 @@ var main = function () {
         request_load_project(id);
     })) ;
 
-
 };
 
 $(document).ready(main);
 
-$(document).on("click", ".tq-item", function (e) {
-    e.preventDefault();
-    let id = $(e.currentTarget).attr("id")
-    request_view_tq(id);
-});

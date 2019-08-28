@@ -69,13 +69,6 @@ p {
     cursor: pointer;
 }
 
-#spinner {
-    display: none;
-    width: 32px;
-    position: absolute;
-    margin-left: 10px;
-}
-
 #top-bar {
     /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#ededed+0,fefefe+59 */
     background: #ededed; /* Old browsers */
@@ -97,7 +90,7 @@ p {
     padding: 12px 19px;
 }
 
-#name-rename {
+#project-rename {
     display: none;
     height: 30px;
     margin-top: -2px;
@@ -107,7 +100,7 @@ p {
     border-bottom: 1px solid var(--cyan-primary);
 }
 
-#name-rename:focus {
+#project-rename:focus {
     box-shadow: none;
 }
 

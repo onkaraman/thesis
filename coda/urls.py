@@ -32,7 +32,9 @@ urlpatterns = [
 
     # TQ API,
     url(r'^api/tq/load', tq_v.render_all_tqs),
+    url(r'^api/tq/rename', tq_v.do_rename),
     url(r'^api/tq/upload', tq_v.do_parse_tq),
+    url(r'^api/tq/delete', tq_v.do_delete),
     url(r'^api/tq/view', tq_v.render_single_tq_table),
 ]
 

@@ -73,9 +73,12 @@ function request_template_include(url, data_dict) {
             // Apply css
             $("head link#dynamic-css").attr("href", json.css);
             // Apply js
-            $.getScript(json.js, function () {
-                console.log("Included " + json.js);
-            });
+            try {
+                $.getScript(json.js, function () {
+                    console.log("Included " + json.js);
+                });
+            }
+            catch(error) {}
 
             $("#center-panel").empty();
             $("#center-panel").html(html);
@@ -108,7 +111,7 @@ function request_start_new_project() {
 }
 
 function request_rename_project(new_name) {
-    let name_rename = $("#name-rename");
+    let name_rename = $("#project-rename");
     let project_name_p = $("#project-name p");
 
     start_loading_animation();
@@ -217,7 +220,7 @@ var main = function () {
     });
     reset_left_panel();
 
-    let name_rename = $("#name-rename");
+    let project_rename = $("#project-rename");
     let project_name_p = $("#project-name p");
 
     $("#logo").click(function (e) {
@@ -234,17 +237,17 @@ var main = function () {
 
     $("#project-name").click(function (e) {
         project_name_p.hide();
-        name_rename.val(project_name_p.text());
-        name_rename.show();
-        name_rename.focus();
+        project_rename.val(project_name_p.text());
+        project_rename.show();
+        project_rename.focus();
     });
 
-    name_rename.keyup(function (e) {
+    project_rename.keyup(function (e) {
         if (e.key === "Escape") {
-            name_rename.hide();
+            project_rename.hide();
             project_name_p.show();
         } else if (e.key === "Enter") {
-            request_rename_project(name_rename.val());
+            request_rename_project(project_rename.val());
         }
     });
 

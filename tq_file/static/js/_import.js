@@ -26,6 +26,8 @@ function request_file_parse(task_id) {
             var json = JSON.parse(data);
 
             if (json.success === true) {
+                request_load_tqs();
+                $("#upload-button").prop("disabled", false);
             } else {
             }
         },
