@@ -83,7 +83,7 @@ function render_table_heads(cols) {
     head_tr.empty();
 
     cols.forEach(function (i) {
-        head_tr.append('<th scope="col">' + i + '</th>');
+        head_tr.append('<th scope="col"><div class="th-width"> ' + i + '&nbsp;<i class="fas fa-check tf-check"></i></div></th>');
     });
 }
 
@@ -99,7 +99,7 @@ function update_pagination() {
     let page_l = $("#page-l");
     let page_r = $("#page-r");
 
-    all_pages = tq_table_rows.length/items_per_page;
+    all_pages = tq_table_rows.length / items_per_page;
     let offset = (current_page - 1) * items_per_page;
     if (current_page === 1) offset = 0;
 
@@ -188,3 +188,31 @@ var main = function () {
 };
 
 $(document).ready(main);
+
+$(document).on("mouseenter", "td", function () {
+    let t = parseInt($(this).index()) + 1;
+    let td_nth = $('#tq-table td:nth-child(' + t + ')');
+    let th_nth = $('#tq-table th:nth-child(' + t + ')');
+
+    th_nth.find(".tf-check").css("opacity", "1");
+    th_nth.css('background-color','#dadada');
+    th_nth.css('border-top-left-radius','4px');
+    th_nth.css('border-top-right-radius','4px');
+
+    td_nth.css('background-color','#e7e7e7');
+    td_nth.css('cursor','pointer');
+});
+
+$(document).on("mouseleave", "td", function () {
+    let t = parseInt($(this).index()) + 1;
+    let td_nth = $('#tq-table td:nth-child(' + t + ')');
+    let th_nth = $('#tq-table th:nth-child(' + t + ')');
+
+    th_nth.find(".tf-check").css("opacity", "0");
+    th_nth.css('background-color','');
+    th_nth.css('border-top-left-radius','');
+    th_nth.css('border-top-right-radius','');
+
+    td_nth.css('background-color','');
+    td_nth.css('cursor','');
+});

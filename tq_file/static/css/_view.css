@@ -31,6 +31,17 @@
     border-bottom: 3px solid var(--cyan-lo);
 }
 
+.th-width {
+    width: max-content
+}
+
+.tf-check {
+    opacity: 0;
+    color: green;
+    margin-left: 8px;
+    margin-right: 3px;
+}
+
 #pagination {
     display: inline-flex;
     margin-top: 5px;
