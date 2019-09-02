@@ -6,6 +6,7 @@ import dashboard.includer as dashboard_includer
 from django.core.exceptions import ObjectDoesNotExist
 from security.args_checker import ArgsChecker
 from tq_file.models import TQFile
+from final_fusion.models import FinalFusion
 
 
 def do_create_new(request):
@@ -20,6 +21,7 @@ def do_create_new(request):
         number = len(Project.objects.filter(user_profile=valid_user))
         project = Project.objects.create(name="Fusion Project %d" % number,
                                          user_profile=valid_user)
+        ff = FinalFusion.objects.create(project=project)
 
         valid_user.last_opened_project_id = project.pk
         valid_user.save()

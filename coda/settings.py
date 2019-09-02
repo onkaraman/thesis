@@ -31,7 +31,8 @@ INSTALLED_APPS = [
     'project',
     'security_token',
     'tq_file',
-    'final_fusion'
+    'final_fusion',
+    'final_fusion_column'
 ]
 
 MIDDLEWARE = [

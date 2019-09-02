@@ -5,6 +5,8 @@ from dashboard import views as dashboard_v
 from user_profile import views as user_profile_v
 from project import views as project_v
 from tq_file import views as tq_v
+from final_fusion import views as ff_v
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,11 +32,14 @@ urlpatterns = [
     url(r'^api/project/rename', project_v.do_rename),
     url(r'^api/project/delete', project_v.do_delete_project),
 
-    # TQ API,
+    # TQ API
     url(r'^api/tq/load', tq_v.render_all_tqs),
     url(r'^api/tq/rename', tq_v.do_rename),
     url(r'^api/tq/upload', tq_v.do_upload_tq),
     url(r'^api/tq/delete', tq_v.do_delete),
     url(r'^api/tq/view', tq_v.render_single_tq_table),
+
+    # Final Fusion API
+    url(r'^api/ef/add_col', ff_v.do_add_column),
 ]
 

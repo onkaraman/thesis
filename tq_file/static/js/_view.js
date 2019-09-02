@@ -77,6 +77,29 @@ function request_delete_tq() {
     });
 }
 
+function request_add_column_tf(col_name, jquery_obj) {
+    start_loading_animation();
+    $.ajax({
+        url: "/api/ef/add_col",
+        data: {
+            "tq_id": $("#tq-id").attr("pk"),
+            "col_name": col_name
+        },
+        success: function (data) {
+            stop_loading_animation();
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                jquery_obj.find(".tf-check").css("opacity", "1");
+            }
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+            alert(data.responseText);
+        }
+    });
+}
+
 // UX
 function render_table_heads(cols) {
     let head_tr = $("#head-tr");
@@ -191,16 +214,25 @@ $(document).ready(main);
 
 $(document).on("mouseenter", "td", function () {
     let t = parseInt($(this).index()) + 1;
-    let td_nth = $('#tq-table td:nth-child(' + t + ')');
+
     let th_nth = $('#tq-table th:nth-child(' + t + ')');
+    let td_nth = $('#tq-table td:nth-child(' + t + ')');
 
-    th_nth.find(".tf-check").css("opacity", "1");
-    th_nth.css('background-color','#dadada');
-    th_nth.css('border-top-left-radius','4px');
-    th_nth.css('border-top-right-radius','4px');
+    th_nth.css('background-color', '#dadada');
+    th_nth.css('border-top-left-radius', '4px');
+    th_nth.css('border-top-right-radius', '4px');
 
-    td_nth.css('background-color','#e7e7e7');
-    td_nth.css('cursor','pointer');
+    td_nth.css('background-color', '#e7e7e7');
+    td_nth.css('cursor', 'pointer');
+});
+
+$(document).on("click", "td", function () {
+    let t = parseInt($(this).index()) + 1;
+
+    let th_nth = $('#tq-table th:nth-child(' + t + ')');
+    let th_name = th_nth[0].textContent.trim();
+
+    request_add_column_tf(th_name, th_nth);
 });
 
 $(document).on("mouseleave", "td", function () {
@@ -208,11 +240,11 @@ $(document).on("mouseleave", "td", function () {
     let td_nth = $('#tq-table td:nth-child(' + t + ')');
     let th_nth = $('#tq-table th:nth-child(' + t + ')');
 
-    th_nth.find(".tf-check").css("opacity", "0");
-    th_nth.css('background-color','');
-    th_nth.css('border-top-left-radius','');
-    th_nth.css('border-top-right-radius','');
+    //th_nth.find(".tf-check").css("opacity", "0");
+    th_nth.css('background-color', '');
+    th_nth.css('border-top-left-radius', '');
+    th_nth.css('border-top-right-radius', '');
 
-    td_nth.css('background-color','');
-    td_nth.css('cursor','');
+    td_nth.css('background-color', '');
+    td_nth.css('cursor', '');
 });

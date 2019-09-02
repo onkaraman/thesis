@@ -35,7 +35,7 @@ function hide_simple_modal() {
 
 function add_tq_ui(item) {
     $("#tqs-container").append(
-        '<div class="panel-button panel-button-accented tq-item" id="' + item.id + '">' +
+        '<div class="panel-button accented tq-item" id="' + item.id + '">' +
             '<i class="far fa-clone panel-icon"></i>' +
             '<p>' + item.name + '</p>' +
         '</div>'

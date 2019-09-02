@@ -32,5 +32,15 @@ class TQFile(models.Model):
             "items": len(loaded_js)
         }
 
+    def get_column(self, col_name):
+        """
+        get_column
+        """
+        loaded_js = json.loads(self.content_json)
+        ret = []
+        for row in loaded_js:
+            ret.append(row[col_name])
+        return ret
+
     def __str__(self):
         return "#%d: %s" % (self.pk, self.display_file_name)

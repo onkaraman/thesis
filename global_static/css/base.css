@@ -206,7 +206,7 @@ p {
     padding-left: 19px;
     padding-top: 4px;
     padding-bottom: 4px;
-    background-color: var(--cyan-lo);
+    background-color: #7d7d7d;
     color: white;
 }
 
@@ -215,8 +215,12 @@ p {
     cursor: pointer;
 }
 
-.panel-button-accented {
+.accented {
     background-color: var(--cyan-strong);
+}
+
+.accented-2 {
+    background-color: #184b88;
 }
 
 .panel-icon {
