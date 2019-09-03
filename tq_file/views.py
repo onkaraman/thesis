@@ -148,7 +148,7 @@ def render_single_tq_table(request):
     valid_user = token_checker.token_is_valid(request)
     if valid_user and "id" in request.GET and ArgsChecker.is_number(request.GET["id"]):
         tq = TQFile.objects.get(pk=request.GET["id"])
-        table_data = tq.get_as_table()
+        table_data = tq.get_as_table(valid_user)
         success = True
 
     return HttpResponse(json.dumps(

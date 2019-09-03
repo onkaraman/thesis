@@ -77,10 +77,10 @@ function request_delete_tq() {
     });
 }
 
-function request_add_column_tf(col_name, jquery_obj) {
+function request_select_column_tf(col_name, jquery_obj) {
     start_loading_animation();
     $.ajax({
-        url: "/api/ef/add_col",
+        url: "/api/ef/select_col",
         data: {
             "tq_id": $("#tq-id").attr("pk"),
             "col_name": col_name
@@ -89,8 +89,10 @@ function request_add_column_tf(col_name, jquery_obj) {
             stop_loading_animation();
             let json = JSON.parse(data);
 
-            if (json.success) {
+            if (json.added) {
                 jquery_obj.find(".tf-check").css("opacity", "1");
+            } else {
+                jquery_obj.find(".tf-check").css("opacity", "0");
             }
         },
         error: function (data, exception) {
@@ -106,7 +108,12 @@ function render_table_heads(cols) {
     head_tr.empty();
 
     cols.forEach(function (i) {
-        head_tr.append('<th scope="col"><div class="th-width"> ' + i + '&nbsp;<i class="fas fa-check tf-check"></i></div></th>');
+        let opacity = 0;
+        if (i.ef_added) opacity = 1;
+
+        head_tr.append('<th scope="col"><div class="th-width"> '
+            + i.name +
+            '&nbsp;<i class="fas fa-check tf-check" style="opacity: '+ opacity +'"></i></div></th>');
     });
 }
 
@@ -147,10 +154,10 @@ function add_to_table(cols, row, index) {
 
     let i;
     for (i = 0; i < cols.length; i += 1) {
-        if (cols[i] === "#") {
+        if (cols[i].name === "#") {
             to_append += '<td>' + index + '</td>';
         } else {
-            to_append += '<td>' + row[cols[i]] + '</td>';
+            to_append += '<td>' + row[cols[i].name] + '</td>';
         }
     }
 
@@ -232,7 +239,7 @@ $(document).on("click", "td", function () {
     let th_nth = $('#tq-table th:nth-child(' + t + ')');
     let th_name = th_nth[0].textContent.trim();
 
-    request_add_column_tf(th_name, th_nth);
+    request_select_column_tf(th_name, th_nth);
 });
 
 $(document).on("mouseleave", "td", function () {

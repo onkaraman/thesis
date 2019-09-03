@@ -2,6 +2,7 @@ import json
 from django.db import models
 from django.utils import timezone
 from project.models import Project
+from final_fusion.models import FinalFusion
 
 
 class TQFile(models.Model):
@@ -15,17 +16,25 @@ class TQFile(models.Model):
     display_file_name = models.CharField(max_length=50)
     content_json = models.TextField()
 
-    def get_as_table(self):
+    def get_as_table(self, user_profile):
         """
         get_as_table
         """
+        project = Project.objects.get(pk=user_profile.last_opened_project_id)
+        ef = FinalFusion.objects.get(project=project)
+
         loaded_js = json.loads(self.content_json)
-        columns = ["#"]
+        columns = [{"name": "#", "ef_added": False}]
 
         for row in loaded_js:
             for i in row:
-                if i not in columns:
-                    columns.append(i)
+                obj = {
+                    "name": i,
+                    "ef_added": ef.tq_column_is_added(i, self)
+                }
+
+                if obj not in columns:
+                    columns.append(obj)
         return {
             "cols": columns,
             "rows": loaded_js,

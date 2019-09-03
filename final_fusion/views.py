@@ -9,11 +9,11 @@ from final_fusion.models import FinalFusion
 from project.models import Project
 
 
-def do_add_column(request):
+def do_select_column(request):
     """
-    do_add_column
+    do_select_column
     """
-    success = False
+    added = False
 
     valid_user = token_checker.token_is_valid(request)
     if valid_user and "tq_id" in request.GET and ArgsChecker.is_number(request.GET["tq_id"]) \
@@ -24,13 +24,26 @@ def do_add_column(request):
         tq = TQFile.objects.get(pk=tq_id)
         col = tq.get_column(col_name)
 
-        ffc = FinalFusionColumn.objects.create(
-            final_fusion=FinalFusion.objects.get(project=Project.objects.get(pk=valid_user.last_opened_project_id)),
-            source_column_name=col_name,
-            display_column_name=col_name,
-            rows_json=json.dumps(col)
-        )
+        ef = FinalFusion.objects.get(project=Project.objects.get(pk=valid_user.last_opened_project_id))
+        ffc_fetch = FinalFusionColumn.objects.filter(final_fusion=ef, source_tq=tq, source_column_name=col_name)
 
-        success = True
+        if len(ffc_fetch) == 0:
+            ffc = FinalFusionColumn.objects.create(
+                final_fusion=ef,
+                source_tq=tq,
+                source_column_name=col_name,
+                display_column_name=col_name,
+                rows_json=json.dumps(col)
+            )
+            added = True
+        elif len(ffc_fetch) == 1:
+            if not ffc_fetch[0].archived:
+                ffc_fetch[0].archived = True
+                ffc_fetch[0].save()
+                added = False
+            else:
+                ffc_fetch[0].archived = False
+                ffc_fetch[0].save()
+                added = True
 
-    return HttpResponse(json.dumps({"success": success}))
+    return HttpResponse(json.dumps({"added": added}))

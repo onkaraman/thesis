@@ -40,6 +40,6 @@ urlpatterns = [
     url(r'^api/tq/view', tq_v.render_single_tq_table),
 
     # Final Fusion API
-    url(r'^api/ef/add_col', ff_v.do_add_column),
+    url(r'^api/ef/select_col', ff_v.do_select_column),
 ]
 

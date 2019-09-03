@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from final_fusion.models import FinalFusion
+from tq_file.models import TQFile
 
 
 class FinalFusionColumn(models.Model):
@@ -10,6 +11,7 @@ class FinalFusionColumn(models.Model):
     creation_date = models.DateTimeField(default=timezone.now)
     archived = models.BooleanField(default=False)
     final_fusion = models.ForeignKey(FinalFusion, on_delete=models.CASCADE)
+    source_tq = models.ForeignKey(TQFile, on_delete=models.CASCADE, null=True)
     source_column_name = models.CharField(max_length=30)
     display_column_name = models.CharField(max_length=30)
     rows_json = models.TextField(max_length=2000)
