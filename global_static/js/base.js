@@ -265,6 +265,10 @@ var main = function () {
         request_template_include("/include/tq/import", {})
     });
 
+    $("#rms-container").click(function (e) {
+        request_template_include("/include/tf/preview", {})
+    });
+
 };
 
 

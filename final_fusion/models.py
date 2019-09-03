@@ -9,6 +9,7 @@ class FinalFusion(models.Model):
     FinalFusion
     """
     creation_date = models.DateTimeField(default=timezone.now)
+    name = models.CharField(max_length=40, null=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
     def tq_column_is_added(self, name, tq):

@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^include/project/user_projects', project_v.i_render_user_projects),
     url(r'^include/tq/import', tq_v.i_render_import),
     url(r'^include/tq/view', tq_v.i_render_single_tq),
+    url(r'^include/tf/preview', ff_v.i_render_preview_tf),
 
     # User API
     url(r'^api/user/signup', user_profile_v.do_sign_up),
@@ -41,5 +42,6 @@ urlpatterns = [
 
     # Final Fusion API
     url(r'^api/ef/select_col', ff_v.do_select_column),
+    url(r'^api/tf/preview_table', ff_v.render_preview_table),
 ]
 

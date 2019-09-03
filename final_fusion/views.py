@@ -1,5 +1,4 @@
 import json
-from django.shortcuts import render
 from django.http import HttpResponse
 from security.args_checker import ArgsChecker
 import security.token_checker as token_checker
@@ -7,6 +6,7 @@ from tq_file.models import TQFile
 from final_fusion_column.models import FinalFusionColumn
 from final_fusion.models import FinalFusion
 from project.models import Project
+import dashboard.includer as dashboard_includer
 
 
 def do_select_column(request):
@@ -47,3 +47,28 @@ def do_select_column(request):
                 added = True
 
     return HttpResponse(json.dumps({"added": added}))
+
+
+def i_render_preview_tf(request):
+    """
+    i_render_preview_tf
+    """
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user:
+        dic = {
+            "name": "Teilfusion 0"
+        }
+        return dashboard_includer.get_as_json("final_fusion/_preview.html", template_context=dic)
+
+
+def render_preview_table(request):
+    """
+    render_preview_table
+    """
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user:
+        # Get all columns
+        proj = Project.objects.get(pk=valid_user.last_opened_project_id)
+        ff = FinalFusion.objects.get(project=proj)
+        cols = FinalFusionColumn.objects.filter(final_fusion=ff, archived=False)
+        pass
