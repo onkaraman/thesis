@@ -159,6 +159,7 @@ p {
 
 #panels {
     display: inline-flex;
+    height: 100%;
 }
 
 /* Left Panel */

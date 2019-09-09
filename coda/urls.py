@@ -40,7 +40,8 @@ urlpatterns = [
     url(r'^api/tq/delete', tq_v.do_delete),
     url(r'^api/tq/view', tq_v.render_single_tq_table),
 
-    # Final Fusion API
+    # TF/EF API
+    url(r'^api/tf/rename', ff_v.do_rename),
     url(r'^api/ef/select_col', ff_v.do_select_column),
     url(r'^api/tf/preview_table', ff_v.render_preview_table),
 ]

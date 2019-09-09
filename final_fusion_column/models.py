@@ -16,5 +16,14 @@ class FinalFusionColumn(models.Model):
     display_column_name = models.CharField(max_length=30)
     rows_json = models.TextField(max_length=2000)
 
+    def get_as_json(self):
+        """
+        get_as_json
+        """
+        return {
+            "name": "%s (%s)" % (self.display_column_name, self.source_tq.display_file_name),
+            "rows": self.rows_json
+        }
+
     def __str__(self):
         return "#%d: %s" % (self.pk, self.display_column_name)

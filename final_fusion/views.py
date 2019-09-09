@@ -49,26 +49,89 @@ def do_select_column(request):
     return HttpResponse(json.dumps({"added": added}))
 
 
+def do_rename(request):
+    """
+    do_rename
+    """
+    success = False
+    valid_user = token_checker.token_is_valid(request)
+
+    if valid_user and "name" in request.GET and not ArgsChecker.str_is_malicious(request.GET["name"]):
+        proj = Project.objects.get(pk=valid_user.last_opened_project_id)
+        ff = FinalFusion.objects.get(project=proj)
+        ff.name = request.GET["name"]
+        ff.save()
+        success = True
+
+    return HttpResponse(json.dumps({"success": success}))
+
+
 def i_render_preview_tf(request):
     """
     i_render_preview_tf
     """
     valid_user = token_checker.token_is_valid(request)
     if valid_user:
+        proj = Project.objects.get(pk=valid_user.last_opened_project_id)
+        ff = FinalFusion.objects.get(project=proj)
+
         dic = {
-            "name": "Teilfusion 0"
+            "name": ff.name
         }
-        return dashboard_includer.get_as_json("final_fusion/_preview.html", template_context=dic)
+        return dashboard_includer.get_as_json("final_fusion/_preview.html")
 
 
 def render_preview_table(request):
     """
     render_preview_table
     """
+    success = False
+    out_headers = []
+    out_rows = []
+
     valid_user = token_checker.token_is_valid(request)
     if valid_user:
         # Get all columns
         proj = Project.objects.get(pk=valid_user.last_opened_project_id)
         ff = FinalFusion.objects.get(project=proj)
-        cols = FinalFusionColumn.objects.filter(final_fusion=ff, archived=False)
-        pass
+        ffc_cols = FinalFusionColumn.objects.filter(final_fusion=ff, archived=False)
+
+        header_rows = []
+        deepest_col = 0
+
+        for ffc_col in ffc_cols:
+            as_json = ffc_col.get_as_json()
+
+            out_headers.append(as_json["name"])
+            ffc_rows = json.loads(as_json["rows"])
+
+            header_rows.append({
+                "name": as_json["name"],
+                "rows": ffc_rows
+            })
+
+            if len(ffc_rows) > deepest_col:
+                deepest_col = len(ffc_rows)
+
+        try:
+            for i in range(deepest_col):
+                row = {}
+                for h in header_rows:
+                    value = "-"
+
+                    if len(h["rows"]) > i:
+                        value = h["rows"][i]
+                    row[h["name"]] = value
+                out_rows.append(row)
+        except IndexError:
+            pass
+
+        if len(out_rows) > 0:
+            success = True
+
+    return HttpResponse(json.dumps(
+        {
+            "success": success,
+            "headers": out_headers,
+            "rows": out_rows
+        }))

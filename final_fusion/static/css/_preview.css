@@ -1,3 +1,7 @@
+#preview-tf-container {
+    margin-bottom: 30px;
+}
+
 #name-container:hover {
     cursor: text;
 }
@@ -22,8 +26,8 @@
     color: grey;
 }
 
-#vis-table {
-    width: 940px;
+#tf-table-container {
+    min-width: 940px;
     margin-top: 30px;
 }
 

@@ -8,6 +8,7 @@ from security.args_checker import ArgsChecker
 import security.token_checker as token_checker
 import dashboard.includer as dashboard_includer
 from user_profile.models import UserProfile
+from security_token.models import SecurityToken
 
 
 def render_login(request):
@@ -55,7 +56,12 @@ def do_login(request):
             try:
                 user = UserProfile.objects.get(user__email=email)
                 if check_password(pw, user.user.password):
-                    user.token.generate_token_code()
+                    token = SecurityToken()
+                    token.generate_token_code()
+                    token.save()
+
+                    user.token = token
+                    user.save()
                     pw_correct = True
                     success = True
             except ObjectDoesNotExist:

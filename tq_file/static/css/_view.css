@@ -23,7 +23,7 @@
 }
 
 #vis-table {
-    width: 940px;
+    min-width: 940px;
     margin-top: 30px;
 }
 
