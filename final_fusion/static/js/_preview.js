@@ -62,7 +62,7 @@ function render_table_heads(cols) {
 
     cols.forEach(function (i) {
         let opacity = 0;
-        head_tr.append('<th scope="col"><div class="th-width"> ' + i + '</div></th>');
+        head_tr.append('<th scope="col"><div class="th-width">' + i + '<i class="fas fa-pen"></i></div></th>');
     });
 }
 
@@ -113,6 +113,8 @@ function add_to_table(cols, row, index) {
     to_append += '</tr>';
     $("#table-body").append(to_append);
 }
+
+
 
 var main = function () {
     request_tf_preview();

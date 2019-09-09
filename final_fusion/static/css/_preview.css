@@ -35,6 +35,20 @@
     border-bottom: 3px solid var(--cyan-lo);
 }
 
+.th-width .fa-pen {
+    color: #b7b7b7;
+    margin-left: 11px;
+    margin-right: 10px;
+}
+
+.th-width:hover {
+    color: var(--cyan-primary) !important;
+}
+
+#table-body tr {
+    cursor: default;
+}
+
 #pagination {
     display: inline-flex;
     margin-top: 5px;
