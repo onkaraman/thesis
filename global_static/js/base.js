@@ -14,23 +14,18 @@ jQuery.extend({
         // Handle Script loading
         {
             var done = false;
-
             // Attach handlers for all browsers
             script.onload = script.onreadystatechange = function () {
                 if (!done && (!this.readyState ||
                     this.readyState == "loaded" || this.readyState == "complete")) {
                     done = true;
-                    if (callback)
-                        callback();
-
+                    if (callback) callback();
                     // Handle memory leak in IE
                     script.onload = script.onreadystatechange = null;
                 }
             };
         }
-
         head.appendChild(script);
-
         // We handle everything using the script element injection
         return undefined;
     },
@@ -51,11 +46,24 @@ function getQueryParams(qs) {
 
 let $_GET = getQueryParams(document.location.search);
 
-
 // Helpers
 function is_valid_email(emailAddress) {
     var pattern = new RegExp(/^(("[\w-+\s]+")|([\w-+]+(?:\.[\w-+]+)*)|("[\w-+\s]+")([\w-+]+(?:\.[\w-+]+)*))(@((?:[\w-+]+\.)*\w[\w-+]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][\d]\.|1[\d]{2}\.|[\d]{1,2}\.))((25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\.){2}(25[0-5]|2[0-4][\d]|1[\d]{2}|[\d]{1,2})\]?$)/i);
     return pattern.test(emailAddress);
+}
+
+function unbind_methods_with_namespace(ns) {
+    let events = $._data( $(document)[0], "events" );
+    for (let property in events) {
+        for (let item in events[property]) {
+
+            let handler = events[property][item];
+            if (handler.namespace === ns) {
+                $(document).off(property + "." + ns);
+                console.log("Unbound: " + handler.type + "." + handler.namespace);
+            }
+        }
+    }
 }
 
 // Requests
@@ -72,13 +80,17 @@ function request_template_include(url, data_dict) {
 
             // Apply css
             $("head link#dynamic-css").attr("href", json.css);
-            // Apply js
+
             try {
+                // Apply js
+                unbind_methods_with_namespace(json.namespace);
+
                 $.getScript(json.js, function () {
                     console.log("Included " + json.js);
                 });
+
+            } catch (error) {
             }
-            catch(error) {}
 
             $("#center-panel").empty();
             $("#center-panel").html(html);

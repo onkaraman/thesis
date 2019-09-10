@@ -31,10 +31,15 @@ def get_as_json(template_url, template_context=None, different_css=None, differe
             if different_js:
                 js_path = get_static_path(different_js)
 
+            if not template_context:
+                template_context = {}
+            template_context["namespace"] = template_name.split(".")[0]
+
             return HttpResponse(json.dumps(
                 {
                     "html": str(render_to_string(template_url, template_context)),
                     "css": css_path,
+                    "namespace": template_context["namespace"],
                     "js": js_path,
                 }))
 
