@@ -90,8 +90,8 @@ function render_table_heads(cols) {
         head_tr.append('' +
             '<th scope="col" id="' + i.id + '">' +
             '<div class="th-width">' +
-            '<div class="col-name-container"><p>' + i.name + '</p><i class="fas fa-pen"></i></div>' +
-            '<input type="text" class="form-control col-rename-input">' +
+                '<div class="col-name-container"><p>' + i.name + '</p><i class="fas fa-pen"></i></div>' +
+                '<input type="text" class="form-control col-rename-input">' +
             '</div>' +
             '</th>');
     });
@@ -148,6 +148,7 @@ function add_to_table(cols, row, index) {
 
 var main = function () {
     request_tf_preview();
+    $("#right-panel").show("slide", {direction: "right"}, 200);
 
     $("#name-display h1").text($("#ef-name").text());
 

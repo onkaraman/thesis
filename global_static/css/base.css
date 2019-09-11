@@ -301,8 +301,9 @@ p {
     position: absolute;
     width: 280px;
     height: -webkit-fill-available;
+    border-top: 1px solid #d6d6d6;
     border-left: 1px solid #d6d6d6;
-    background-color: #ededed;
+    background-color: #fefefe;
     top: 49px;
     right: 0px;
     bottom: 0;
@@ -321,11 +322,30 @@ p {
     width: 100%;
     border-top: 1px solid #b5b5b5;
     border-bottom: 1px solid #b5b5b5;
+    border-left: none;
+    border-right: none;
     padding-left: 19px;
     padding-top: 4px;
     padding-bottom: 4px;
     background-color: var(--cyan-lo);
     color: white;
+}
+
+.open > .dropdown-menu {
+    display: grid;
+    width: 100%;
+    margin-top: 2px;
+}
+
+.dropdown-item {
+    padding-left: 18px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.dropdown-item:hover {
+    background-color: #dadada;
+    text-decoration: none;
 }
 
 #add-rule-button:hover {

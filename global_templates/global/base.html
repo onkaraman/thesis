@@ -1,121 +1,129 @@
 {% load staticfiles %}
 
 <html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-        <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        <link rel="stylesheet" id="dynamic-css" href="">
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" id="dynamic-css" href="">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
 
-        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-              integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-              crossorigin="anonymous">
+    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+          crossorigin="anonymous">
 
-        <script src="{% static 'js/jquery-2.2.4.min.js' %}"></script>
-        <script src="{% static 'js/jquery-dateformat.js' %}"></script>
-        <script src="{% static 'js/jquery.cookie.js' %}"></script>
-        <script src="{% static 'js/jquery-ui_1-12-1.js' %}"></script>
+    <script src="{% static 'js/jquery-2.2.4.min.js' %}"></script>
+    <script src="{% static 'js/jquery-dateformat.js' %}"></script>
+    <script src="{% static 'js/jquery.cookie.js' %}"></script>
+    <script src="{% static 'js/jquery-ui_1-12-1.js' %}"></script>
 
-        <script src="{% static 'js/bootstrap.js' %}"></script>
-        <script src="{% static 'js/daimler_main.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/daimler_main.js' %}"></script>
 
-        <script src="{% static 'js/base.js' %}"></script>
+    <script src="{% static 'js/base.js' %}"></script>
 
-        {% with "CODA" as name%}
-            {% block headers %}
-            {% endblock %}
-        {% endwith %}
+    {% with "CODA" as name %}
+        {% block headers %}
+        {% endblock %}
+    {% endwith %}
 
-        <title>CODA</title>
-    </head>
+    <title>CODA</title>
+</head>
 
-    <body>
-        <div id="container">
-            <div id="spanner"><!-- Serves as background for modal --></div>
+<body>
+<div id="container">
+    <div id="spanner"><!-- Serves as background for modal --></div>
 
-            <div id="top-bar">
-                <i class="fas fa-bars" id="left-panel-hamburger"></i>
-                <img src="{% static "img/img_logo_daimler_svg.svg" %}" id="logo" />
+    <div id="top-bar">
+        <i class="fas fa-bars" id="left-panel-hamburger"></i>
+        <img src="{% static "img/img_logo_daimler_svg.svg" %}" id="logo"/>
 
-                <div id="project-name">
-                    <p>Project name</p>
-                    <input type='text' class='form-control' id="project-rename">
-                </div>
-                <div class="top-button" id="new-project">
-                    <i class="fas fa-plus top-icon" id="new-project-icon"></i>
-                    <p>Neues Projekt erstellen</p>
-                </div>
-                <div class="top-button" id="load-project">
-                    <i class="fas fa-chevron-right top-icon"></i>
-                    <p>Projekt laden</p>
-                </div>
-                <div id="top-stick-right">
-                    <div class="top-button" id="user-icon">
-                        <i class="fas fa-user-circle top-icon"></i>
-                        <p>{{ username }}</p>
-                    </div>
-                    <div class="top-button" id="save-icon">s
-                        <i class="fas fa-save top-icon"></i>
-                        <p>Speichern</p>
-                    </div>
-                </div>
-            </div>
-
-            <div id="simple-modal">
-                <i class="far fa-times-circle" id="close"></i>
-                <p id="title">Simple modal</p>
-                <p id="msg">Do you want to do X?</p>
-                <div id="choices">
-                    <button type="submit" class="btn btn-primary modal-yes-button" id="yes">Ja</button>
-                    <button type="submit" class="btn" id="no">Nein</button>
-                </div>
-            </div>
-
-            <div id="panels">
-                <div id="left-panel">
-                    <p class="panel-header">Optionen</p>
-                    <div class="panel-button" id="add-tq">
-                        <i class="fas fa-plus panel-icon"></i>
-                        <p>Teilquelle hinzufügen</p>
-                    </div>
-
-                    <p class="panel-header panel-header-distance">Quellen</p>
-                    <div id="tqs-container">
-
-                    </div>
-
-                    <p class="panel-header panel-header-distance">Teilfusion</p>
-                    <div id="rms-container">
-                        <div class="panel-button accented-2">
-                            <i class="fas fa-project-diagram" id="tq-icon"></i>
-                            <p id="ef-name">{{ ef_name }}</p>
-                        </div>
-                    </div>
-
-                    <p class="panel-header panel-header-distance">Endfusion</p>
-                    <div class="panel-button" id="endfusion-button">
-                        <i class="fas fa-angle-double-right panel-icon"></i>
-                        <p>Exportieren</p>
-                    </div>
-                </div>
-
-                <div id="center-panel">
-                    {% block content %}
-                    {% endblock %}
-                </div>
-
-                <div id="right-panel">
-                    <p id="rules-header">Regelmodule</p>
-                    <div id="add-rule-button">
-                        <i class="fas fa-plus panel-icon"></i>
-                        <p>Regelmodul erstellen</p>
-                    </div>
-                </div>
-            </div>
-
+        <div id="project-name">
+            <p>Project name</p>
+            <input type='text' class='form-control' id="project-rename">
         </div>
-    </body>
+        <div class="top-button" id="new-project">
+            <i class="fas fa-plus top-icon" id="new-project-icon"></i>
+            <p>Neues Projekt erstellen</p>
+        </div>
+        <div class="top-button" id="load-project">
+            <i class="fas fa-chevron-right top-icon"></i>
+            <p>Projekt laden</p>
+        </div>
+        <div id="top-stick-right">
+            <div class="top-button" id="user-icon">
+                <i class="fas fa-user-circle top-icon"></i>
+                <p>{{ username }}</p>
+            </div>
+            <div class="top-button" id="save-icon">s
+                <i class="fas fa-save top-icon"></i>
+                <p>Speichern</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="simple-modal">
+        <i class="far fa-times-circle" id="close"></i>
+        <p id="title">Simple modal</p>
+        <p id="msg">Do you want to do X?</p>
+        <div id="choices">
+            <button type="submit" class="btn btn-primary modal-yes-button" id="yes">Ja</button>
+            <button type="submit" class="btn" id="no">Nein</button>
+        </div>
+    </div>
+
+    <div id="panels">
+        <div id="left-panel">
+            <p class="panel-header">Optionen</p>
+            <div class="panel-button" id="add-tq">
+                <i class="fas fa-plus panel-icon"></i>
+                <p>Teilquelle hinzufügen</p>
+            </div>
+
+            <p class="panel-header panel-header-distance">Quellen</p>
+            <div id="tqs-container">
+
+            </div>
+
+            <p class="panel-header panel-header-distance">Teilfusion</p>
+            <div id="rms-container">
+                <div class="panel-button accented-2">
+                    <i class="fas fa-project-diagram" id="tq-icon"></i>
+                    <p id="ef-name">{{ ef_name }}</p>
+                </div>
+            </div>
+
+            <p class="panel-header panel-header-distance">Endfusion</p>
+            <div class="panel-button" id="endfusion-button">
+                <i class="fas fa-angle-double-right panel-icon"></i>
+                <p>Exportieren</p>
+            </div>
+        </div>
+
+        <div id="center-panel">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <div id="right-panel">
+            <p id="rules-header">Regelmodule</p>
+
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false" id="add-rule-button">
+                    <i class="fas fa-plus panel-icon"></i>
+                    <p>Regelmodul erstellen</p>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="add-rule-button">
+                    <a class="dropdown-item" href="#">Neue Spaltenregel erstellen</a>
+                    <a class="dropdown-item" href="#">Neue Zeilenregel erstellen</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
 </html>
