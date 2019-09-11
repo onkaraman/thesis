@@ -6,6 +6,7 @@ from user_profile import views as user_profile_v
 from project import views as project_v
 from tq_file import views as tq_v
 from final_fusion import views as ff_v
+from final_fusion_column import views as ffc_v
 
 
 urlpatterns = [
@@ -39,6 +40,9 @@ urlpatterns = [
     url(r'^api/tq/upload', tq_v.do_upload_tq),
     url(r'^api/tq/delete', tq_v.do_delete),
     url(r'^api/tq/view', tq_v.render_single_tq_table),
+
+    # FFC API
+    url(r'^api/ffc/rename', ffc_v.do_rename),
 
     # TF/EF API
     url(r'^api/tf/rename', ff_v.do_rename),

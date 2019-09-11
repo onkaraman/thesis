@@ -54,6 +54,31 @@ function request_rename_tf(new_name) {
     });
 }
 
+function request_rename_col(col_id, col_name, input) {
+    start_loading_animation();
+    $.ajax({
+        url: "/api/ffc/rename",
+        data: {
+            "id": col_id,
+            "name": input.val()
+        },
+        success: function (data) {
+            stop_loading_animation();
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                input.hide();
+                col_name.text(input.val());
+                col_name.css("display", "inline-flex");
+            }
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+            alert(data.responseText);
+        }
+    });
+}
+
 
 // UX
 function render_table_heads(cols) {
@@ -62,7 +87,13 @@ function render_table_heads(cols) {
 
     cols.forEach(function (i) {
         let opacity = 0;
-        head_tr.append('<th scope="col"><div class="th-width">' + i + '<i class="fas fa-pen"></i></div></th>');
+        head_tr.append('' +
+            '<th scope="col" id="' + i.id + '">' +
+            '<div class="th-width">' +
+            '<div class="col-name-container"><p>' + i.name + '</p><i class="fas fa-pen"></i></div>' +
+            '<input type="text" class="form-control col-rename-input">' +
+            '</div>' +
+            '</th>');
     });
 }
 
@@ -106,14 +137,13 @@ function add_to_table(cols, row, index) {
         if (cols[i].name === "#") {
             to_append += '<td>' + index + '</td>';
         } else {
-            to_append += '<td>' + row[cols[i]] + '</td>';
+            to_append += '<td>' + row[cols[i].name] + '</td>';
         }
     }
 
     to_append += '</tr>';
     $("#table-body").append(to_append);
 }
-
 
 
 var main = function () {
@@ -130,7 +160,7 @@ var main = function () {
         tf_rename.val($("#name-display h1").text());
         tf_rename.show();
         tf_rename.focus();
-    }));
+    })) ;
 
 
     tf_rename.keyup(function (e) {
@@ -162,3 +192,23 @@ var main = function () {
 };
 
 $(document).ready(main);
+
+$(document).on("click." + $("#namespace").attr("ns"), ".col-name-container", function () {
+    let col_name = $(this);
+    let col_id = col_name.parent().parent().attr("id");
+    col_name.css("display", "none");
+
+    let input = $(this).parent().find(".col-rename-input");
+    input.val($(this).text());
+    input.show();
+    input.focus();
+
+    input.keyup(function (e) {
+        if (e.key === "Escape") {
+            input.hide();
+            col_name.css("display", "inline-flex");
+        } else if (e.key === "Enter") {
+            request_rename_col(col_id, col_name, input);
+        }
+    });
+});

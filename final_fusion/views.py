@@ -94,7 +94,7 @@ def render_preview_table(request):
         # Get all columns
         proj = Project.objects.get(pk=valid_user.last_opened_project_id)
         ff = FinalFusion.objects.get(project=proj)
-        ffc_cols = FinalFusionColumn.objects.filter(final_fusion=ff, archived=False)
+        ffc_cols = FinalFusionColumn.objects.filter(final_fusion=ff, archived=False).order_by("pk")
 
         header_rows = []
         deepest_col = 0
@@ -102,11 +102,12 @@ def render_preview_table(request):
         for ffc_col in ffc_cols:
             as_json = ffc_col.get_as_json()
 
-            out_headers.append(as_json["name"])
+            out_headers.append({"name": as_json["name"], "id": ffc_col.pk })
             ffc_rows = json.loads(as_json["rows"])
 
             header_rows.append({
                 "name": as_json["name"],
+                "id": ffc_col.pk,
                 "rows": ffc_rows
             })
 

@@ -83,6 +83,7 @@ function request_template_include(url, data_dict) {
 
             try {
                 // Apply js
+                // Unbind existing namespace events first
                 unbind_methods_with_namespace(json.namespace);
 
                 $.getScript(json.js, function () {
