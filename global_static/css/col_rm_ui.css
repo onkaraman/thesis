@@ -1,6 +1,10 @@
+.btn-selected {
+    background-color: var(--orange) !important;
+}
+
 #col-rm-ui-modal {
     display: none;
-    width: 600px;
+    width: 585px;
     position: absolute;
     margin-left: 650px;
     margin-top: 60px;
@@ -39,23 +43,30 @@
 
 #select-col-button {
     display: flex;
-    width: 270px;
+    width: 100%;
     margin-top: 8px;
     height: 33px;
     padding-top: 5px;
-    background-color: var(--cyan-lo);
+    background-color: #468394;
     border: none;
 }
+
+#select-col-button:hover {
+    background-color: var(--cyan-primary);
+}
+
 #select-col-button p {
     margin-left: 10px;
+    width: 100%;
 }
 
 #select-col-button .fas {
-    padding-top: 4px;
+    padding-top: 3px;
+    margin-right: 11px;
 }
 
 .open > .dropdown-menu {
-    width: 340px;
+    width: 100%;
 }
 
 #edit-rule-container {
@@ -65,14 +76,19 @@
 }
 
 #edit-rule-container #header {
-    margin-bottom: 7px;
+    margin-bottom: 11px;
     font-size: 17px;
 }
 
-#inline-container {
-    display: inline-flex;
+#inline-container-when {
     margin-top: 4px;
     padding-left: 1px;
+    display: inline-flex;
+}
+
+#when-controls {
+    margin-top: 13px;
+    display: inline-flex;
 }
 
 #selected-col {
@@ -82,14 +98,56 @@
     margin-right: 12px;
 }
 
+#selected-col-then {
+    background-color: #c2dae0;
+    padding: 4px 10px 6px;
+    margin-left: 4px;
+    margin-right: 5px;
+    height: 29px;
+    margin-top: -2px;
+}
+
 .when-button {
     height: 29px;
     margin-top: -2px;
     padding-top: 2px;
     margin-right: 4px;
     margin-left: 4px;
+    background-color: #e0e0e0;
 }
 
 .when-button:hover {
+    color: white;
     background-color: var(--cyan-primary);
+}
+
+#col-when-value {
+    width: 328px;
+    height: 30px;
+    margin-top: -3px;
+    margin-left: 7px;
+    padding-left: 8px;
+}
+
+#inline-container-then {
+    display: inline-flex;
+    margin-top: 17px;
+}
+
+#then-apply {
+    margin-right: 5px;
+}
+
+#col-then-value {
+    width: 263px;
+    height: 30px;
+    margin-top: -3px;
+    margin-left: 7px;
+    padding-left: 8px;
+}
+
+#save-button {
+    margin-top: 33px;
+    width: 100%;
+    margin-bottom: 8px;
 }

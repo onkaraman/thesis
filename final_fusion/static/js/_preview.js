@@ -211,6 +211,32 @@ var main = function () {
     $("#create-new-col-rm").click(function (e) {
         show_col_rm_ui_modal();
     });
+
+    $("#when-is").click(function (e) {
+        $("#when-contains").removeClass("btn-selected");
+        $(this).addClass("btn-selected");
+        $("#then-apply").addClass("btn-selected");
+        $("#then-replace").prop("disabled", true);
+    });
+
+    $("#when-contains").click(function (e) {
+        $(this).addClass("btn-selected");
+        $("#when-is").removeClass("btn-selected");
+        $("#then-apply").removeClass("btn-selected");
+        $("#then-replace").prop("disabled", false);
+    });
+
+    $("#then-apply").click(function (e) {
+        $(this).addClass("btn-selected");
+        $("#when-is").prop("disabled", false);
+        $("#then-replace").removeClass("btn-selected");
+    });
+
+    $("#then-replace").click(function (e) {
+        $(this).addClass("btn-selected");
+        $("#when-is").prop("disabled", true);
+        $("#then-apply").removeClass("btn-selected");
+    });
 };
 
 $(document).ready(main);

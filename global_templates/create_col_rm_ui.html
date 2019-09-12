@@ -8,8 +8,7 @@
         <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false" id="select-col-button">
-                <i class="fas fa-caret-down"></i>
-                <p>Spalte auswählen</p>
+                <p><i class="fas fa-caret-down"></i>Spalte auswählen</p>
             </button>
             <div class="dropdown-menu" aria-labelledby="select-col-button">
                 <a class="dropdown-item" href="#">Spalte A</a>
@@ -21,11 +20,21 @@
 
     <div id="edit-rule-container">
         <p id="header">Regel definieren</p>
-        <div id="inline-container">
-            <p>Wenn <span id="selected-col">Spalte A</span></p>
-            { <button class="btn when-button">IST</button> <button class="btn when-button">BEINHALTET</button> }
+        <div id="inline-container-when">
+            <p>Wenn </p>
+            <button class="btn btn-secondary when-button" id="when-is">IST</button>
+            <button class="btn btn-secondary when-button" id="when-contains">BEINHALTET</button> =
+            <input type='text' class='form-control' id="col-when-value">
+        </div>
+
+        <div id="inline-container-then">
+            <p>Dann </p>
+            <button class="btn btn-secondary when-button" id="then-apply">ÜBERNEHME</button>
+            <button class="btn btn-secondary when-button" id="then-replace">ERSETZE</button>
+             mit =
+            <input type='text' class='form-control' id="col-then-value">
         </div>
     </div>
 
-
+    <button class="btn btn-primary" id="save-button">Regel speichern</button>
 </div>
