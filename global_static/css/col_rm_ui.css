@@ -1,0 +1,95 @@
+#col-rm-ui-modal {
+    display: none;
+    width: 600px;
+    position: absolute;
+    margin-left: 650px;
+    margin-top: 60px;
+    border: 1px solid #c5c5c5;
+    padding: 12px 16px;
+    background-color: white;
+    box-shadow: -1px 7px 29px 2px #000000;
+    z-index: 1;
+}
+
+#col-rm-ui-modal #title {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+#col-rm-ui-modal #close {
+    position: absolute;
+    right: 21px;
+    top: 15px;
+    font-size: 18px;
+    color: grey;
+}
+
+#col-rm-ui-modal #close:hover {
+    color: black;
+    cursor: pointer;
+}
+
+#select-col-container {
+    margin-top: 17px;
+}
+
+#select-col-container #descr {
+    font-size: 17px;
+}
+
+#select-col-button {
+    display: flex;
+    width: 270px;
+    margin-top: 8px;
+    height: 33px;
+    padding-top: 5px;
+    background-color: var(--cyan-lo);
+    border: none;
+}
+#select-col-button p {
+    margin-left: 10px;
+}
+
+#select-col-button .fas {
+    padding-top: 4px;
+}
+
+.open > .dropdown-menu {
+    width: 340px;
+}
+
+#edit-rule-container {
+    margin-top: 28px;
+    padding-left: 1px;
+
+}
+
+#edit-rule-container #header {
+    margin-bottom: 7px;
+    font-size: 17px;
+}
+
+#inline-container {
+    display: inline-flex;
+    margin-top: 4px;
+    padding-left: 1px;
+}
+
+#selected-col {
+    background-color: #c2dae0;
+    padding: 6px 10px;
+    margin-left: 2px;
+    margin-right: 12px;
+}
+
+.when-button {
+    height: 29px;
+    margin-top: -2px;
+    padding-top: 2px;
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+.when-button:hover {
+    background-color: var(--cyan-primary);
+}

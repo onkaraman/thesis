@@ -3,6 +3,7 @@ var tf_table_rows = null;
 var current_page = 1;
 var all_pages = null;
 var items_per_page = 12;
+let las_scroll_y = null;
 
 // Requests
 function request_tf_preview() {
@@ -145,6 +146,22 @@ function add_to_table(cols, row, index) {
     $("#table-body").append(to_append);
 }
 
+function show_col_rm_ui_modal() {
+    last_scroll_y = $(window).scrollTop();
+    $("html, body").animate({ scrollTop: 20 }, "slow");
+
+    let simple_modal = $("#col-rm-ui-modal");
+    let spanner = $("#spanner");
+
+    spanner.fadeIn(200);
+    simple_modal.fadeIn(200);
+}
+
+function hide_col_rm_ui_modal() {
+    $("#col-rm-ui-modal").fadeOut(100);
+    $("#spanner").fadeOut(100);
+    $("html, body").animate({ scrollTop: last_scroll_y }, "slow");
+}
 
 var main = function () {
     request_tf_preview();
@@ -190,6 +207,10 @@ var main = function () {
             update_pagination();
         }
     });
+
+    $("#create-new-col-rm").click(function (e) {
+        show_col_rm_ui_modal();
+    });
 };
 
 $(document).ready(main);
@@ -212,4 +233,10 @@ $(document).on("click." + $("#namespace").attr("ns"), ".col-name-container", fun
             request_rename_col(col_id, col_name, input);
         }
     });
+});
+
+$(document).on("click." + $("#namespace").attr("ns"),
+    "#col-rm-ui-modal #close", function (e) {
+    e.preventDefault();
+    hide_col_rm_ui_modal();
 });

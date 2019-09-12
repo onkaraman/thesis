@@ -103,7 +103,7 @@ $(document).ready(main);
 
 $(document).on("click", ".project-delete", function (e) {
     e.preventDefault();
-    fit_simple_modal();
+    fit_modals();
 
     delete_project_id = e.currentTarget.parentElement.getAttribute("id");
     let project_name = $(e.currentTarget.parentElement.getElementsByClassName("name")[0]).text();

@@ -159,9 +159,14 @@ function hide_top_bar_controls() {
     $("#left-panel-hamburger").css("opacity", "0");
 }
 
-function fit_simple_modal() {
-    let simple_modal = $("#simple-modal");
-    simple_modal.css("margin-left", ($(document).width() / 2) - simple_modal.outerWidth() / 2);
+function fit_modals() {
+    let modals = [];
+    modals.push($("#simple-modal"));
+    modals.push($("#col-rm-ui-modal"));
+
+    modals.forEach(function (m) {
+        m.css("margin-left", ($(document).width() / 2) - m.outerWidth() / 2);
+    });
 }
 
 function left_panel_toggle() {
@@ -227,9 +232,10 @@ function start_new_project() {
 
 
 var main = function () {
-    fit_simple_modal();
+    fit_modals();
+
     $(window).resize(function () {
-        fit_simple_modal();
+        fit_modals();
     });
     reset_left_panel();
 
