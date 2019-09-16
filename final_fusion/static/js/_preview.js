@@ -110,6 +110,28 @@ function request_create_col_rm() {
     });
 }
 
+function request_get_rm() {
+    start_loading_animation();
+    $.ajax({
+        url: "/api/rm/get_all",
+        success: function (data) {
+            stop_loading_animation();
+            $("#rm-list").empty();
+
+            let json = JSON.parse(data);
+            if (json.success) {
+                JSON.parse(json.items).forEach(function (item) {
+                    if (item.type === "col") add_rm_col_item(item);
+                });
+            }
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+            alert(data.responseText);
+        }
+    });
+}
+
 // UX
 function render_table_heads(cols) {
     let head_tr = $("#head-tr");
@@ -210,8 +232,26 @@ function hide_col_rm_ui_modal() {
     $("html, body").animate({ scrollTop: last_scroll_y }, "slow");
 }
 
+function add_rm_col_item(item) {
+    let html = "<div class='rm-col-item'>" +
+        "<p class='name'>"+ item.name +"</p>" +
+        "<p class='when-title'>Wenn</p>" +
+        "<p class='subject-name'>"+ item.subject_name +"</p>" +
+        "<div class='inline'><p class='condition-type when'>"+ item.when_type +"</p>\n" +
+        "<p class='condition-value'>"+ item.when_value +"</p></div>" +
+        "\n" +
+        "<p class='then-title'>Dann</p>\n" +
+        "<div class='inline'><p class='condition-type then'>"+ item.then_type +"</p>" +
+        "<p class='condition-value'>"+ item.then_value +"</p></div>" +
+        "</div>";
+
+    $("#rm-list").append(html);
+}
+
 var main = function () {
     request_tf_preview();
+    request_get_rm();
+
     $("#right-panel").show("slide", {direction: "right"}, 200);
 
     $("#name-display h1").text($("#ef-name").text());

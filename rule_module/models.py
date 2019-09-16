@@ -18,4 +18,4 @@ class RuleModule(models.Model):
     then_cases = models.CharField(max_length=200)
 
     def __str__(self):
-        return "#%d: %s-Rule %s" % (self.pk, self.rule_type, self.name)
+        return "#%d: (%s) Rule: %s" % (self.pk, self.rule_type, self.name)

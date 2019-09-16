@@ -3,8 +3,10 @@ from django.http import HttpResponse
 from security.args_checker import ArgsChecker
 import security.token_checker as token_checker
 from django.core.exceptions import ObjectDoesNotExist
+from final_fusion.models import FinalFusion
 from final_fusion_column.models import FinalFusionColumn
 from rule_module.models import RuleModule
+from project.models import Project
 
 
 def convert_request_bool_values(get_params):
@@ -79,3 +81,40 @@ def do_create_col_rm(request):
                 pass
 
     return HttpResponse(json.dumps({"success": success}))
+
+
+def render_all_rm(request):
+    """
+    render_all_rm
+    """
+    success = False
+    ret = []
+
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user:
+        success = True
+        proj = Project.objects.get(pk=valid_user.last_opened_project_id)
+        ff = FinalFusion.objects.get(project=proj)
+        rule_modules = RuleModule.objects.filter(final_fusion=ff, archived=False)
+
+        for rm in rule_modules:
+            item = {"name": rm.name, "type": rm.rule_type}
+
+            if rm.rule_type == "col":
+                item["subject_name"] = FinalFusionColumn.objects.get(pk=json.loads(rm.subjects)[0]).display_column_name
+
+                col_if_condition = json.loads(rm.if_conditions)
+                item["when_type"] = list(col_if_condition.keys())[0].upper().split("_")[1]
+                item["when_value"] = col_if_condition[list(col_if_condition.keys())[0]]
+
+                then_case = json.loads(rm.then_cases)
+                item["then_type"] = list(then_case.keys())[0].upper().split("_")[1]
+                item["then_value"] = then_case[list(then_case.keys())[0]]
+
+                ret.append(item)
+
+    return HttpResponse(json.dumps({
+        "success": success,
+        "items": json.dumps(ret)
+    }))
+

@@ -309,3 +309,82 @@ p {
     margin-left: 8px;
     margin-top: 1px;
 }
+
+#rm-list {
+    margin-top: 25px;
+}
+
+.rm-col-item {
+    background-color: #f1f4f7;
+    padding: 8px 15px 19px;
+    border-top: 1px solid #4992a7;
+    border-bottom: 1px solid #4992a7;
+    z-index: 0;
+    cursor: pointer;
+}
+
+.rm-col-item:hover {
+    background-color: #eaedf0;
+}
+
+.rm-col-item .name {
+    color: var(--cyan-primary);
+    margin-left: -1px;
+}
+
+.rm-col-item .when-title {
+    margin-top: 7px;
+    margin-bottom: 3px;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.rm-col-item .subject-name {
+    background-color: #ffffff;
+    padding-top: 5px;
+    padding-left: 7px;
+    padding-bottom: 3px;
+    font-size: 14px;
+    margin-left: 5px;
+    margin-bottom: 9px;
+}
+
+.rm-col-item .condition-type {
+    margin-left: 5px;
+    font-size: 15px;
+    background-color: grey;
+    text-align: center;
+    padding-top: 4px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.condition-type.when {
+    background-color: #f7a945;
+}
+
+.condition-type.then {
+    background-color: #f78545;
+}
+
+.rm-col-item .condition-value {
+    background-color: #dbdee0;
+    margin-left: 7px;
+    padding-top: 5px;
+    padding-left: 7px;
+    padding-bottom: 3px;
+    font-size: 14px;
+    width: inherit;
+}
+
+.rm-col-item .then-title {
+    margin-top: 12px;
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.rm-col-item .inline {
+    display: inline-flex;
+    width: 100%;
+}
