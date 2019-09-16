@@ -32,7 +32,8 @@ INSTALLED_APPS = [
     'security_token',
     'tq_file',
     'final_fusion',
-    'final_fusion_column'
+    'final_fusion_column',
+    'rule_module'
 ]
 
 MIDDLEWARE = [

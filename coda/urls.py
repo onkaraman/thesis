@@ -7,6 +7,7 @@ from project import views as project_v
 from tq_file import views as tq_v
 from final_fusion import views as ff_v
 from final_fusion_column import views as ffc_v
+from rule_module import views as rm_v
 
 
 urlpatterns = [
@@ -48,5 +49,8 @@ urlpatterns = [
     url(r'^api/tf/rename', ff_v.do_rename),
     url(r'^api/ef/select_col', ff_v.do_select_column),
     url(r'^api/tf/preview_table', ff_v.render_preview_table),
+
+    #RM API
+    url(r'^api/rm/create/col', rm_v.do_create_col_rm),
 ]
 

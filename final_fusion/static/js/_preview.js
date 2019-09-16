@@ -3,7 +3,7 @@ var tf_table_rows = null;
 var current_page = 1;
 var all_pages = null;
 var items_per_page = 12;
-let las_scroll_y = null;
+var selected_col_rm_name = null;
 
 // Requests
 function request_tf_preview() {
@@ -80,6 +80,35 @@ function request_rename_col(col_id, col_name, input) {
     });
 }
 
+function request_create_col_rm() {
+    start_loading_animation();
+    $.ajax({
+        url: "/api/rm/create/col",
+        data: {
+            "subject_id": selected_col_rm_name.attr("id"),
+            "when_is": $("#when-is").hasClass("btn-selected"),
+            "when_contains": $("#when-contains").hasClass("btn-selected"),
+            "when_value": $("#col-when-value").val(),
+            "then_apply": $("#then-apply").hasClass("btn-selected"),
+            "then_replace": $("#then-replace").hasClass("btn-selected"),
+            "then_value": $("#col-then-value").val(),
+        },
+        success: function (data) {
+            stop_loading_animation();
+            $("#col-rm-ui-modal #save-button").prop("disabled", false);
+
+            let json = JSON.parse(data);
+            if (json.success) {
+                hide_col_rm_ui_modal();
+            }
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+            $("#col-rm-ui-modal #save-button").prop("disabled", false);
+            alert(data.responseText);
+        }
+    });
+}
 
 // UX
 function render_table_heads(cols) {
@@ -153,6 +182,16 @@ function show_col_rm_ui_modal() {
     let simple_modal = $("#col-rm-ui-modal");
     let spanner = $("#spanner");
 
+    let columns = $("#head-tr").find(".col-name-container p");
+
+    $(".col-rm-dropdown").empty();
+    for(let i=0; i<columns.length; i+=1) {
+        let name = $(columns[i])[0].innerText;
+        let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
+
+        $(".col-rm-dropdown").append("<a class='dropdown-item' href='#' id='"+ id +"'>" + name + "</a>");
+    }
+
     spanner.fadeIn(200);
     simple_modal.fadeIn(200);
 }
@@ -160,6 +199,14 @@ function show_col_rm_ui_modal() {
 function hide_col_rm_ui_modal() {
     $("#col-rm-ui-modal").fadeOut(100);
     $("#spanner").fadeOut(100);
+
+    $("#when-is").removeClass("btn-selected");
+    $("#when-contains").removeClass("btn-selected");
+    $("#then-apply").removeClass("btn-selected");
+    $("#then-replace").removeClass("btn-selected");
+
+    $("#col-when-value").val("");
+    $("#col-then-value").val("");
     $("html, body").animate({ scrollTop: last_scroll_y }, "slow");
 }
 
@@ -237,6 +284,11 @@ var main = function () {
         $("#when-is").prop("disabled", true);
         $("#then-apply").removeClass("btn-selected");
     });
+
+    $("#col-rm-ui-modal #save-button").click(function (e) {
+        $(this).prop("disabled", true);
+        request_create_col_rm();
+    });
 };
 
 $(document).ready(main);
@@ -266,3 +318,11 @@ $(document).on("click." + $("#namespace").attr("ns"),
     e.preventDefault();
     hide_col_rm_ui_modal();
 });
+
+$(document).on("click." + $("#namespace").attr("ns"), ".col-rm-dropdown .dropdown-item", function (e) {
+    e.preventDefault();
+    selected_col_rm_name = $(this);
+    $("#select-col-button #sel-name").text($(this)[0].innerText);
+});
+
+
