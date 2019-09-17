@@ -71,6 +71,11 @@
     cursor: default;
 }
 
+td .ruled {
+    color: #f57618;
+    background-color: #e8e8e8;
+}
+
 #pagination {
     display: inline-flex;
     margin-top: 5px;

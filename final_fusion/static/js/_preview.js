@@ -28,6 +28,28 @@ function request_tf_preview() {
     });
 }
 
+function request_tf_preview_with_rm() {
+    console.log("calling");
+    start_loading_animation();
+    $.ajax({
+        url: "/api/tf/rm_preview_table",
+        data: {},
+        success: function (data) {
+            stop_loading_animation();
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                render_table_heads(json.headers);
+                render_table_body(json.headers, json.rows);
+            }
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+            alert(data.responseText);
+        }
+    });
+}
+
 function request_rename_tf(new_name) {
     let name_display = $("#name-display");
     let tf_rename = $("#tf-rename");
@@ -116,7 +138,7 @@ function request_edit_col_rm() {
     start_loading_animation();
 
     let subject_id = 0;
-    if (selected_col_rm_name.attr("id") != null)
+    if (selected_col_rm_name != null)
         subject_id = selected_col_rm_name.attr("id");
 
     $.ajax({
@@ -376,6 +398,9 @@ var main = function () {
 
     $('#rm-activate-checkbox').change(function () {
         let checked = $(this).prop('checked');
+
+        if (checked) request_tf_preview_with_rm();
+        else request_tf_preview();
     })
 };
 

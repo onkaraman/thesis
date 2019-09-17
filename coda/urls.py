@@ -49,6 +49,7 @@ urlpatterns = [
     url(r'^api/tf/rename', ff_v.do_rename),
     url(r'^api/ef/select_col', ff_v.do_select_column),
     url(r'^api/tf/preview_table', ff_v.render_preview_table),
+    url(r'^api/tf/rm_preview_table', ff_v.render_preview_table_with_rm),
 
     # RM API
     url(r'^api/rm/create/col', rm_v.do_create_col_rm),

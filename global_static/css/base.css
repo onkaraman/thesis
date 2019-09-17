@@ -329,12 +329,13 @@ p {
 }
 
 .rm-col-item {
+    z-index: 0;
     background-color: #f1f4f7;
     padding: 8px 15px 19px;
     border-top: 1px solid #4992a7;
     border-bottom: 1px solid #4992a7;
-    z-index: 0;
     cursor: pointer;
+    margin-bottom: 8px;
 }
 
 .rm-col-item:hover {

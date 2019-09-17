@@ -51,6 +51,7 @@ def request_to_rm(request, id=None):
     rm = RuleModule()
     if id:
         rm = RuleModule.objects.get(pk=id)
+        subject_id = json.loads(rm.subjects)[0]
 
     if len(when_value) > 0 and len(then_value) > 0:
         try:
@@ -59,8 +60,7 @@ def request_to_rm(request, id=None):
             rm.subjects = json.dumps([ffc.pk])
 
             if ((when_is and not when_contains) or (not when_is and when_contains)) \
-                    and ((then_apply and not then_replace) or (not then_apply and then_replace)) \
-                    and (when_is and not then_replace):
+                    and ((then_apply and not then_replace) or (not then_apply and then_replace)):
 
                 # Construct if condition
                 if_condition = {}
@@ -94,6 +94,7 @@ def do_create_col_rm(request):
     valid_user = token_checker.token_is_valid(request)
     if valid_user and rule_condition_check(request):
         rm = request_to_rm(request)
+        rm.save()
         if rm:
             success = True
 
