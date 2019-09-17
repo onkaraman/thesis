@@ -4,6 +4,7 @@ var current_page = 1;
 var all_pages = null;
 var items_per_page = 12;
 var selected_col_rm_name = null;
+var edit_rm_id = null;
 
 // Requests
 function request_tf_preview() {
@@ -100,6 +101,44 @@ function request_create_col_rm() {
             let json = JSON.parse(data);
             if (json.success) {
                 hide_col_rm_ui_modal();
+                request_get_rm();
+            }
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+            $("#col-rm-ui-modal #save-button").prop("disabled", false);
+            alert(data.responseText);
+        }
+    });
+}
+
+function request_edit_col_rm() {
+    start_loading_animation();
+
+    let subject_id = 0;
+    if (selected_col_rm_name.attr("id") != null)
+        subject_id = selected_col_rm_name.attr("id");
+
+    $.ajax({
+        url: "/api/rm/edit",
+        data: {
+            "id": edit_rm_id,
+            "subject_id": subject_id,
+            "when_is": $("#when-is").hasClass("btn-selected"),
+            "when_contains": $("#when-contains").hasClass("btn-selected"),
+            "when_value": $("#col-when-value").val(),
+            "then_apply": $("#then-apply").hasClass("btn-selected"),
+            "then_replace": $("#then-replace").hasClass("btn-selected"),
+            "then_value": $("#col-then-value").val(),
+        },
+        success: function (data) {
+            stop_loading_animation();
+            $("#col-rm-ui-modal #save-button").prop("disabled", false);
+
+            let json = JSON.parse(data);
+            if (json.success) {
+                hide_col_rm_ui_modal();
+                request_get_rm();
             }
         },
         error: function (data, exception) {
@@ -142,8 +181,8 @@ function render_table_heads(cols) {
         head_tr.append('' +
             '<th scope="col" id="' + i.id + '">' +
             '<div class="th-width">' +
-                '<div class="col-name-container"><p>' + i.name + '</p><i class="fas fa-pen"></i></div>' +
-                '<input type="text" class="form-control col-rename-input">' +
+            '<div class="col-name-container"><p>' + i.name + '</p><i class="fas fa-pen"></i></div>' +
+            '<input type="text" class="form-control col-rename-input">' +
             '</div>' +
             '</th>');
     });
@@ -199,7 +238,7 @@ function add_to_table(cols, row, index) {
 
 function show_col_rm_ui_modal() {
     last_scroll_y = $(window).scrollTop();
-    $("html, body").animate({ scrollTop: 20 }, "slow");
+    $("html, body").animate({scrollTop: 20}, "slow");
 
     let simple_modal = $("#col-rm-ui-modal");
     let spanner = $("#spanner");
@@ -207,11 +246,11 @@ function show_col_rm_ui_modal() {
     let columns = $("#head-tr").find(".col-name-container p");
 
     $(".col-rm-dropdown").empty();
-    for(let i=0; i<columns.length; i+=1) {
+    for (let i = 0; i < columns.length; i += 1) {
         let name = $(columns[i])[0].innerText;
         let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
 
-        $(".col-rm-dropdown").append("<a class='dropdown-item' href='#' id='"+ id +"'>" + name + "</a>");
+        $(".col-rm-dropdown").append("<a class='dropdown-item' href='#' id='" + id + "'>" + name + "</a>");
     }
 
     spanner.fadeIn(200);
@@ -219,9 +258,12 @@ function show_col_rm_ui_modal() {
 }
 
 function hide_col_rm_ui_modal() {
+    edit_rm_id = null;
+
     $("#col-rm-ui-modal").fadeOut(100);
     $("#spanner").fadeOut(100);
 
+    $("#col-rm-ui-modal #edit-mode").text("erstellen");
     $("#when-is").removeClass("btn-selected");
     $("#when-contains").removeClass("btn-selected");
     $("#then-apply").removeClass("btn-selected");
@@ -229,20 +271,20 @@ function hide_col_rm_ui_modal() {
 
     $("#col-when-value").val("");
     $("#col-then-value").val("");
-    $("html, body").animate({ scrollTop: last_scroll_y }, "slow");
+    $("html, body").animate({scrollTop: last_scroll_y}, "slow");
 }
 
 function add_rm_col_item(item) {
-    let html = "<div class='rm-col-item'>" +
-        "<p class='name'>"+ item.name +"</p>" +
+    let html = "<div class='rm-col-item' id='" + item.id + "'>" +
+        "<p class='name'>" + item.name + "</p>" +
         "<p class='when-title'>Wenn</p>" +
-        "<p class='subject-name'>"+ item.subject_name +"</p>" +
-        "<div class='inline'><p class='condition-type when'>"+ item.when_type +"</p>\n" +
-        "<p class='condition-value'>"+ item.when_value +"</p></div>" +
+        "<p class='subject-name'>" + item.subject_name + "</p>" +
+        "<div class='inline'><p class='condition-type when'>" + item.when_type + "</p>\n" +
+        "<p class='condition-value when'>" + item.when_value + "</p></div>" +
         "\n" +
         "<p class='then-title'>Dann</p>\n" +
-        "<div class='inline'><p class='condition-type then'>"+ item.then_type +"</p>" +
-        "<p class='condition-value'>"+ item.then_value +"</p></div>" +
+        "<div class='inline'><p class='condition-type then'>" + item.then_type + "</p>" +
+        "<p class='condition-value then'>" + item.then_value + "</p></div>" +
         "</div>";
 
     $("#rm-list").append(html);
@@ -327,8 +369,14 @@ var main = function () {
 
     $("#col-rm-ui-modal #save-button").click(function (e) {
         $(this).prop("disabled", true);
-        request_create_col_rm();
+
+        if (edit_rm_id !== null) request_edit_col_rm();
+        else request_create_col_rm();
     });
+
+    $('#rm-activate-checkbox').change(function () {
+        let checked = $(this).prop('checked');
+    })
 };
 
 $(document).ready(main);
@@ -355,14 +403,37 @@ $(document).on("click." + $("#namespace").attr("ns"), ".col-name-container", fun
 
 $(document).on("click." + $("#namespace").attr("ns"),
     "#col-rm-ui-modal #close", function (e) {
-    e.preventDefault();
-    hide_col_rm_ui_modal();
-});
+        e.preventDefault();
+        hide_col_rm_ui_modal();
+    });
 
 $(document).on("click." + $("#namespace").attr("ns"), ".col-rm-dropdown .dropdown-item", function (e) {
     e.preventDefault();
     selected_col_rm_name = $(this);
     $("#select-col-button #sel-name").text($(this)[0].innerText);
+});
+
+$(document).on("click." + $("#namespace").attr("ns"), ".rm-col-item", function (e) {
+    e.preventDefault();
+    edit_rm_id = $(this).attr("id");
+    show_col_rm_ui_modal();
+
+    $("#col-rm-ui-modal #edit-mode").text("bearbeiten");
+    $("#select-col-button #sel-name").text($(".rm-col-item .subject-name").text());
+    $("#col-when-value").val($(".condition-value.when").text());
+    $("#col-then-value").val($(".condition-value.then").text());
+
+    if ($(".condition-type.when").text() === "IS") {
+        $("#when-is").addClass("btn-selected");
+    } else {
+        $("#when-contains").addClass("btn-selected");
+    }
+
+    if ($(".condition-type.then").text() === "APPLY") {
+        $("#then-apply").addClass("btn-selected");
+    } else {
+        $("#then-replace").addClass("btn-selected");
+    }
 });
 
 

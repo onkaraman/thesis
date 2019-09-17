@@ -265,8 +265,9 @@ p {
     font-size: 15px;
     margin-left: 17px;
     font-weight: 600;
-    margin-bottom: 5px;
+    margin-bottom: 12px;
 }
+
 
 #add-rule-button {
     display: inline-flex;
@@ -298,6 +299,19 @@ p {
 .dropdown-item:hover {
     background-color: #dadada;
     text-decoration: none;
+}
+
+#right-panel-title-inline {
+    display: inline-flex;
+}
+
+#rm-activate-toggle {
+    margin-left: 25px;
+    font-size: 15px;
+}
+
+#toggle-text {
+    margin-left: 4px;
 }
 
 #add-rule-button:hover {
