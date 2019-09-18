@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/simple_modal.css' %}">
     <link rel="stylesheet" href="{% static 'css/col_rm_ui.css' %}">
+    <link rel="stylesheet" href="{% static 'css/row_rm_ui.css' %}">
 
     <link rel="stylesheet" id="dynamic-css" href="">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
@@ -69,6 +70,7 @@
 
     {% include "simple_modal.html" %}
     {% include "create_col_rm_ui.html" %}
+    {% include "create_row_rm_ui.html" %}
 
     <div id="panels">
         <div id="left-panel">
@@ -123,7 +125,7 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="add-rule-button">
                     <a class="dropdown-item" href="#" id="create-new-col-rm">Neue Spaltenregel erstellen</a>
-                    <a class="dropdown-item" href="#">Neue Zeilenregel erstellen</a>
+                    <a class="dropdown-item" href="#" id="create-new-row-rm">Neue Zeilenregel erstellen</a>
                 </div>
             </div>
 
