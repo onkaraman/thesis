@@ -123,7 +123,7 @@ function request_create_col_rm() {
             let json = JSON.parse(data);
             if (json.success) {
                 hide_col_rm_ui_modal();
-                request_get_rm();
+                request_get_all_rm();
             }
         },
         error: function (data, exception) {
@@ -160,7 +160,7 @@ function request_edit_col_rm() {
             let json = JSON.parse(data);
             if (json.success) {
                 hide_col_rm_ui_modal();
-                request_get_rm();
+                request_get_all_rm();
             }
         },
         error: function (data, exception) {
@@ -171,7 +171,7 @@ function request_edit_col_rm() {
     });
 }
 
-function request_get_rm() {
+function request_get_all_rm() {
     start_loading_animation();
     $.ajax({
         url: "/api/rm/get_all",
@@ -188,6 +188,30 @@ function request_get_rm() {
         },
         error: function (data, exception) {
             stop_loading_animation();
+            alert(data.responseText);
+        }
+    });
+}
+
+function request_delete_rm(id) {
+    start_loading_animation();
+
+    $.ajax({
+        url: "/api/rm/delete",
+        data: {
+            "id": id,
+        },
+        success: function (data) {
+            stop_loading_animation();
+
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                hide_simple_modal();
+                request_get_all_rm();
+            }
+        },
+        error: function (data, exception) {
             alert(data.responseText);
         }
     });
@@ -298,6 +322,7 @@ function hide_col_rm_ui_modal() {
 
 function add_rm_col_item(item) {
     let html = "<div class='rm-col-item' id='" + item.id + "'>" +
+        "<i class='far fa-trash-alt rm-delete'></i>" +
         "<p class='name'>" + item.name + "</p>" +
         "<p class='when-title'>Wenn</p>" +
         "<p class='subject-name'>" + item.subject_name + "</p>" +
@@ -314,7 +339,7 @@ function add_rm_col_item(item) {
 
 var main = function () {
     request_tf_preview();
-    request_get_rm();
+    request_get_all_rm();
 
     $("#right-panel").show("slide", {direction: "right"}, 200);
 
@@ -461,4 +486,11 @@ $(document).on("click." + $("#namespace").attr("ns"), ".rm-col-item", function (
     }
 });
 
-
+$(document).on("click." + $("#namespace").attr("ns"), ".rm-delete", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    let name = $(e.currentTarget.parentElement).find(".name").text();
+    let msg = "Möchten Sie wirklich <b>" + name + "</b> löschen?";
+    let id = $(e.currentTarget.parentElement).attr("id");
+    show_simple_modal("Regelmodul löschen", msg, request_delete_rm(id));
+});

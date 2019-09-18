@@ -21,7 +21,7 @@ function show_simple_modal(title, msg, yes_callback) {
         yes_callback();
     });
 
-    $("html, body").animate({ scrollTop: 20 }, "slow");
+    $("html, body").animate({ scrollTop: 0 }, "slow");
 
     spanner.fadeIn(200);
     simple_modal.fadeIn(200);

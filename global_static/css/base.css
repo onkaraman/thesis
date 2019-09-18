@@ -343,6 +343,7 @@ p {
 }
 
 .rm-col-item .name {
+    clear: both;
     color: var(--cyan-primary);
     margin-left: -1px;
 }

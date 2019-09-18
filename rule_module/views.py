@@ -101,6 +101,24 @@ def do_create_col_rm(request):
     return HttpResponse(json.dumps({"success": success}))
 
 
+def do_delete_rm(request):
+    """
+    do_delete_rm
+    """
+    success = False
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user and "id" in request.GET and ArgsChecker.is_number(request.GET["id"]):
+        try:
+            ff = FinalFusion.objects.get(project=Project.objects.get(pk=valid_user.last_opened_project_id))
+            rm = RuleModule.objects.get(pk=request.GET["id"], final_fusion=ff)
+            rm.archived = True
+            rm.save()
+            success = True
+        except ObjectDoesNotExist:
+            pass
+    return HttpResponse(json.dumps({"success": success}))
+
+
 def do_save_edit(request):
     """
     do_save_edit

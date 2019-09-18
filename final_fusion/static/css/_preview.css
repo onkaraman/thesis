@@ -44,8 +44,16 @@
     font-size: 13px;
 }
 
-.th-width {
+.rm-delete {
+    float: right;
+    font-size: 17px;
+    margin-top: 13px;
+    z-index: 1;
+    margin-bottom: -21px;
+}
 
+.rm-delete:hover {
+    color: var(--red-contrast);
 }
 
 .col-name-container {
