@@ -327,16 +327,6 @@ function show_row_rm_ui_modal() {
     let modal = $("#row-rm-ui-modal");
     let spanner = $("#spanner");
 
-    let columns = $("#head-tr").find(".col-name-container p");
-
-    $(".row-cols-dropdown").empty();
-    for (let i = 0; i < columns.length; i += 1) {
-        let name = $(columns[i])[0].innerText;
-        let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
-
-        $(".row-cols-dropdown").append("<a class='dropdown-item' href='#' id='" + id + "'>" + name + "</a>");
-    }
-
     spanner.fadeIn(200);
     modal.fadeIn(200);
 }
@@ -346,7 +336,7 @@ function hide_row_rm_ui_modal() {
     $("#row-rm-ui-modal").fadeOut(100);
     $("#spanner").fadeOut(100);
 
-
+    $("#add-rows-container").empty();
     $("html, body").animate({scrollTop: last_scroll_y}, "slow");
 }
 
@@ -377,6 +367,22 @@ function add_new_row_container() {
         "</div>";
 
     $("#add-rows-container").append(html);
+    let last_added = $($("#add-rows-container").children()[$("#add-rows-container").children().length-1]);
+
+    let columns = $("#head-tr").find(".col-name-container p");
+
+    last_added.find(".row-cols-dropdown").empty();
+    for (let i = 0; i < columns.length; i += 1) {
+        let name = $(columns[i])[0].innerText;
+        let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
+
+        last_added.find(".row-cols-dropdown").append("<a class='dropdown-item' href='#' id='" + id + "'>" + name + "</a>");
+    }
+
+    last_added.find(".row-cols-dropdown .dropdown-item").click(function (e) {
+        $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
+        $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
+    });
 }
 
 function add_rm_col_item(item) {
@@ -548,19 +554,13 @@ $(document).on("click." + $("#namespace").attr("ns"), ".col-rm-dropdown .dropdow
 
 $(document).on("click." + $("#namespace").attr("ns"), ".row-cols-dropdown .dropdown-item", function (e) {
     e.preventDefault();
-    $(".pick-col-button .sel-name").text($(this)[0].innerText);
-    $(".pick-col-button .sel-name").attr("id", $(this).attr("id"));
+    $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
+    $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
 });
 
 $(document).on("click." + $("#namespace").attr("ns"), ".when-dropdown .dropdown-item", function (e) {
     e.preventDefault();
-    $(".pick-when-condition .sel-name").text($(this)[0].innerText);
-});
-
-$(document).on("click." + $("#namespace").attr("ns"), ".row-cols-dropdown .dropdown-item", function (e) {
-    e.preventDefault();
-    $(".pick-col-button .sel-name").text($(this)[0].innerText);
-    $(".pick-col-button .sel-name").attr("id", $(this).attr("id"));
+    $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
 });
 
 $(document).on("click." + $("#namespace").attr("ns"), ".rm-col-item", function (e) {

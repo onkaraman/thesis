@@ -326,6 +326,8 @@ p {
 
 #rm-list {
     margin-top: 25px;
+    overflow-x: scroll;
+    height: inherit;
 }
 
 .rm-col-item {
