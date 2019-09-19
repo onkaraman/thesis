@@ -363,7 +363,8 @@ function add_new_row_container() {
                 "<a class='dropdown-item when-is' href='#'>CONTAINS</a>\n" +
             "</div>\n" +
         "</div>\n" +
-        "<input type='text' class='form-control when-value'>\n" +
+        "<input type='text' class='form-control when-value'>" +
+        "<i class='fas fa-times delete'>" +
         "</div>";
 
     $("#add-rows-container").append(html);
@@ -382,6 +383,25 @@ function add_new_row_container() {
     last_added.find(".row-cols-dropdown .dropdown-item").click(function (e) {
         $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
         $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
+    });
+
+    last_added.find(".delete").click(function (e) {
+        last_added.remove();
+    });
+}
+
+function add_or_sep() {
+    let html = "<div class='or-sep-container'>" +
+            "<div class='line-l'></div>" +
+            "<p>oder</p>" +
+            "<div class='line-r'></div>" +
+            "<i class='fas fa-times delete'>" +
+        "</div>";
+
+    $("#add-rows-container").append(html);
+    let last_added = $($("#add-rows-container").children()[$("#add-rows-container").children().length-1]);
+    last_added.find(".delete").click(function (e) {
+        last_added.remove();
     });
 }
 
@@ -482,6 +502,10 @@ function register_row_rm_events() {
 
     $("#add-row-button").click(function (e) {
        add_new_row_container();
+    });
+
+    $("#add-or-sep-button").click(function (e) {
+       add_or_sep();
     });
 
 }
