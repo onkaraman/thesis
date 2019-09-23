@@ -6,7 +6,7 @@ function request_login() {
         headers:{
             "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val()
         },
-        url: "/api/user/login",
+        url: "/api/user/login/",
         data: {
             "email": $("#corp-mail").val(),
             "pw": $("#password").val()

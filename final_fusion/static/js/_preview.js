@@ -6,6 +6,64 @@ var items_per_page = 12;
 var selected_col_rm_name = null;
 var edit_rm_id = null;
 
+
+// Helpers
+function apply_single_col_rm(obj) {
+    let if_conditions = JSON.parse(obj.if_conditions);
+    let then_cases = JSON.parse(obj.then_cases);
+
+    show_col_rm_ui_modal();
+    $("#col-rm-ui-modal #edit-mode").text("bearbeiten");
+    $("#select-col-button .sel-name").text(obj.col_subject);
+    $("#col-when-value").val(if_conditions[Object.keys(if_conditions)[0]]);
+    $("#col-then-value").val(then_cases[Object.keys(then_cases)[0]]);
+
+    if (Object.keys(if_conditions)[0] === "when_is") {
+        $("#when-is").addClass("btn-selected");
+    } else {
+        $("#when-contains").addClass("btn-selected");
+    }
+
+    if (Object.keys(then_cases)[0] === "then_apply") {
+        $("#then-apply").addClass("btn-selected");
+    } else {
+        $("#then-replace").addClass("btn-selected");
+    }
+}
+
+function apply_single_row_rm(obj) {
+    let if_conditions = JSON.parse(obj.if_conditions);
+    let then_cases = JSON.parse(obj.then_cases);
+
+    show_row_rm_ui_modal();
+    $("#row-rm-ui-modal #edit-mode").text("bearbeiten");
+
+    $("#col-rm-ui-modal #edit-mode").text("bearbeiten");
+    $("#select-col-button .sel-name").text(obj.col_subject);
+    $("#col-when-value").val(if_conditions[Object.keys(if_conditions)[0]]);
+    $("#col-then-value").val(then_cases[Object.keys(then_cases)[0]]);
+
+    for (let i=0; i<if_conditions.length; i+=1) {
+        add_when_row();
+        let item = if_conditions[i];
+        let last_added = $($("#when-rows-container").children()[$("#when-rows-container").children().length - 1]);
+        last_added.find(".pick-col-button .sel-name").text(item["ffc_name"]);
+        last_added.find(".pick-col-button .sel-name").attr("id", item["id"]);
+        last_added.find(".pick-when-condition .sel-name").text(item["condition"]);
+        last_added.find(".when-value").val(item["value"]);
+    }
+
+    for (let i=0; i<then_cases.length; i+=1) {
+        add_then_container();
+        let item = then_cases[i];
+        let last_added = $($("#then-container").children()[$("#then-container").children().length - 1]);
+        last_added.find(".pick-col-button .sel-name").text(item["ffc_name"]);
+        last_added.find(".pick-col-button .sel-name").attr("id", item["id"]);
+        last_added.find(".pick-then-condition .sel-name").text(item["action"]);
+        last_added.find(".then-value").val(item["value"]);
+    }
+}
+
 // Requests
 function request_tf_preview() {
     start_loading_animation();
@@ -139,9 +197,9 @@ function request_create_row_rm() {
 
     // Get when items
     let when_data = [];
-    let when_items = $(".add-new-row-container");
+    let when_items = $(".when-row-container");
 
-    for (let i=0; i<when_items.length; i+=1) {
+    for (let i = 0; i < when_items.length; i += 1) {
         when_data.push({
             "id": $(when_items[i]).find(".pick-col-button .sel-name").attr("id"),
             "condition": $(when_items[i]).find(".pick-when-condition").text().trim(),
@@ -151,7 +209,7 @@ function request_create_row_rm() {
 
     let then_data = [];
     let then_items = $("#then-container");
-    for (let i=0; i<then_items.length; i+=1) {
+    for (let i = 0; i < then_items.length; i += 1) {
         then_data.push({
             "id": $(then_items[i]).find(".pick-col-button .sel-name").attr("id"),
             "action": $(then_items[i]).find(".pick-then-condition").text().trim(),
@@ -258,6 +316,36 @@ function request_delete_rm(id) {
             if (json.success) {
                 hide_simple_modal();
                 request_get_all_rm();
+            }
+        },
+        error: function (data, exception) {
+            alert(data.responseText);
+        }
+    });
+}
+
+function request_get_single(id) {
+    start_loading_animation();
+
+    $.ajax({
+        url: "/api/rm/get_single",
+        data: {
+            "id": id,
+        },
+        success: function (data) {
+            stop_loading_animation();
+
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                let obj = JSON.parse(json.obj);
+
+                if (obj.type === "col") {
+                    apply_single_col_rm(obj);
+                }
+                else if (obj.type === "row") {
+                    apply_single_row_rm(obj);
+                }
             }
         },
         error: function (data, exception) {
@@ -385,40 +473,40 @@ function hide_row_rm_ui_modal() {
     $("#row-rm-ui-modal").fadeOut(100);
     $("#spanner").fadeOut(100);
 
-    $("#add-rows-container").empty();
+    $("#when-rows-container").empty();
     $("#then-container").empty();
     $("html, body").animate({scrollTop: last_scroll_y}, "slow");
 }
 
-function add_new_row_container() {
-    let html = "<div class='add-new-row-container'>\n" +
+function add_when_row() {
+    let html = "<div class='when-row-container'>\n" +
         "<div class='dropdown'>\n" +
-            "<button class='btn btn-primary dropdown-toggle pick-col-button' type='button' data-toggle='dropdown'\n" +
-                "aria-haspopup='true' aria-expanded='false'>\n" +
-                "<i class='fas fa-caret-down'></i><span class='sel-name'>Spalte auswählen</span>\n" +
-            "</button>\n" +
+        "<button class='btn btn-primary dropdown-toggle pick-col-button' type='button' data-toggle='dropdown'\n" +
+        "aria-haspopup='true' aria-expanded='false'>\n" +
+        "<i class='fas fa-caret-down'></i><span class='sel-name'>Spalte auswählen</span>\n" +
+        "</button>\n" +
 
-            "<div class='dropdown-menu row-cols-dropdown' aria-labelledby='pick-col-button'>\n" +
-            "</div>\n" +
+        "<div class='dropdown-menu row-cols-dropdown' aria-labelledby='pick-col-button'>\n" +
+        "</div>\n" +
 
         "</div>\n" +
 
         "<div class='dropdown'>\n" +
-            "<button class='btn btn-primary dropdown-toggle pick-when-condition' type='button' data-toggle='dropdown'\n" +
-                "aria-haspopup='true' aria-expanded='false'>\n" +
-                "<i class='fas fa-caret-down'></i><span class='sel-name'>WHEN</span>\n" +
-            "</button>\n" +
-            "<div class='dropdown-menu when-dropdown' aria-labelledby='pick-when-condition'>\n" +
-                "<a class='dropdown-item when-is' href='#'>IS</a>\n" +
-                "<a class='dropdown-item when-is' href='#'>CONTAINS</a>\n" +
-            "</div>\n" +
+        "<button class='btn btn-primary dropdown-toggle pick-when-condition' type='button' data-toggle='dropdown'\n" +
+        "aria-haspopup='true' aria-expanded='false'>\n" +
+        "<i class='fas fa-caret-down'></i><span class='sel-name'>WHEN</span>\n" +
+        "</button>\n" +
+        "<div class='dropdown-menu when-dropdown' aria-labelledby='pick-when-condition'>\n" +
+        "<a class='dropdown-item when-is' href='#'>IS</a>\n" +
+        "<a class='dropdown-item when-is' href='#'>CONTAINS</a>\n" +
+        "</div>\n" +
         "</div>\n" +
         "<input type='text' class='form-control when-value'>" +
         "<i class='fas fa-times delete'>" +
         "</div>";
 
-    $("#add-rows-container").append(html);
-    let last_added = $($("#add-rows-container").children()[$("#add-rows-container").children().length-1]);
+    $("#when-rows-container").append(html);
+    let last_added = $($("#when-rows-container").children()[$("#when-rows-container").children().length - 1]);
 
     let columns = $("#head-tr").find(".col-name-container p");
 
@@ -442,14 +530,14 @@ function add_new_row_container() {
 
 function add_or_sep() {
     let html = "<div class='or-sep-container'>" +
-            "<div class='line-l'></div>" +
-            "<p>oder</p>" +
-            "<div class='line-r'></div>" +
-            "<i class='fas fa-times delete'>" +
+        "<div class='line-l'></div>" +
+        "<p>oder</p>" +
+        "<div class='line-r'></div>" +
+        "<i class='fas fa-times delete'>" +
         "</div>";
 
-    $("#add-rows-container").append(html);
-    let last_added = $($("#add-rows-container").children()[$("#add-rows-container").children().length-1]);
+    $("#when-rows-container").append(html);
+    let last_added = $($("#when-rows-container").children()[$("#when-rows-container").children().length - 1]);
     last_added.find(".delete").click(function (e) {
         last_added.remove();
     });
@@ -458,21 +546,21 @@ function add_or_sep() {
 function add_then_container() {
     let html = "<div class='add-then-container'>\n" +
         "<div class='dropdown'>\n" +
-            "<button class='btn btn-primary dropdown-toggle pick-col-button' type='button' data-toggle='dropdown'\n" +
-                "aria-haspopup='true' aria-expanded='false'>\n" +
-                "<i class='fas fa-caret-down'></i><span class='sel-name'>Spalte auswählen</span>\n" +
-            "</button>\n" +
+        "<button class='btn btn-primary dropdown-toggle pick-col-button' type='button' data-toggle='dropdown'\n" +
+        "aria-haspopup='true' aria-expanded='false'>\n" +
+        "<i class='fas fa-caret-down'></i><span class='sel-name'>Spalte auswählen</span>\n" +
+        "</button>\n" +
 
-            "<div class='dropdown-menu row-cols-dropdown' aria-labelledby='pick-col-button'>\n" +
-            "</div>\n" +
+        "<div class='dropdown-menu row-cols-dropdown' aria-labelledby='pick-col-button'>\n" +
+        "</div>\n" +
 
         "</div>\n" +
 
         "<div class='dropdown'>\n" +
-            "<button class='btn btn-primary dropdown-toggle pick-then-condition' type='button' data-toggle='dropdown'\n" +
-                "aria-haspopup='true' aria-expanded='false'>\n" +
-                "<i class='fas fa-caret-down'></i><span class='sel-name'>THEN</span>\n" +
-            "</button>\n" +
+        "<button class='btn btn-primary dropdown-toggle pick-then-condition' type='button' data-toggle='dropdown'\n" +
+            "aria-haspopup='true' aria-expanded='false'>\n" +
+            "<i class='fas fa-caret-down'></i><span class='sel-name'>THEN</span>\n" +
+        "</button>\n" +
             "<div class='dropdown-menu then-dropdown' aria-labelledby='pick-then-condition'>\n" +
                 "<a class='dropdown-item then-apply' href='#'>APPLY</a>\n" +
                 "<a class='dropdown-item then-replace' href='#'>SCRIPT</a>\n" +
@@ -483,7 +571,7 @@ function add_then_container() {
         "</div>";
 
     $("#then-container").append(html);
-    let last_added = $($("#then-container").children()[$("#then-container").children().length-1]);
+    let last_added = $($("#then-container").children()[$("#then-container").children().length - 1]);
 
     let columns = $("#head-tr").find(".col-name-container p");
 
@@ -514,9 +602,9 @@ function add_rm_col_item(item) {
     let html = "<div class='rm-col-item' id='" + item.id + "'>" +
         "<i class='far fa-trash-alt rm-delete'></i>" +
         "<div class='inline'>" +
-            "<p class='type " + type_class + "'>" + item.type + "</p>"+
-            "<p class='name'>" + item.name + "</p>"+
-        "</div>"+
+        "<p class='type " + type_class + "'>" + item.type + "</p>" +
+        "<p class='name'>" + item.name + "</p>" +
+        "</div>" +
         "</div>";
 
     $("#rm-list").append(html);
@@ -601,15 +689,15 @@ function register_row_rm_events() {
     });
 
     $("#add-row-button").on("click." + $("#namespace").attr("ns"), function (e) {
-       add_new_row_container();
+        add_when_row();
     });
 
     $("#add-or-sep-button").on("click." + $("#namespace").attr("ns"), function (e) {
-       add_or_sep();
+        add_or_sep();
     });
 
     $("#add-then-button").on("click." + $("#namespace").attr("ns"), function (e) {
-       add_then_container();
+        add_then_container();
     });
 
     $("#row-rm-ui-modal #save-button").click(function (e) {
@@ -680,49 +768,35 @@ $(document).on("click." + $("#namespace").attr("ns"), ".col-name-container", fun
     });
 });
 
-$(document).on("click." + $("#namespace").attr("ns"), ".col-rm-dropdown .dropdown-item", function (e) {
-    e.preventDefault();
-    selected_col_rm_name = $(this);
-    $("#select-col-button #sel-name").text($(this)[0].innerText);
-});
+$(document).on("click." + $("#namespace").attr("ns"),
+    ".col-rm-dropdown .dropdown-item", function (e) {
+        e.preventDefault();
+        selected_col_rm_name = $(this);
+        $("#select-col-button .sel-name").text($(this)[0].innerText);
+    });
 
-$(document).on("click." + $("#namespace").attr("ns"), ".row-cols-dropdown .dropdown-item", function (e) {
-    e.preventDefault();
-    $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
-    $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
-});
+$(document).on("click." + $("#namespace").attr("ns"),
+    ".row-cols-dropdown .dropdown-item", function (e) {
+        e.preventDefault();
+        $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
+        $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
+    });
 
-$(document).on("click." + $("#namespace").attr("ns"), ".when-dropdown .dropdown-item", function (e) {
-    e.preventDefault();
-    $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
-});
+$(document).on("click." + $("#namespace").attr("ns"),
+    ".when-dropdown .dropdown-item", function (e) {
+        e.preventDefault();
+        $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
+    });
 
-$(document).on("click." + $("#namespace").attr("ns"), ".then-dropdown .dropdown-item", function (e) {
-    e.preventDefault();
-    $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
-});
+$(document).on("click." + $("#namespace").attr("ns"),
+    ".then-dropdown .dropdown-item", function (e) {
+        e.preventDefault();
+        $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
+    });
 
 $(document).on("click." + $("#namespace").attr("ns"), ".rm-col-item", function (e) {
     e.preventDefault();
-    edit_rm_id = $(this).attr("id");
-    show_col_rm_ui_modal();
-
-    $("#col-rm-ui-modal #edit-mode").text("bearbeiten");
-    $("#select-col-button #sel-name").text($(".rm-col-item .subject-name").text());
-    $("#col-when-value").val($(".condition-value.when").text());
-    $("#col-then-value").val($(".condition-value.then").text());
-
-    if ($(".condition-type.when").text() === "IS") {
-        $("#when-is").addClass("btn-selected");
-    } else {
-        $("#when-contains").addClass("btn-selected");
-    }
-
-    if ($(".condition-type.then").text() === "APPLY") {
-        $("#then-apply").addClass("btn-selected");
-    } else {
-        $("#then-replace").addClass("btn-selected");
-    }
+    request_get_single($(this).attr("id"));
 });
 
 $(document).on("click." + $("#namespace").attr("ns"), ".rm-delete", function (e) {

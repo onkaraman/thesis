@@ -57,7 +57,7 @@ def request_to_col_rm(request, id=None):
         try:
             ffc = FinalFusionColumn.objects.get(pk=subject_id)
             rm.rule_type = "col"
-            rm.subjects = json.dumps([ffc.pk])
+            rm.col_subject = json.dumps([ffc.pk])
 
             if ((when_is and not when_contains) or (not when_is and when_contains)) \
                     and ((then_apply and not then_replace) or (not then_apply and then_replace)):
@@ -113,15 +113,15 @@ def data_to_row_rm(when_data, then_data):
     then_cases = []
 
     for wd in when_data:
-        if len(FinalFusionColumn.objects.filter(pk=wd["id"])) == 1 \
-                and (wd["condition"] == "IS" or wd["condition"] == "CONTAINS") \
-                and len(wd["value"]) > 0:
+        ffc = FinalFusionColumn.objects.filter(pk=wd["id"])
+        if len(ffc) == 1 and (wd["condition"] == "IS" or wd["condition"] == "CONTAINS") and len(wd["value"]) > 0:
+            wd["ffc_name"] = ffc[0].display_column_name
             if_cond.append(wd)
 
     for td in then_data:
-        if len(FinalFusionColumn.objects.filter(pk=td["id"])) == 1 \
-                and (td["action"] == "APPLY" or td["condition"] == "SCRIPT") \
-                and len(td["value"]) > 0:
+        ffc = FinalFusionColumn.objects.filter(pk=td["id"])
+        if len(ffc) == 1 and (td["action"] == "APPLY" or td["condition"] == "SCRIPT") and len(td["value"]) > 0:
+            td["ffc_name"] = ffc[0].display_column_name
             then_cases.append(td)
 
     rm.final_fusion = FinalFusionColumn.objects.get(id=when_data[0]["id"]).final_fusion
@@ -212,4 +212,35 @@ def render_all_rm(request):
     return HttpResponse(json.dumps({
         "success": success,
         "items": json.dumps(ret)
+    }))
+
+
+def render_single(request):
+    """
+    render_single
+    """
+    success = False
+    single = None
+
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user and "id" in request.GET and ArgsChecker.is_number(request.GET["id"]):
+        try:
+            rm = RuleModule.objects.get(pk=request.GET["id"], archived=False)
+            success = True
+            single = {
+                "name": rm.name,
+                "type": rm.rule_type,
+                "if_conditions": rm.if_conditions,
+                "then_cases": rm.then_cases
+            }
+
+            if rm.rule_type == "col":
+                single["col_subject"] =\
+                    FinalFusionColumn.objects.get(pk=json.loads(rm.col_subject)[0]).display_column_name,
+        except ObjectDoesNotExist:
+            pass
+
+    return HttpResponse(json.dumps({
+        "success": success,
+        "obj": json.dumps(single)
     }))
