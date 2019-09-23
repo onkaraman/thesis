@@ -14,7 +14,9 @@ function apply_single_col_rm(obj) {
 
     show_col_rm_ui_modal();
     $("#col-rm-ui-modal #edit-mode").text("bearbeiten");
-    $("#select-col-button .sel-name").text(obj.col_subject);
+    $("#select-col-button .sel-name").text(obj.col_subject_name);
+    $("#select-col-button .sel-name").attr("id", obj.col_subject_id);
+
     $("#col-when-value").val(if_conditions[Object.keys(if_conditions)[0]]);
     $("#col-then-value").val(then_cases[Object.keys(then_cases)[0]]);
 
@@ -37,11 +39,7 @@ function apply_single_row_rm(obj) {
 
     show_row_rm_ui_modal();
     $("#row-rm-ui-modal #edit-mode").text("bearbeiten");
-
-    $("#col-rm-ui-modal #edit-mode").text("bearbeiten");
-    $("#select-col-button .sel-name").text(obj.col_subject);
-    $("#col-when-value").val(if_conditions[Object.keys(if_conditions)[0]]);
-    $("#col-then-value").val(then_cases[Object.keys(then_cases)[0]]);
+    $("#row-rm-ui-modal .save-button").addClass("edit");
 
     for (let i=0; i<if_conditions.length; i+=1) {
         add_when_row();
@@ -192,6 +190,39 @@ function request_create_col_rm() {
     });
 }
 
+function request_edit_col_rm() {
+    start_loading_animation();
+
+    $.ajax({
+        url: "/api/rm/edit/col",
+        data: {
+            "id": edit_rm_id,
+            "subject_id": $("#select-col-button .sel-name").attr("id"),
+            "when_is": $("#when-is").hasClass("btn-selected"),
+            "when_contains": $("#when-contains").hasClass("btn-selected"),
+            "when_value": $("#col-when-value").val(),
+            "then_apply": $("#then-apply").hasClass("btn-selected"),
+            "then_replace": $("#then-replace").hasClass("btn-selected"),
+            "then_value": $("#col-then-value").val(),
+        },
+        success: function (data) {
+            stop_loading_animation();
+            $("#col-rm-ui-modal #save-button").prop("disabled", false);
+
+            let json = JSON.parse(data);
+            if (json.success) {
+                hide_col_rm_ui_modal();
+                request_get_all_rm();
+            }
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+            $("#col-rm-ui-modal #save-button").prop("disabled", false);
+            alert(data.responseText);
+        }
+    });
+}
+
 function request_create_row_rm() {
     start_loading_animation();
 
@@ -225,7 +256,7 @@ function request_create_row_rm() {
         },
         success: function (data) {
             stop_loading_animation();
-            $("#row-rm-ui-modal #save-button").prop("disabled", false);
+            $("#row-rm-ui-modal .save-button").prop("disabled", false);
 
             let json = JSON.parse(data);
             if (json.success) {
@@ -235,44 +266,57 @@ function request_create_row_rm() {
         },
         error: function (data, exception) {
             stop_loading_animation();
-            $("#row-rm-ui-modal #save-button").prop("disabled", false);
+            $("#row-rm-ui-modal .save-button").prop("disabled", false);
             alert(data.responseText);
         }
     });
 }
 
-function request_edit_col_rm() {
+function request_edit_row_rm() {
     start_loading_animation();
 
-    let subject_id = 0;
-    if (selected_col_rm_name != null)
-        subject_id = selected_col_rm_name.attr("id");
+    // Get when items
+    let when_data = [];
+    let when_items = $(".when-row-container");
+
+    for (let i = 0; i < when_items.length; i += 1) {
+        when_data.push({
+            "id": $(when_items[i]).find(".pick-col-button .sel-name").attr("id"),
+            "condition": $(when_items[i]).find(".pick-when-condition").text().trim(),
+            "value": $(when_items[i]).find(".when-value").val().trim()
+        })
+    }
+
+    let then_data = [];
+    let then_items = $("#then-container");
+    for (let i = 0; i < then_items.length; i += 1) {
+        then_data.push({
+            "id": $(then_items[i]).find(".pick-col-button .sel-name").attr("id"),
+            "action": $(then_items[i]).find(".pick-then-condition").text().trim(),
+            "value": $(then_items[i]).find(".then-value").val().trim()
+        })
+    }
 
     $.ajax({
-        url: "/api/rm/edit",
+        url: "/api/rm/edit/row",
         data: {
             "id": edit_rm_id,
-            "subject_id": subject_id,
-            "when_is": $("#when-is").hasClass("btn-selected"),
-            "when_contains": $("#when-contains").hasClass("btn-selected"),
-            "when_value": $("#col-when-value").val(),
-            "then_apply": $("#then-apply").hasClass("btn-selected"),
-            "then_replace": $("#then-replace").hasClass("btn-selected"),
-            "then_value": $("#col-then-value").val(),
+            "when_data": JSON.stringify(when_data),
+            "then_data": JSON.stringify(then_data)
         },
         success: function (data) {
             stop_loading_animation();
-            $("#col-rm-ui-modal #save-button").prop("disabled", false);
+            $("#row-rm-ui-modal .save-button").prop("disabled", false);
 
             let json = JSON.parse(data);
             if (json.success) {
-                hide_col_rm_ui_modal();
+                hide_row_rm_ui_modal();
                 request_get_all_rm();
             }
         },
         error: function (data, exception) {
             stop_loading_animation();
-            $("#col-rm-ui-modal #save-button").prop("disabled", false);
+            $("#row-rm-ui-modal .save-button").prop("disabled", false);
             alert(data.responseText);
         }
     });
@@ -665,7 +709,7 @@ function register_col_rm_events() {
         $("#then-apply").removeClass("btn-selected");
     });
 
-    $("#col-rm-ui-modal #save-button").click(function (e) {
+    $("#col-rm-ui-modal .save-button").click(function (e) {
         $(this).prop("disabled", true);
 
         if (edit_rm_id !== null) request_edit_col_rm();
@@ -700,10 +744,10 @@ function register_row_rm_events() {
         add_then_container();
     });
 
-    $("#row-rm-ui-modal #save-button").click(function (e) {
+    $("#row-rm-ui-modal .save-button").click(function (e) {
         $(this).prop("disabled", true);
-
-        request_create_row_rm();
+        if ($(this).hasClass("edit")) request_edit_row_rm();
+        else request_create_row_rm();
     });
 
 }
@@ -796,6 +840,7 @@ $(document).on("click." + $("#namespace").attr("ns"),
 
 $(document).on("click." + $("#namespace").attr("ns"), ".rm-col-item", function (e) {
     e.preventDefault();
+    edit_rm_id = $(this).attr("id");
     request_get_single($(this).attr("id"));
 });
 

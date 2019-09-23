@@ -51,7 +51,6 @@ def request_to_col_rm(request, id=None):
     rm = RuleModule()
     if id:
         rm = RuleModule.objects.get(pk=id)
-        subject_id = json.loads(rm.subjects)[0]
 
     if len(when_value) > 0 and len(then_value) > 0:
         try:
@@ -101,13 +100,16 @@ def do_create_col_rm(request):
     return HttpResponse(json.dumps({"success": success}))
 
 
-def data_to_row_rm(when_data, then_data):
+def data_to_row_rm(when_data, then_data, existing_id):
     """
     data_to_row_rm
     """
     rm = RuleModule()
-    rm.name = "Zeilenregel %d " % (len(when_data) + len(then_data))
-    rm.rule_type = "row"
+    if existing_id:
+        rm = RuleModule.objects.get(pk=existing_id)
+    else:
+        rm.name = "Zeilenregel %d " % (len(when_data) + len(then_data))
+        rm.rule_type = "row"
 
     if_cond = []
     then_cases = []
@@ -169,9 +171,9 @@ def do_delete_rm(request):
     return HttpResponse(json.dumps({"success": success}))
 
 
-def do_save_edit(request):
+def do_save_edit_col(request):
     """
-    do_save_edit
+    do_save_edit_col
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -182,6 +184,26 @@ def do_save_edit(request):
         rm.save()
         if rm:
             success = True
+
+    return HttpResponse(json.dumps({"success": success}))
+
+
+def do_save_edit_row(request):
+    """
+    do_save_edit_col
+    """
+    success = False
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user and "id" in request.GET and ArgsChecker.is_number(request.GET["id"]):
+
+        try:
+            when_data = json.loads(request.GET["when_data"])
+            then_data = json.loads(request.GET["then_data"])
+            rm = data_to_row_rm(when_data, then_data, request.GET["id"])
+            if rm:
+                success = True
+        except TypeError:
+            print("do_create_row_rm: TypeError")
 
     return HttpResponse(json.dumps({"success": success}))
 
@@ -235,8 +257,9 @@ def render_single(request):
             }
 
             if rm.rule_type == "col":
-                single["col_subject"] =\
-                    FinalFusionColumn.objects.get(pk=json.loads(rm.col_subject)[0]).display_column_name,
+                ffc = FinalFusionColumn.objects.get(pk=json.loads(rm.col_subject)[0])
+                single["col_subject_name"] = ffc.display_column_name
+                single["col_subject_id"] = ffc.pk
         except ObjectDoesNotExist:
             pass
 

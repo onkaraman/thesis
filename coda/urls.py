@@ -56,7 +56,8 @@ urlpatterns = [
 
     # RM API
     url(r'^api/rm/create/col/$', rm_v.do_create_col_rm),
-    url(r'^api/rm/edit/$', rm_v.do_save_edit),
+    url(r'^api/rm/edit/col/$', rm_v.do_save_edit_col),
+    url(r'^api/rm/edit/row/$', rm_v.do_save_edit_row),
     url(r'^api/rm/delete/$', rm_v.do_delete_rm),
     url(r'^api/rm/get_single/$', rm_v.render_single),
     url(r'^api/rm/get_all/$', rm_v.render_all_rm),
