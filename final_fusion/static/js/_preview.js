@@ -337,6 +337,7 @@ function hide_row_rm_ui_modal() {
     $("#spanner").fadeOut(100);
 
     $("#add-rows-container").empty();
+    $("#then-container").empty();
     $("html, body").animate({scrollTop: last_scroll_y}, "slow");
 }
 
@@ -400,6 +401,56 @@ function add_or_sep() {
 
     $("#add-rows-container").append(html);
     let last_added = $($("#add-rows-container").children()[$("#add-rows-container").children().length-1]);
+    last_added.find(".delete").click(function (e) {
+        last_added.remove();
+    });
+}
+
+function add_then_container() {
+    let html = "<div class='add-then-container'>\n" +
+        "<div class='dropdown'>\n" +
+            "<button class='btn btn-primary dropdown-toggle pick-col-button' type='button' data-toggle='dropdown'\n" +
+                "aria-haspopup='true' aria-expanded='false'>\n" +
+                "<i class='fas fa-caret-down'></i><span class='sel-name'>Spalte auswählen</span>\n" +
+            "</button>\n" +
+
+            "<div class='dropdown-menu row-cols-dropdown' aria-labelledby='pick-col-button'>\n" +
+            "</div>\n" +
+
+        "</div>\n" +
+
+        "<div class='dropdown'>\n" +
+            "<button class='btn btn-primary dropdown-toggle pick-then-condition' type='button' data-toggle='dropdown'\n" +
+                "aria-haspopup='true' aria-expanded='false'>\n" +
+                "<i class='fas fa-caret-down'></i><span class='sel-name'>THEN</span>\n" +
+            "</button>\n" +
+            "<div class='dropdown-menu then-dropdown' aria-labelledby='pick-then-condition'>\n" +
+                "<a class='dropdown-item then-apply' href='#'>APPLY</a>\n" +
+                "<a class='dropdown-item then-replace' href='#'>SCRIPT</a>\n" +
+            "</div>\n" +
+        "</div>\n" +
+        "<input type='text' class='form-control then-value'>" +
+        "<i class='fas fa-times delete'>" +
+        "</div>";
+
+    $("#then-container").append(html);
+    let last_added = $($("#then-container").children()[$("#then-container").children().length-1]);
+
+    let columns = $("#head-tr").find(".col-name-container p");
+
+    last_added.find(".row-cols-dropdown").empty();
+    for (let i = 0; i < columns.length; i += 1) {
+        let name = $(columns[i])[0].innerText;
+        let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
+
+        last_added.find(".row-cols-dropdown").append("<a class='dropdown-item' href='#' id='" + id + "'>" + name + "</a>");
+    }
+
+    last_added.find(".row-cols-dropdown .dropdown-item").click(function (e) {
+        $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
+        $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
+    });
+
     last_added.find(".delete").click(function (e) {
         last_added.remove();
     });
@@ -500,12 +551,16 @@ function register_row_rm_events() {
         hide_row_rm_ui_modal();
     });
 
-    $("#add-row-button").click(function (e) {
+    $("#add-row-button").on("click." + $("#namespace").attr("ns"), function (e) {
        add_new_row_container();
     });
 
-    $("#add-or-sep-button").click(function (e) {
+    $("#add-or-sep-button").on("click." + $("#namespace").attr("ns"), function (e) {
        add_or_sep();
+    });
+
+    $("#add-then-button").on("click." + $("#namespace").attr("ns"), function (e) {
+       add_then_container();
     });
 
 }
@@ -583,6 +638,11 @@ $(document).on("click." + $("#namespace").attr("ns"), ".row-cols-dropdown .dropd
 });
 
 $(document).on("click." + $("#namespace").attr("ns"), ".when-dropdown .dropdown-item", function (e) {
+    e.preventDefault();
+    $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
+});
+
+$(document).on("click." + $("#namespace").attr("ns"), ".then-dropdown .dropdown-item", function (e) {
     e.preventDefault();
     $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
 });

@@ -37,6 +37,12 @@
     margin-top: 17px;
 }
 
+#add-rows-container {
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 #add-buttons-inline {
     display: inline-flex;
     margin-top: 13px;
@@ -44,8 +50,7 @@
 
 #add-row-button {
     display: block;
-    padding: 3px 8px;
-    width: 81px;
+    padding: 3px 11px;
 }
 
 #add-row-button i {
@@ -92,7 +97,7 @@
 
 .or-sep-container .line-r {
     border-top: 2px solid grey;
-    width: 270px;
+    width: 255px;
     margin-top: 12px;
     margin-left: 10px;
     margin-right: 7px;
@@ -154,7 +159,7 @@
     height: 32px;
     margin-top: 10px;
     margin-left: 8px;
-    width: 232px;
+    width: 216px;
 }
 
 .add-new-row-container .delete {
@@ -172,4 +177,86 @@
     margin-top: 33px;
     width: 100%;
     margin-bottom: 8px;
+}
+
+#add-then-button {
+    display: block;
+    margin-top: 12px;
+    padding: 3px 24px;
+    background-color: #d4cdc8;
+    min-width: 108px;
+}
+
+#add-then-button:hover {
+    background-color: #c47523;
+}
+
+#add-then-button i {
+    margin-right: 10px;
+    margin-left: -24px;
+}
+
+#then-container {
+    margin-top: 10px;
+}
+
+.add-then-container {
+    display: inline-flex;
+    max-width: -webkit-fill-available;
+}
+
+.add-then-container .pick-col-button {
+    width: 220px;
+    padding: 3px 20px;
+    margin-top: 10px;
+    background-color: #ca8634;
+    border-color: #d88c00;
+}
+
+.add-then-container .pick-col-button:hover {
+    background-color: #bc7c30;
+}
+
+.add-then-container .open > .dropdown-menu {
+    width: 220px;
+}
+
+.add-then-container .pick-col-button i {
+    margin-right: 10px;
+}
+
+.add-then-container .pick-then-condition {
+    min-width: 110px;
+    padding: 3px 11px;
+    margin-top: 10px;
+    margin-left: 7px;
+    background-color: #bf602b;
+    border-color: #a75222;
+}
+
+.add-then-container .pick-then-condition:hover {
+    background-color: #ad572a;
+}
+
+.add-then-container .pick-then-condition i {
+    margin-right: 7px;
+}
+
+.add-then-container .then-value {
+    height: 32px;
+    margin-top: 10px;
+    margin-left: 8px;
+    width: 216px;
+}
+
+
+.add-then-container .delete {
+    margin-top: 17px;
+    font-size: 17px;
+    margin-left: 13px;
+    cursor: pointer;
+}
+
+.add-then-container .delete:hover {
+    color: var(--red-contrast)
 }

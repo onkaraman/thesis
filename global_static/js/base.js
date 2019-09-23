@@ -53,7 +53,7 @@ function is_valid_email(emailAddress) {
 }
 
 function unbind_methods_with_namespace(ns) {
-    let events = $._data( $(document)[0], "events" );
+    let events = $._data($(document)[0], "events");
     for (let property in events) {
         for (let item in events[property]) {
 
