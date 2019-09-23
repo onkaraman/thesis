@@ -13,7 +13,7 @@ class RuleModule(models.Model):
     final_fusion = models.ForeignKey(FinalFusion, on_delete=models.CASCADE)
 
     rule_type = models.CharField(max_length=10)
-    subjects = models.CharField(max_length=200)
+    subjects = models.CharField(max_length=200, null=True)
     if_conditions = models.CharField(max_length=200)
     then_cases = models.CharField(max_length=200)
 

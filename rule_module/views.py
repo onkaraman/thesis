@@ -21,9 +21,9 @@ def convert_request_bool_values(get_params):
     return d
 
 
-def rule_condition_check(request):
+def col_rule_condition_check(request):
     """
-    rule_condition_check
+    col_rule_condition_check
     """
     if "when_is" in request.GET and "when_contains" in request.GET \
             and "when_value" in request.GET and not ArgsChecker.str_is_malicious(request.GET["when_value"]) \
@@ -34,9 +34,9 @@ def rule_condition_check(request):
     return False
 
 
-def request_to_rm(request, id=None):
+def request_to_col_rm(request, id=None):
     """
-    request_to_rm
+    request_to_col_rm
     """
     get_params = convert_request_bool_values(request.GET)
 
@@ -92,11 +92,61 @@ def do_create_col_rm(request):
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
-    if valid_user and rule_condition_check(request):
-        rm = request_to_rm(request)
+    if valid_user and col_rule_condition_check(request):
+        rm = request_to_col_rm(request)
         rm.save()
         if rm:
             success = True
+
+    return HttpResponse(json.dumps({"success": success}))
+
+
+def data_to_row_rm(when_data, then_data):
+    """
+    data_to_row_rm
+    """
+    rm = RuleModule()
+    rm.name = "Zeilenregel %d " % (len(when_data) + len(then_data))
+    rm.rule_type = "row"
+
+    if_cond = []
+    then_cases = []
+
+    for wd in when_data:
+        if len(FinalFusionColumn.objects.filter(pk=wd["id"])) == 1 \
+                and (wd["condition"] == "IS" or wd["condition"] == "CONTAINS") \
+                and len(wd["value"]) > 0:
+            if_cond.append(wd)
+
+    for td in then_data:
+        if len(FinalFusionColumn.objects.filter(pk=td["id"])) == 1 \
+                and (td["action"] == "APPLY" or td["condition"] == "SCRIPT") \
+                and len(td["value"]) > 0:
+            then_cases.append(td)
+
+    rm.final_fusion = FinalFusionColumn.objects.get(id=when_data[0]["id"]).final_fusion
+    rm.if_conditions = json.dumps(if_cond)
+    rm.then_cases = json.dumps(then_cases)
+    rm.save()
+    return rm
+
+
+def do_create_row_rm(request):
+    """
+    do_create_row_rm
+    """
+    success = False
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user and "when_data" in request.GET and "then_data" in request.GET:
+
+        try:
+            when_data = json.loads(request.GET["when_data"])
+            then_data = json.loads(request.GET["then_data"])
+            rm = data_to_row_rm(when_data, then_data)
+            if rm:
+                success = True
+        except TypeError:
+            print("do_create_row_rm: TypeError")
 
     return HttpResponse(json.dumps({"success": success}))
 
@@ -126,9 +176,9 @@ def do_save_edit(request):
     success = False
     valid_user = token_checker.token_is_valid(request)
     if valid_user and "id" in request.GET and ArgsChecker.is_number(request.GET["id"]) \
-            and rule_condition_check(request):
+            and col_rule_condition_check(request):
 
-        rm = request_to_rm(request, request.GET["id"])
+        rm = request_to_col_rm(request, request.GET["id"])
         rm.save()
         if rm:
             success = True
@@ -157,18 +207,7 @@ def render_all_rm(request):
                 "type": rm.rule_type
             }
 
-            if rm.rule_type == "col":
-                item["subject_name"] = FinalFusionColumn.objects.get(pk=json.loads(rm.subjects)[0]).display_column_name
-
-                col_if_condition = json.loads(rm.if_conditions)
-                item["when_type"] = list(col_if_condition.keys())[0].upper().split("_")[1]
-                item["when_value"] = col_if_condition[list(col_if_condition.keys())[0]]
-
-                then_case = json.loads(rm.then_cases)
-                item["then_type"] = list(then_case.keys())[0].upper().split("_")[1]
-                item["then_value"] = then_case[list(then_case.keys())[0]]
-
-                ret.append(item)
+            ret.append(item)
 
     return HttpResponse(json.dumps({
         "success": success,

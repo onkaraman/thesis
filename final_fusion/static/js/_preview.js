@@ -134,6 +134,55 @@ function request_create_col_rm() {
     });
 }
 
+function request_create_row_rm() {
+    start_loading_animation();
+
+    // Get when items
+    let when_data = [];
+    let when_items = $(".add-new-row-container");
+
+    for (let i=0; i<when_items.length; i+=1) {
+        when_data.push({
+            "id": $(when_items[i]).find(".pick-col-button .sel-name").attr("id"),
+            "condition": $(when_items[i]).find(".pick-when-condition").text().trim(),
+            "value": $(when_items[i]).find(".when-value").val().trim()
+        })
+    }
+
+    let then_data = [];
+    let then_items = $("#then-container");
+    for (let i=0; i<then_items.length; i+=1) {
+        then_data.push({
+            "id": $(then_items[i]).find(".pick-col-button .sel-name").attr("id"),
+            "action": $(then_items[i]).find(".pick-then-condition").text().trim(),
+            "value": $(then_items[i]).find(".then-value").val().trim()
+        })
+    }
+
+    $.ajax({
+        url: "/api/rm/create/row",
+        data: {
+            "when_data": JSON.stringify(when_data),
+            "then_data": JSON.stringify(then_data)
+        },
+        success: function (data) {
+            stop_loading_animation();
+            $("#row-rm-ui-modal #save-button").prop("disabled", false);
+
+            let json = JSON.parse(data);
+            if (json.success) {
+                hide_row_rm_ui_modal();
+                request_get_all_rm();
+            }
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+            $("#row-rm-ui-modal #save-button").prop("disabled", false);
+            alert(data.responseText);
+        }
+    });
+}
+
 function request_edit_col_rm() {
     start_loading_animation();
 
@@ -182,7 +231,7 @@ function request_get_all_rm() {
             let json = JSON.parse(data);
             if (json.success) {
                 JSON.parse(json.items).forEach(function (item) {
-                    if (item.type === "col") add_rm_col_item(item);
+                    add_rm_col_item(item);
                 });
             }
         },
@@ -457,17 +506,17 @@ function add_then_container() {
 }
 
 function add_rm_col_item(item) {
+    let type_class = "col-type";
+    if (item.type === "row") {
+        type_class = "row-type";
+    }
+
     let html = "<div class='rm-col-item' id='" + item.id + "'>" +
         "<i class='far fa-trash-alt rm-delete'></i>" +
-        "<p class='name'>" + item.name + "</p>" +
-        "<p class='when-title'>Wenn</p>" +
-        "<p class='subject-name'>" + item.subject_name + "</p>" +
-        "<div class='inline'><p class='condition-type when'>" + item.when_type + "</p>\n" +
-        "<p class='condition-value when'>" + item.when_value + "</p></div>" +
-        "\n" +
-        "<p class='then-title'>Dann</p>\n" +
-        "<div class='inline'><p class='condition-type then'>" + item.then_type + "</p>" +
-        "<p class='condition-value then'>" + item.then_value + "</p></div>" +
+        "<div class='inline'>" +
+            "<p class='type " + type_class + "'>" + item.type + "</p>"+
+            "<p class='name'>" + item.name + "</p>"+
+        "</div>"+
         "</div>";
 
     $("#rm-list").append(html);
@@ -561,6 +610,12 @@ function register_row_rm_events() {
 
     $("#add-then-button").on("click." + $("#namespace").attr("ns"), function (e) {
        add_then_container();
+    });
+
+    $("#row-rm-ui-modal #save-button").click(function (e) {
+        $(this).prop("disabled", true);
+
+        request_create_row_rm();
     });
 
 }

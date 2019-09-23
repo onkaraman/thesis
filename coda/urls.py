@@ -10,6 +10,9 @@ from final_fusion_column import views as ffc_v
 from rule_module import views as rm_v
 
 
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', dashboard_v.render_dashboard),
@@ -17,44 +20,44 @@ urlpatterns = [
     url(r'^signup/$', user_profile_v.render_signup),
 
     # Includes
-    url(r'^include/user/settings', user_profile_v.i_render_settings),
-    url(r'^include/project/new', project_v.i_render_new_project),
-    url(r'^include/project/user_projects', project_v.i_render_user_projects),
-    url(r'^include/tq/import', tq_v.i_render_import),
-    url(r'^include/tq/view', tq_v.i_render_single_tq),
-    url(r'^include/tf/preview', ff_v.i_render_preview_tf),
+    url(r'^include/user/settings/$', user_profile_v.i_render_settings),
+    url(r'^include/project/new/$', project_v.i_render_new_project),
+    url(r'^include/project/user_projects/$', project_v.i_render_user_projects),
+    url(r'^include/tq/import/$', tq_v.i_render_import),
+    url(r'^include/tq/view/$', tq_v.i_render_single_tq),
+    url(r'^include/tf/preview/$', ff_v.i_render_preview_tf),
 
     # User API
-    url(r'^api/user/signup', user_profile_v.do_sign_up),
-    url(r'^api/user/login', user_profile_v.do_login),
-    url(r'^api/user/logout', user_profile_v.do_logout),
+    url(r'^api/user/signup/$', user_profile_v.do_sign_up),
+    url(r'^api/user/login/$', user_profile_v.do_login),
+    url(r'^api/user/logout/$', user_profile_v.do_logout),
 
     # Project API
-    url(r'^api/project/new', project_v.do_create_new),
-    url(r'^api/project/load', project_v.do_load),
-    url(r'^api/project/rename', project_v.do_rename),
-    url(r'^api/project/delete', project_v.do_delete_project),
+    url(r'^api/project/new/$', project_v.do_create_new),
+    url(r'^api/project/load/$', project_v.do_load),
+    url(r'^api/project/rename/$', project_v.do_rename),
+    url(r'^api/project/delete/$', project_v.do_delete_project),
 
     # TQ API
-    url(r'^api/tq/load', tq_v.render_all_tqs),
-    url(r'^api/tq/rename', tq_v.do_rename),
-    url(r'^api/tq/upload', tq_v.do_upload_tq),
-    url(r'^api/tq/delete', tq_v.do_delete),
-    url(r'^api/tq/view', tq_v.render_single_tq_table),
+    url(r'^api/tq/load/$', tq_v.render_all_tqs),
+    url(r'^api/tq/rename/$', tq_v.do_rename),
+    url(r'^api/tq/upload/$', tq_v.do_upload_tq),
+    url(r'^api/tq/delete/$', tq_v.do_delete),
+    url(r'^api/tq/view/$', tq_v.render_single_tq_table),
 
     # FFC API
-    url(r'^api/ffc/rename', ffc_v.do_rename),
+    url(r'^api/ffc/rename/$', ffc_v.do_rename),
 
     # TF/EF API
-    url(r'^api/tf/rename', ff_v.do_rename),
-    url(r'^api/ef/select_col', ff_v.do_select_column),
-    url(r'^api/tf/preview_table', ff_v.render_preview_table),
-    url(r'^api/tf/rm_preview_table', ff_v.render_preview_table_with_rm),
+    url(r'^api/tf/rename/$', ff_v.do_rename),
+    url(r'^api/ef/select_col/$', ff_v.do_select_column),
+    url(r'^api/tf/preview_table/$', ff_v.render_preview_table),
+    url(r'^api/tf/rm_preview_table/$', ff_v.render_preview_table_with_rm),
 
     # RM API
-    url(r'^api/rm/create/col', rm_v.do_create_col_rm),
-    url(r'^api/rm/edit', rm_v.do_save_edit),
-    url(r'^api/rm/delete', rm_v.do_delete_rm),
-    url(r'^api/rm/get_all', rm_v.render_all_rm),
+    url(r'^api/rm/create/col/$', rm_v.do_create_col_rm),
+    url(r'^api/rm/edit/$', rm_v.do_save_edit),
+    url(r'^api/rm/delete/$', rm_v.do_delete_rm),
+    url(r'^api/rm/get_all/$', rm_v.render_all_rm),
+    url(r'^api/rm/create/row/$', rm_v.do_create_row_rm),
 ]
-
