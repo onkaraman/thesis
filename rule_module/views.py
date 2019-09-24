@@ -7,6 +7,7 @@ from final_fusion.models import FinalFusion
 from final_fusion_column.models import FinalFusionColumn
 from rule_module.models import RuleModule
 from project.models import Project
+from rule_module import  rule_queue as rule_queue
 
 
 def convert_request_bool_values(get_params):
@@ -125,7 +126,8 @@ def data_to_row_rm(when_data, then_data, existing_id=None):
 
     for td in then_data:
         ffc = FinalFusionColumn.objects.filter(pk=td["id"])
-        if len(ffc) == 1 and (td["action"] == "APPLY" or td["action"] == "REPLACE") and len(td["value"]) > 0:
+        if len(ffc) == 1 and (td["action"] == rule_queue.APPLY
+                              or td["action"] == rule_queue.REPLACE) and len(td["value"]) > 0:
             td["ffc_name"] = ffc[0].display_column_name
             then_cases.append(td)
 

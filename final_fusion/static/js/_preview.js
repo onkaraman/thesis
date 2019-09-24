@@ -601,28 +601,31 @@ function add_or_sep() {
 }
 
 function add_then_container() {
-    let html = "<div class='add-then-container'>\n" +
-        "<div class='dropdown'>\n" +
-        "<button class='btn btn-primary dropdown-toggle pick-col-button' type='button' data-toggle='dropdown'\n" +
-        "aria-haspopup='true' aria-expanded='false'>\n" +
-        "<i class='fas fa-caret-down'></i><span class='sel-name'>Spalte auswählen</span>\n" +
-        "</button>\n" +
+    let html = "<div class='add-then-container'>" +
+        "<div class='cols-dropdown-container'>"+
+            "<div class='dropdown'>" +
+            "<button class='btn btn-primary dropdown-toggle pick-col-button' type='button' data-toggle='dropdown'" +
+            "aria-haspopup='true' aria-expanded='false'>" +
+            "<i class='fas fa-caret-down'></i><span class='sel-name'>Spalte auswählen</span>" +
+            "</button>" +
 
-        "<div class='dropdown-menu row-cols-dropdown' aria-labelledby='pick-col-button'>\n" +
-        "</div>\n" +
+            "<div class='dropdown-menu row-cols-dropdown' aria-labelledby='pick-col-button'>" +
+            "</div>" +
+            "<input type='text' class='form-control dyncol-value'>" +
+        "</div>"+
 
-        "</div>\n" +
+        "</div>" +
 
-        "<div class='dropdown'>\n" +
-        "<button class='btn btn-primary dropdown-toggle pick-then-condition' type='button' data-toggle='dropdown'\n" +
-            "aria-haspopup='true' aria-expanded='false'>\n" +
-            "<i class='fas fa-caret-down'></i><span class='sel-name'>THEN</span>\n" +
-        "</button>\n" +
-            "<div class='dropdown-menu then-dropdown' aria-labelledby='pick-then-condition'>\n" +
-                "<a class='dropdown-item then-apply' href='#'>APPLY</a>\n" +
-                "<a class='dropdown-item then-replace' href='#'>REPLACE</a>\n" +
-            "</div>\n" +
-        "</div>\n" +
+        "<div class='dropdown'>" +
+        "<button class='btn btn-primary dropdown-toggle pick-then-condition' type='button' data-toggle='dropdown'" +
+            "aria-haspopup='true' aria-expanded='false'>" +
+            "<i class='fas fa-caret-down'></i><span class='sel-name'>THEN</span>" +
+        "</button>" +
+            "<div class='dropdown-menu then-dropdown' aria-labelledby='pick-then-condition'>" +
+                "<a class='dropdown-item then-apply' href='#'>APPLY</a>" +
+                "<a class='dropdown-item then-replace' href='#'>REPLACE</a>" +
+            "</div>" +
+        "</div>" +
         "<div class='input-values'>"+
             "<input type='text' class='form-control then-value'>" +
             "<input type='text' class='form-control with-value'>" +
@@ -642,10 +645,16 @@ function add_then_container() {
 
         last_added.find(".row-cols-dropdown").append("<a class='dropdown-item' href='#' id='" + id + "'>" + name + "</a>");
     }
+    last_added.find(".row-cols-dropdown").append("<a class='dropdown-item' href='#' id='-1'>* Neue Spalte</a>");
 
     last_added.find(".row-cols-dropdown .dropdown-item").click(function (e) {
-        $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
-        $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
+        if (parseInt($(this).attr("id")) === -1) {
+            $(this).parent().parent().find(".dyncol-value").show();
+        } else {
+            $(this).parent().parent().find(".dyncol-value").hide();
+            $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
+            $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
+        }
     });
 
     last_added.find(".delete").click(function (e) {

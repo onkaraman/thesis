@@ -1,16 +1,19 @@
 import json
-from user_profile.models import UserProfile
 from project.models import Project
 from final_fusion.models import FinalFusion
 from final_fusion_column.models import FinalFusionColumn
 from rule_module.models import RuleModule
+
+# Condition names
+APPLY = "APPLY"
+REPLACE = "REPLACE"
+CONTAINS = "CONTAINS"
 
 
 class RuleQueue:
     """
     RuleQueue
     """
-
     def __init__(self, table):
         self.table = table
         self.rule_modules = []
@@ -79,16 +82,16 @@ class RuleQueue:
                                 if ic["ffc_name"] == tcn["short"]:
                                     col_val = row[tcn["long"]]
                                     if ic["condition"] == "IS" and col_val == ic["value"] \
-                                            or ic["condition"] == "CONTAINS" and ic["value"] in col_val:
+                                            or ic["condition"] == CONTAINS and ic["value"] in col_val:
                                         can_apply_then = True
                         if can_apply_then:
                             # Alle then cases übernehmen
                             for tc in then_cases:
                                 for tcn in trimmed_col_names:
                                     if tc["ffc_name"] == tcn["short"]:
-                                        if tc["action"] == "APPLY":
+                                        if tc["action"] == APPLY:
                                             row[tcn["long"]] = self.span_tag % tc["value"]
-                                        elif tc["action"] == "REPLACE":
+                                        elif tc["action"] == REPLACE:
                                             row[tcn["long"]] = row[tcn["long"]].replace(tc["value"],
                                                                                          self.span_tag %
                                                                                          tc["value_replace"])

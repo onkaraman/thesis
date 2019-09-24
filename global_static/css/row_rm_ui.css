@@ -273,3 +273,16 @@
 .add-then-container .delete:hover {
     color: var(--red-contrast)
 }
+
+.add-then-container .cols-dropdown-container {
+    width: min-content;
+}
+
+.dyncol-value {
+    display: none;
+    height: 32px;
+    margin-top: 7px;
+    width: 220px;
+    text-align: center;
+    border-bottom-color: #ffb862;
+}
