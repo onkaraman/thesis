@@ -100,7 +100,7 @@ def do_create_col_rm(request):
     return HttpResponse(json.dumps({"success": success}))
 
 
-def data_to_row_rm(when_data, then_data, existing_id):
+def data_to_row_rm(when_data, then_data, existing_id=None):
     """
     data_to_row_rm
     """

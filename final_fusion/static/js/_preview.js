@@ -517,6 +517,9 @@ function hide_row_rm_ui_modal() {
     $("#row-rm-ui-modal").fadeOut(100);
     $("#spanner").fadeOut(100);
 
+    $("#row-rm-ui-modal .save-button").removeClass("edit");
+    $("#row-rm-ui-modal #edit-mode").text("erstellen");
+
     $("#when-rows-container").empty();
     $("#then-container").empty();
     $("html, body").animate({scrollTop: last_scroll_y}, "slow");
@@ -607,10 +610,13 @@ function add_then_container() {
         "</button>\n" +
             "<div class='dropdown-menu then-dropdown' aria-labelledby='pick-then-condition'>\n" +
                 "<a class='dropdown-item then-apply' href='#'>APPLY</a>\n" +
-                "<a class='dropdown-item then-replace' href='#'>SCRIPT</a>\n" +
+                "<a class='dropdown-item then-replace' href='#'>REPLACE</a>\n" +
             "</div>\n" +
         "</div>\n" +
-        "<input type='text' class='form-control then-value'>" +
+        "<div class='input-values'>"+
+            "<input type='text' class='form-control then-value'>" +
+            "<input type='text' class='form-control with-value'>" +
+        "</div"+
         "<i class='fas fa-times delete'>" +
         "</div>";
 
@@ -836,6 +842,21 @@ $(document).on("click." + $("#namespace").attr("ns"),
     ".then-dropdown .dropdown-item", function (e) {
         e.preventDefault();
         $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
+
+        let dropdown = $(this).parent();
+        let then_input = $(this).parent().parent().parent().find(".then-value");
+        let with_input = $(this).parent().parent().parent().find(".with-value");
+
+        if ($(this)[0].innerText === "REPLACE") {
+            then_input.attr("placeholder", "Ersetze");
+            with_input.attr("placeholder", "Mit");
+            dropdown.css("margin-top", -48);
+            with_input.show();
+        } else {
+            then_input.attr("placeholder", "Übernehme");
+            dropdown.css("margin-top", "");
+            with_input.hide();
+        }
     });
 
 $(document).on("click." + $("#namespace").attr("ns"), ".rm-col-item", function (e) {

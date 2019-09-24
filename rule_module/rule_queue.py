@@ -21,9 +21,7 @@ class RuleQueue:
         add_all_user_rule_modules
         """
         ff = FinalFusion.objects.get(project=Project.objects.get(pk=user_profile.last_opened_project_id))
-        rms = RuleModule.objects.filter(final_fusion=ff)
-        for rm in rms:
-            self.rule_modules.append(rm)
+        self.rule_modules = list(RuleModule.objects.filter(final_fusion=ff, archived=False))
 
     def replace_in_span(self, span, haystack, needle):
         """
@@ -45,7 +43,7 @@ class RuleQueue:
             then_cases = json.loads(rm.then_cases)
 
             if rm.rule_type == "col":
-                subject_name = FinalFusionColumn.objects.get(pk=json.loads(rm.subjects)[0]).get_as_json()["name"]
+                subject_name = FinalFusionColumn.objects.get(pk=json.loads(rm.col_subject)[0]).get_as_json()["name"]
 
                 for row in self.table["out_rows"]:
                     if subject_name in row:
@@ -67,3 +65,21 @@ class RuleQueue:
                         if "when_is" in if_condition and "then_apply" in then_cases:
                             if row[subject_name] == if_condition["when_is"]:
                                 row[subject_name] = self.span_tag % then_cases["then_apply"]
+
+            elif rm.rule_type == "row":
+                for row in self.table["out_rows"]:
+                    for ic in if_condition:
+                        trimmed_col_names = [{"short": c.split("(")[0].strip(), "long": c} for c in list(row.keys())]
+
+                        # Now check if there's something which could apply
+                        for tcn in trimmed_col_names:
+                            if ic["ffc_name"] == tcn["short"]:
+                                col_val = row[tcn["long"]]
+                                if ic["condition"] == "IS" and col_val == ic["value"] \
+                                        or ic["condition"] == "CONTAINS" and ic["value"] in col_val:
+                                    # Alle then cases übernehmen
+                                    for tc in then_cases:
+                                        for tcn in trimmed_col_names:
+                                            if tc["ffc_name"] == tcn["short"]:
+                                                if tc["action"] == "APPLY":
+                                                    row[tcn["long"]] = self.span_tag % tc["value"]

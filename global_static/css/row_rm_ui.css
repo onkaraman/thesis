@@ -242,11 +242,24 @@
     margin-right: 7px;
 }
 
-.add-then-container .then-value {
+.input-values {
+
+}
+
+.input-values .then-value {
     height: 32px;
     margin-top: 10px;
     margin-left: 8px;
     width: 216px;
+}
+
+.input-values .with-value {
+    display: none;
+    height: 32px;
+    width: 216px;
+    margin-top: 10px;
+    margin-left: 8px;
+    margin-bottom: 10px;
 }
 
 
