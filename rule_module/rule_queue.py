@@ -68,18 +68,27 @@ class RuleQueue:
 
             elif rm.rule_type == "row":
                 for row in self.table["out_rows"]:
-                    for ic in if_condition:
-                        trimmed_col_names = [{"short": c.split("(")[0].strip(), "long": c} for c in list(row.keys())]
+                    trimmed_col_names = [{"short": c.split("(")[0].strip(), "long": c} for c in list(row.keys())]
+                    can_apply_then = False
 
-                        # Now check if there's something which could apply
-                        for tcn in trimmed_col_names:
-                            if ic["ffc_name"] == tcn["short"]:
-                                col_val = row[tcn["long"]]
-                                if ic["condition"] == "IS" and col_val == ic["value"] \
-                                        or ic["condition"] == "CONTAINS" and ic["value"] in col_val:
-                                    # Alle then cases übernehmen
-                                    for tc in then_cases:
-                                        for tcn in trimmed_col_names:
-                                            if tc["ffc_name"] == tcn["short"]:
-                                                if tc["action"] == "APPLY":
-                                                    row[tcn["long"]] = self.span_tag % tc["value"]
+                    for and_bracket in if_condition:
+                        for ic in and_bracket:
+
+                            # Now check if there's something which could apply
+                            for tcn in trimmed_col_names:
+                                if ic["ffc_name"] == tcn["short"]:
+                                    col_val = row[tcn["long"]]
+                                    if ic["condition"] == "IS" and col_val == ic["value"] \
+                                            or ic["condition"] == "CONTAINS" and ic["value"] in col_val:
+                                        can_apply_then = True
+                        if can_apply_then:
+                            # Alle then cases übernehmen
+                            for tc in then_cases:
+                                for tcn in trimmed_col_names:
+                                    if tc["ffc_name"] == tcn["short"]:
+                                        if tc["action"] == "APPLY":
+                                            row[tcn["long"]] = self.span_tag % tc["value"]
+                                        elif tc["action"] == "REPLACE":
+                                            row[tcn["long"]] = row[tcn["long"]].replace(tc["value"],
+                                                                                         self.span_tag %
+                                                                                         tc["value_replace"])

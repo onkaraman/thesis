@@ -41,14 +41,18 @@ function apply_single_row_rm(obj) {
     $("#row-rm-ui-modal #edit-mode").text("bearbeiten");
     $("#row-rm-ui-modal .save-button").addClass("edit");
 
-    for (let i=0; i<if_conditions.length; i+=1) {
-        add_when_row();
-        let item = if_conditions[i];
-        let last_added = $($("#when-rows-container").children()[$("#when-rows-container").children().length - 1]);
-        last_added.find(".pick-col-button .sel-name").text(item["ffc_name"]);
-        last_added.find(".pick-col-button .sel-name").attr("id", item["id"]);
-        last_added.find(".pick-when-condition .sel-name").text(item["condition"]);
-        last_added.find(".when-value").val(item["value"]);
+    for (let and_bracket=0; and_bracket<if_conditions.length; and_bracket+=1) {
+        for (let i=0; i<if_conditions[and_bracket].length; i+=1) {
+            add_when_row();
+            let item = if_conditions[and_bracket][i];
+
+            let last_added = $($("#when-rows-container").children()[$("#when-rows-container").children().length - 1]);
+            last_added.find(".pick-col-button .sel-name").text(item["ffc_name"]);
+            last_added.find(".pick-col-button .sel-name").attr("id", item["id"]);
+            last_added.find(".pick-when-condition .sel-name").text(item["condition"]);
+            last_added.find(".when-value").val(item["value"]);
+        }
+        if (and_bracket < if_conditions.length-1) add_or_sep();
     }
 
     for (let i=0; i<then_cases.length; i+=1) {
@@ -59,6 +63,11 @@ function apply_single_row_rm(obj) {
         last_added.find(".pick-col-button .sel-name").attr("id", item["id"]);
         last_added.find(".pick-then-condition .sel-name").text(item["action"]);
         last_added.find(".then-value").val(item["value"]);
+
+        if (item["action"] === "REPLACE") {
+            last_added.find(".with-value").show();
+            last_added.find(".with-value").val(item["value_replace"]);
+        }
     }
 }
 
@@ -223,36 +232,58 @@ function request_edit_col_rm() {
     });
 }
 
-function request_create_row_rm() {
-    start_loading_animation();
+function get_row_when_data() {
+    let when_items = $(".when-item");
 
-    // Get when items
     let when_data = [];
-    let when_items = $(".when-row-container");
+    let and_bracket = [];
 
     for (let i = 0; i < when_items.length; i += 1) {
-        when_data.push({
-            "id": $(when_items[i]).find(".pick-col-button .sel-name").attr("id"),
-            "condition": $(when_items[i]).find(".pick-when-condition").text().trim(),
-            "value": $(when_items[i]).find(".when-value").val().trim()
-        })
+
+        if ($(when_items[i]).hasClass("or-sep-container")) {
+            when_data.push(and_bracket);
+            and_bracket = [];
+        }
+        else {
+            and_bracket.push({
+                "id": $(when_items[i]).find(".pick-col-button .sel-name").attr("id"),
+                "condition": $(when_items[i]).find(".pick-when-condition").text().trim(),
+                "value": $(when_items[i]).find(".when-value").val().trim()
+            });
+        }
     }
 
+    if (and_bracket.length > 0) when_data.push(and_bracket);
+
+    return when_data;
+}
+
+function get_row_then_data() {
     let then_data = [];
     let then_items = $("#then-container");
     for (let i = 0; i < then_items.length; i += 1) {
-        then_data.push({
+        let obj = {
             "id": $(then_items[i]).find(".pick-col-button .sel-name").attr("id"),
             "action": $(then_items[i]).find(".pick-then-condition").text().trim(),
             "value": $(then_items[i]).find(".then-value").val().trim()
-        })
+        };
+
+        if (obj["action"] === "REPLACE") {
+            obj["value_replace"] = $(then_items[i]).find(".with-value").val().trim();
+        }
+        then_data.push(obj);
     }
+    return then_data;
+}
+
+function request_create_row_rm() {
+    start_loading_animation();
 
     $.ajax({
         url: "/api/rm/create/row",
         data: {
-            "when_data": JSON.stringify(when_data),
-            "then_data": JSON.stringify(then_data)
+            "when_data": JSON.stringify(get_row_when_data()),
+            "then_data": JSON.stringify(get_row_then_data())
         },
         success: function (data) {
             stop_loading_animation();
@@ -275,34 +306,13 @@ function request_create_row_rm() {
 function request_edit_row_rm() {
     start_loading_animation();
 
-    // Get when items
-    let when_data = [];
-    let when_items = $(".when-row-container");
-
-    for (let i = 0; i < when_items.length; i += 1) {
-        when_data.push({
-            "id": $(when_items[i]).find(".pick-col-button .sel-name").attr("id"),
-            "condition": $(when_items[i]).find(".pick-when-condition").text().trim(),
-            "value": $(when_items[i]).find(".when-value").val().trim()
-        })
-    }
-
-    let then_data = [];
-    let then_items = $("#then-container");
-    for (let i = 0; i < then_items.length; i += 1) {
-        then_data.push({
-            "id": $(then_items[i]).find(".pick-col-button .sel-name").attr("id"),
-            "action": $(then_items[i]).find(".pick-then-condition").text().trim(),
-            "value": $(then_items[i]).find(".then-value").val().trim()
-        })
-    }
 
     $.ajax({
         url: "/api/rm/edit/row",
         data: {
             "id": edit_rm_id,
-            "when_data": JSON.stringify(when_data),
-            "then_data": JSON.stringify(then_data)
+            "when_data": JSON.stringify(get_row_when_data()),
+            "then_data": JSON.stringify(get_row_then_data())
         },
         success: function (data) {
             stop_loading_animation();
@@ -526,7 +536,7 @@ function hide_row_rm_ui_modal() {
 }
 
 function add_when_row() {
-    let html = "<div class='when-row-container'>\n" +
+    let html = "<div class='when-row-container when-item'>\n" +
         "<div class='dropdown'>\n" +
         "<button class='btn btn-primary dropdown-toggle pick-col-button' type='button' data-toggle='dropdown'\n" +
         "aria-haspopup='true' aria-expanded='false'>\n" +
@@ -576,7 +586,7 @@ function add_when_row() {
 }
 
 function add_or_sep() {
-    let html = "<div class='or-sep-container'>" +
+    let html = "<div class='or-sep-container when-item'>" +
         "<div class='line-l'></div>" +
         "<p>oder</p>" +
         "<div class='line-r'></div>" +
@@ -616,7 +626,7 @@ function add_then_container() {
         "<div class='input-values'>"+
             "<input type='text' class='form-control then-value'>" +
             "<input type='text' class='form-control with-value'>" +
-        "</div"+
+        "</div>"+
         "<i class='fas fa-times delete'>" +
         "</div>";
 
@@ -788,12 +798,12 @@ var main = function () {
     register_col_rm_events();
     register_row_rm_events();
 
-    $('#rm-activate-checkbox').change(function () {
+    $('#rm-activate-checkbox').on("change."+ $("#namespace").attr("ns"), function () {
         let checked = $(this).prop('checked');
 
         if (checked) request_tf_preview_with_rm();
         else request_tf_preview();
-    })
+    });
 };
 
 $(document).ready(main);

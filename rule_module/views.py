@@ -114,19 +114,22 @@ def data_to_row_rm(when_data, then_data, existing_id=None):
     if_cond = []
     then_cases = []
 
-    for wd in when_data:
-        ffc = FinalFusionColumn.objects.filter(pk=wd["id"])
-        if len(ffc) == 1 and (wd["condition"] == "IS" or wd["condition"] == "CONTAINS") and len(wd["value"]) > 0:
-            wd["ffc_name"] = ffc[0].display_column_name
-            if_cond.append(wd)
+    for and_bracket in when_data:
+        to_add = []
+        for wd in and_bracket:
+            ffc = FinalFusionColumn.objects.filter(pk=wd["id"])
+            if len(ffc) == 1 and (wd["condition"] == "IS" or wd["condition"] == "CONTAINS") and len(wd["value"]) > 0:
+                wd["ffc_name"] = ffc[0].display_column_name
+                to_add.append(wd)
+        if_cond.append(to_add)
 
     for td in then_data:
         ffc = FinalFusionColumn.objects.filter(pk=td["id"])
-        if len(ffc) == 1 and (td["action"] == "APPLY" or td["condition"] == "SCRIPT") and len(td["value"]) > 0:
+        if len(ffc) == 1 and (td["action"] == "APPLY" or td["action"] == "REPLACE") and len(td["value"]) > 0:
             td["ffc_name"] = ffc[0].display_column_name
             then_cases.append(td)
 
-    rm.final_fusion = FinalFusionColumn.objects.get(id=when_data[0]["id"]).final_fusion
+    rm.final_fusion = FinalFusionColumn.objects.get(id=when_data[0][0]["id"]).final_fusion
     rm.if_conditions = json.dumps(if_cond)
     rm.then_cases = json.dumps(then_cases)
     rm.save()
@@ -202,7 +205,7 @@ def do_save_edit_row(request):
             rm = data_to_row_rm(when_data, then_data, request.GET["id"])
             if rm:
                 success = True
-        except TypeError:
+        except TypeError as te:
             print("do_create_row_rm: TypeError")
 
     return HttpResponse(json.dumps({"success": success}))
