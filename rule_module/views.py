@@ -101,11 +101,26 @@ def do_create_col_rm(request):
     return HttpResponse(json.dumps({"success": success}))
 
 
+def create_dynamic_column(name, ff):
+    """
+    create_dynamic_column
+    """
+    # Make sure shit won't get created multiple times
+    ffc = FinalFusionColumn()
+    ffc.final_fusion = ff
+    ffc.source_column_name = name
+    ffc.display_column_name = name
+    ffc.rows_json = json.dumps([])
+    return ffc
+
+
 def data_to_row_rm(when_data, then_data, existing_id=None):
     """
     data_to_row_rm
     """
+    ff = FinalFusionColumn.objects.get(id=when_data[0][0]["id"]).final_fusion
     rm = RuleModule()
+
     if existing_id:
         rm = RuleModule.objects.get(pk=existing_id)
     else:
@@ -124,17 +139,27 @@ def data_to_row_rm(when_data, then_data, existing_id=None):
                 to_add.append(wd)
         if_cond.append(to_add)
 
+    dependencies = []
     for td in then_data:
-        ffc = FinalFusionColumn.objects.filter(pk=td["id"])
-        if len(ffc) == 1 and (td["action"] == rule_queue.APPLY
-                              or td["action"] == rule_queue.REPLACE) and len(td["value"]) > 0:
-            td["ffc_name"] = ffc[0].display_column_name
+        if int(td["id"]) == -1 and len(td["dyn_col"]) > 0:
+            ffc = create_dynamic_column(td["dyn_col"], ff)
+            dependencies.append(ffc)
+        else:
+            ffc = FinalFusionColumn.objects.get(pk=td["id"])
+
+        if ffc and (td["action"] == rule_queue.APPLY or td["action"] == rule_queue.REPLACE) and len(td["value"]) > 0:
+            td["ffc_name"] = ffc.display_column_name
             then_cases.append(td)
 
-    rm.final_fusion = FinalFusionColumn.objects.get(id=when_data[0][0]["id"]).final_fusion
+    rm.final_fusion = ff
     rm.if_conditions = json.dumps(if_cond)
     rm.then_cases = json.dumps(then_cases)
     rm.save()
+
+    for dep_ffc in dependencies:
+        dep_ffc.rm_dependency = rm
+        if len(FinalFusionColumn.objects.filter(rm_dependency=rm, source_column_name=dep_ffc.source_column_name)) == 0:
+            dep_ffc.save()
     return rm
 
 
@@ -258,13 +283,19 @@ def render_single(request):
                 "name": rm.name,
                 "type": rm.rule_type,
                 "if_conditions": rm.if_conditions,
-                "then_cases": rm.then_cases
+                "then_cases": rm.then_cases,
+                "dynamic": False
             }
 
             if rm.rule_type == "col":
                 ffc = FinalFusionColumn.objects.get(pk=json.loads(rm.col_subject)[0])
                 single["col_subject_name"] = ffc.display_column_name
                 single["col_subject_id"] = ffc.pk
+
+            elif rm.rule_type == "row":
+                if FinalFusionColumn.objects.get(rm_dependency=rm):
+                    single["dynamic"] = True
+
         except ObjectDoesNotExist:
             pass
 

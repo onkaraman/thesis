@@ -41,8 +41,8 @@ function apply_single_row_rm(obj) {
     $("#row-rm-ui-modal #edit-mode").text("bearbeiten");
     $("#row-rm-ui-modal .save-button").addClass("edit");
 
-    for (let and_bracket=0; and_bracket<if_conditions.length; and_bracket+=1) {
-        for (let i=0; i<if_conditions[and_bracket].length; i+=1) {
+    for (let and_bracket = 0; and_bracket < if_conditions.length; and_bracket += 1) {
+        for (let i = 0; i < if_conditions[and_bracket].length; i += 1) {
             add_when_row();
             let item = if_conditions[and_bracket][i];
 
@@ -52,10 +52,10 @@ function apply_single_row_rm(obj) {
             last_added.find(".pick-when-condition .sel-name").text(item["condition"]);
             last_added.find(".when-value").val(item["value"]);
         }
-        if (and_bracket < if_conditions.length-1) add_or_sep();
+        if (and_bracket < if_conditions.length - 1) add_or_sep();
     }
 
-    for (let i=0; i<then_cases.length; i+=1) {
+    for (let i = 0; i < then_cases.length; i += 1) {
         add_then_container();
         let item = then_cases[i];
         let last_added = $($("#then-container").children()[$("#then-container").children().length - 1]);
@@ -68,6 +68,12 @@ function apply_single_row_rm(obj) {
             last_added.find(".with-value").show();
             last_added.find(".with-value").val(item["value_replace"]);
         }
+    }
+
+    if (obj["dynamic"]) {
+        $("#row-rm-ui-modal .dyncol-value").show();
+        $("#row-rm-ui-modal .dyncol-value").val($(".cols-dropdown-container .sel-name").text());
+        $(".cols-dropdown-container .sel-name").text($(".dropdown-item[id='-1']").text());
     }
 }
 
@@ -243,8 +249,7 @@ function get_row_when_data() {
         if ($(when_items[i]).hasClass("or-sep-container")) {
             when_data.push(and_bracket);
             and_bracket = [];
-        }
-        else {
+        } else {
             and_bracket.push({
                 "id": $(when_items[i]).find(".pick-col-button .sel-name").attr("id"),
                 "condition": $(when_items[i]).find(".pick-when-condition").text().trim(),
@@ -268,9 +273,9 @@ function get_row_then_data() {
             "value": $(then_items[i]).find(".then-value").val().trim()
         };
 
-        if (obj["action"] === "REPLACE") {
-            obj["value_replace"] = $(then_items[i]).find(".with-value").val().trim();
-        }
+        if (obj["action"] === "REPLACE") obj["value_replace"] = $(then_items[i]).find(".with-value").val().trim();
+        if (parseInt(obj["id"]) === -1) obj["dyn_col"] = $(then_items[i]).find(".dyncol-value").val().trim();
+
         then_data.push(obj);
     }
     return then_data;
@@ -306,7 +311,6 @@ function request_create_row_rm() {
 function request_edit_row_rm() {
     start_loading_animation();
 
-
     $.ajax({
         url: "/api/rm/edit/row",
         data: {
@@ -321,6 +325,7 @@ function request_edit_row_rm() {
             let json = JSON.parse(data);
             if (json.success) {
                 hide_row_rm_ui_modal();
+                $("#rms-container").click();
                 request_get_all_rm();
             }
         },
@@ -396,8 +401,7 @@ function request_get_single(id) {
 
                 if (obj.type === "col") {
                     apply_single_col_rm(obj);
-                }
-                else if (obj.type === "row") {
+                } else if (obj.type === "row") {
                     apply_single_row_rm(obj);
                 }
             }
@@ -602,34 +606,34 @@ function add_or_sep() {
 
 function add_then_container() {
     let html = "<div class='add-then-container'>" +
-        "<div class='cols-dropdown-container'>"+
-            "<div class='dropdown'>" +
-            "<button class='btn btn-primary dropdown-toggle pick-col-button' type='button' data-toggle='dropdown'" +
-            "aria-haspopup='true' aria-expanded='false'>" +
-            "<i class='fas fa-caret-down'></i><span class='sel-name'>Spalte auswählen</span>" +
-            "</button>" +
+        "<div class='cols-dropdown-container'>" +
+        "<div class='dropdown'>" +
+        "<button class='btn btn-primary dropdown-toggle pick-col-button' type='button' data-toggle='dropdown'" +
+        "aria-haspopup='true' aria-expanded='false'>" +
+        "<i class='fas fa-caret-down'></i><span class='sel-name'>Spalte auswählen</span>" +
+        "</button>" +
 
-            "<div class='dropdown-menu row-cols-dropdown' aria-labelledby='pick-col-button'>" +
-            "</div>" +
-            "<input type='text' class='form-control dyncol-value'>" +
-        "</div>"+
+        "<div class='dropdown-menu row-cols-dropdown' aria-labelledby='pick-col-button'>" +
+        "</div>" +
+        "<input type='text' class='form-control dyncol-value'>" +
+        "</div>" +
 
         "</div>" +
 
         "<div class='dropdown'>" +
         "<button class='btn btn-primary dropdown-toggle pick-then-condition' type='button' data-toggle='dropdown'" +
-            "aria-haspopup='true' aria-expanded='false'>" +
-            "<i class='fas fa-caret-down'></i><span class='sel-name'>THEN</span>" +
+        "aria-haspopup='true' aria-expanded='false'>" +
+        "<i class='fas fa-caret-down'></i><span class='sel-name'>THEN</span>" +
         "</button>" +
-            "<div class='dropdown-menu then-dropdown' aria-labelledby='pick-then-condition'>" +
-                "<a class='dropdown-item then-apply' href='#'>APPLY</a>" +
-                "<a class='dropdown-item then-replace' href='#'>REPLACE</a>" +
-            "</div>" +
+        "<div class='dropdown-menu then-dropdown' aria-labelledby='pick-then-condition'>" +
+        "<a class='dropdown-item then-apply' href='#'>APPLY</a>" +
+        "<a class='dropdown-item then-replace' href='#'>REPLACE</a>" +
         "</div>" +
-        "<div class='input-values'>"+
-            "<input type='text' class='form-control then-value'>" +
-            "<input type='text' class='form-control with-value'>" +
-        "</div>"+
+        "</div>" +
+        "<div class='input-values'>" +
+        "<input type='text' class='form-control then-value'>" +
+        "<input type='text' class='form-control with-value'>" +
+        "</div>" +
         "<i class='fas fa-times delete'>" +
         "</div>";
 
@@ -748,28 +752,28 @@ function register_col_rm_events() {
 }
 
 function register_row_rm_events() {
-    $("#create-new-row-rm").click(function (e) {
+    $(document).on("click." + $("#namespace").attr("ns"), "#create-new-row-rm", function (e) {
         show_row_rm_ui_modal();
     });
 
-    $("#row-rm-ui-modal #close").click(function (e) {
+    $(document).on("click." + $("#namespace").attr("ns"), "#row-rm-ui-modal #close", function (e) {
         e.preventDefault();
         hide_row_rm_ui_modal();
     });
 
-    $("#add-row-button").on("click." + $("#namespace").attr("ns"), function (e) {
+    $(document).on("click." + $("#namespace").attr("ns"), "#add-row-button", function (e) {
         add_when_row();
     });
 
-    $("#add-or-sep-button").on("click." + $("#namespace").attr("ns"), function (e) {
+    $(document).on("click." + $("#namespace").attr("ns"), "#add-or-sep-button", function (e) {
         add_or_sep();
     });
 
-    $("#add-then-button").on("click." + $("#namespace").attr("ns"), function (e) {
+    $(document).on("click." + $("#namespace").attr("ns"), "#add-then-button", function (e) {
         add_then_container();
     });
 
-    $("#row-rm-ui-modal .save-button").click(function (e) {
+    $(document).on("click." + $("#namespace").attr("ns"), "#row-rm-ui-modal .save-button", function (e) {
         $(this).prop("disabled", true);
         if ($(this).hasClass("edit")) request_edit_row_rm();
         else request_create_row_rm();
@@ -807,7 +811,7 @@ var main = function () {
     register_col_rm_events();
     register_row_rm_events();
 
-    $('#rm-activate-checkbox').on("change."+ $("#namespace").attr("ns"), function () {
+    $('#rm-activate-checkbox').on("change." + $("#namespace").attr("ns"), function () {
         let checked = $(this).prop('checked');
 
         if (checked) request_tf_preview_with_rm();
@@ -892,3 +896,10 @@ $(document).on("click." + $("#namespace").attr("ns"), ".rm-delete", function (e)
     let id = $(e.currentTarget.parentElement).attr("id");
     show_simple_modal("Regelmodul löschen", msg, request_delete_rm(id));
 });
+
+$(document).on("change." + $("#namespace").attr("ns"),
+    "#rm-activate-checkbox", function (e) {
+        let checked = $(this).prop('checked');
+        if (checked) request_tf_preview_with_rm();
+        else request_tf_preview();
+    });

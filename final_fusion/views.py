@@ -97,19 +97,23 @@ def get_preview_table(user_profile):
     deepest_col = 0
 
     for ffc_col in ffc_cols:
-        as_json = ffc_col.get_as_json()
+        if ffc_col.rm_dependency and \
+                ffc_col.source_column_name not in ffc_col.rm_dependency.depending_dynamic_columns():
+            ffc_col.delete()
+        else:
+            as_json = ffc_col.get_as_json()
 
-        out_headers.append({"name": as_json["name"], "id": ffc_col.pk })
-        ffc_rows = json.loads(as_json["rows"])
+            out_headers.append({"name": as_json["name"], "id": ffc_col.pk })
+            ffc_rows = json.loads(as_json["rows"])
 
-        header_rows.append({
-            "name": as_json["name"],
-            "id": ffc_col.pk,
-            "rows": ffc_rows
-        })
+            header_rows.append({
+                "name": as_json["name"],
+                "id": ffc_col.pk,
+                "rows": ffc_rows
+            })
 
-        if len(ffc_rows) > deepest_col:
-            deepest_col = len(ffc_rows)
+            if len(ffc_rows) > deepest_col:
+                deepest_col = len(ffc_rows)
 
     try:
         for i in range(deepest_col):

@@ -10,9 +10,6 @@ from final_fusion_column import views as ffc_v
 from rule_module import views as rm_v
 
 
-
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', dashboard_v.render_dashboard),
@@ -55,11 +52,14 @@ urlpatterns = [
     url(r'^api/tf/rm_preview_table/$', ff_v.render_preview_table_with_rm),
 
     # RM API
+    url(r'^api/rm/get_single/$', rm_v.render_single),
+    url(r'^api/rm/get_all/$', rm_v.render_all_rm),
     url(r'^api/rm/create/col/$', rm_v.do_create_col_rm),
     url(r'^api/rm/edit/col/$', rm_v.do_save_edit_col),
     url(r'^api/rm/edit/row/$', rm_v.do_save_edit_row),
     url(r'^api/rm/delete/$', rm_v.do_delete_rm),
-    url(r'^api/rm/get_single/$', rm_v.render_single),
-    url(r'^api/rm/get_all/$', rm_v.render_all_rm),
     url(r'^api/rm/create/row/$', rm_v.do_create_row_rm),
 ]
+
+
+
