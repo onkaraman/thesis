@@ -484,6 +484,8 @@ function add_to_table(cols, row, index) {
     $("#table-body").append(to_append);
 }
 
+
+// Modals
 function show_col_rm_ui_modal() {
     last_scroll_y = $(window).scrollTop();
     $("html, body").animate({scrollTop: 0}, "slow");
@@ -544,6 +546,23 @@ function hide_row_rm_ui_modal() {
 
     $("#when-rows-container").empty();
     $("#then-container").empty();
+    $("html, body").animate({scrollTop: last_scroll_y}, "slow");
+}
+
+function show_script_rm_ui_modal() {
+    last_scroll_y = $(window).scrollTop();
+    $("html, body").animate({scrollTop: 0}, "slow");
+
+    let modal = $("#script-rm-ui-modal");
+    let spanner = $("#spanner");
+
+    spanner.fadeIn(200);
+    modal.fadeIn(200);
+}
+
+function hide_script_rm_ui_modal() {
+    $("#script-rm-ui-modal").fadeOut(100);
+    $("#spanner").fadeOut(100);
     $("html, body").animate({scrollTop: last_scroll_y}, "slow");
 }
 
@@ -787,12 +806,37 @@ function register_row_rm_events() {
         if ($(this).hasClass("edit")) request_edit_row_rm();
         else request_create_row_rm();
     });
+}
 
+function register_script_rm_events() {
+    ace.edit("editor", {
+        mode: "ace/mode/python",
+        theme: "ace/theme/tomorrow_night_blue",
+        selectionStyle: "text",
+    });
+
+    let editor = ace.edit("editor");
+    editor.renderer.setScrollMargin(10, 10);
+    editor.setValue("# For each row, do ...\n", 0);
+
+    $("#create-new-script-rm").click(function (e) {
+        show_script_rm_ui_modal();
+    });
+
+    $("#script-rm-ui-modal #close").click(function (e) {
+        e.preventDefault();
+        hide_script_rm_ui_modal();
+    });
 }
 
 var main = function () {
     request_tf_preview();
     request_get_all_rm();
+
+    register_rename_tf_events();
+    register_col_rm_events();
+    register_row_rm_events();
+    register_script_rm_events();
 
     $("#right-panel").show("slide", {direction: "right"}, 200);
 
@@ -815,10 +859,6 @@ var main = function () {
             update_pagination();
         }
     });
-
-    register_rename_tf_events();
-    register_col_rm_events();
-    register_row_rm_events();
 
     $('#rm-activate-checkbox').on("change." + $("#namespace").attr("ns"), function () {
         let checked = $(this).prop('checked');
@@ -932,5 +972,6 @@ $(document).on("keyup." + $("#namespace").attr("ns"),
         if (e.key === "Escape") {
             hide_row_rm_ui_modal();
             hide_col_rm_ui_modal();
+            hide_script_rm_ui_modal();
         }
 });

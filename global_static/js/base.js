@@ -163,6 +163,7 @@ function fit_modals() {
     let modals = [];
     modals.push($("#simple-modal"));
     modals.push($("#col-rm-ui-modal"));
+    modals.push($("#script-rm-ui-modal"));
 
     modals.forEach(function (m) {
         m.css("margin-left", ($(document).width() / 2) - m.outerWidth() / 2);

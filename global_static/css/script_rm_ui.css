@@ -4,7 +4,7 @@
 
 #script-rm-ui-modal {
     display: none;
-    width: 642px;
+    width: 860px;
     position: absolute;
     margin-left: 650px;
     margin-top: 60px;
@@ -31,4 +31,56 @@
 #script-rm-ui-modal #close:hover {
     color: black;
     cursor: pointer;
+}
+
+.ace_editor {
+    height: 300px;
+    width: 450px;
+    margin-top: 20px;
+    border: 1px solid #d0d0d0;
+    float: left;
+}
+
+#vars-container {
+    margin-top: 18px;
+    margin-left: 20px;
+    float: left;
+}
+
+#vars-container #title {
+    font-size: 16px;
+}
+
+#vars-container #controls {
+    display: inline-flex;
+    margin-top: 20px;
+}
+
+#vars-container #run-button {
+    font-size: 14px;
+    background-color: var(--green);
+    border-color: #5ba221;
+    padding-bottom: 4px;
+}
+
+#vars-container #run-button:hover {
+    background-color: #5a843c;
+}
+
+#vars-container #run-button i {
+    margin-right: 7px;
+}
+
+#output-vars {
+    font-family: consolas;
+    font-size: 13px;
+    background-color: #dedede;
+    min-width: 340px;
+    padding: 7px;
+    padding-left: 15px;
+    margin-top: 6px;
+}
+
+.save-button {
+    clear: both;
 }

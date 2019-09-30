@@ -1,7 +1,27 @@
+{% load staticfiles %}
+<script src="{% static 'js/ace/ace.js' %}"></script>
+
 <div id="script-rm-ui-modal">
     <i class="far fa-times-circle" id="close"></i>
     <p id="title">Skriptregel <span id="edit-mode">erstellen</span></p>
 
+    <div id="editor">
+        <script></script>
+    </div>
+
+    <div id="vars-container">
+        <p id="title"><i class="fas fa-terminal"></i>&nbsp; Ausgabe</p>
+        <div id="output-vars">
+            <p>first_name = "FIRST NAME"</p>
+            <p>last_name = "LAST NAME"</p>
+        </div>
+
+        <div id="controls">
+            <button class="btn btn-primary" id="run-button">
+                <i class="fas fa-play"></i> Ausführen
+            </button>
+        </div>
+    </div>
 
     <button class="btn btn-primary save-button">Regel speichern</button>
 </div>
