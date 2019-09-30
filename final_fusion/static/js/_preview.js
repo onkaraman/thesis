@@ -67,6 +67,8 @@ function apply_single_row_rm(obj) {
         if (item["action"] === "REPLACE") {
             last_added.find(".with-value").show();
             last_added.find(".with-value").val(item["value_replace"]);
+        } else if (item["action"] === "IGNORE") {
+            last_added.find(".then-value").prop("disabled", true);
         }
     }
 
@@ -462,18 +464,23 @@ function update_pagination() {
 }
 
 function add_to_table(cols, row, index) {
-    let to_append = '<tr>';
+    let ignore_class = "";
+    let ignore_name = "__ignore";
+    let to_append = '<tr class="~">';
+
+    if (row[ignore_name]) to_append = to_append.replace("~", "ignore-row");
 
     let i;
     for (i = 0; i < cols.length; i += 1) {
         if (cols[i].name === "#") {
             to_append += '<td>' + index + '</td>';
-        } else {
+        } else if (cols[i].name !== ignore_name) {
             to_append += '<td>' + row[cols[i].name] + '</td>';
         }
     }
 
     to_append += '</tr>';
+
     $("#table-body").append(to_append);
 }
 
@@ -512,6 +519,7 @@ function hide_col_rm_ui_modal() {
 
     $("#col-when-value").val("");
     $("#col-then-value").val("");
+    $("#add-then-button").prop("disabled", false);
     $("html, body").animate({scrollTop: last_scroll_y}, "slow");
 }
 
@@ -628,6 +636,7 @@ function add_then_container() {
         "<div class='dropdown-menu then-dropdown' aria-labelledby='pick-then-condition'>" +
         "<a class='dropdown-item then-apply' href='#'>APPLY</a>" +
         "<a class='dropdown-item then-replace' href='#'>REPLACE</a>" +
+        "<a class='dropdown-item then-ignore' href='#'>IGNORE</a>" +
         "</div>" +
         "</div>" +
         "<div class='input-values'>" +
@@ -867,18 +876,32 @@ $(document).on("click." + $("#namespace").attr("ns"),
         $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
 
         let dropdown = $(this).parent();
+        let add_then_button = $("#add-then-button");
         let then_input = $(this).parent().parent().parent().find(".then-value");
         let with_input = $(this).parent().parent().parent().find(".with-value");
 
         if ($(this)[0].innerText === "REPLACE") {
+            add_then_button.prop("disabled", false);
+            then_input.prop("disabled", false);
+
             then_input.attr("placeholder", "Ersetze");
             with_input.attr("placeholder", "Mit");
             dropdown.css("margin-top", -48);
+
             with_input.show();
-        } else {
+        } else if ($(this)[0].innerText === "APPLY") {
+            add_then_button.prop("disabled", false);
+
+            then_input.prop("disabled", false);
             then_input.attr("placeholder", "Übernehme");
             dropdown.css("margin-top", "");
             with_input.hide();
+        } else {
+            with_input.hide();
+            then_input.prop("disabled", true);
+
+            then_input.attr("placeholder", "Ganze Zeile wird ignoriert");
+            add_then_button.prop("disabled", true);
         }
     });
 
@@ -903,3 +926,11 @@ $(document).on("change." + $("#namespace").attr("ns"),
         if (checked) request_tf_preview_with_rm();
         else request_tf_preview();
     });
+
+$(document).on("keyup." + $("#namespace").attr("ns"),
+    "body", function (e) {
+        if (e.key === "Escape") {
+            hide_row_rm_ui_modal();
+            hide_col_rm_ui_modal();
+        }
+});

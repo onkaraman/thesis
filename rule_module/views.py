@@ -141,14 +141,18 @@ def data_to_row_rm(when_data, then_data, existing_id=None):
 
     dependencies = []
     for td in then_data:
-        if int(td["id"]) == -1 and len(td["dyn_col"]) > 0:
+        ffc = None
+
+        if "id" in td and int(td["id"]) == -1 and len(td["dyn_col"]) > 0:
             ffc = create_dynamic_column(td["dyn_col"], ff)
             dependencies.append(ffc)
-        else:
+        elif "id" in td:
             ffc = FinalFusionColumn.objects.get(pk=td["id"])
 
         if ffc and (td["action"] == rule_queue.APPLY or td["action"] == rule_queue.REPLACE) and len(td["value"]) > 0:
             td["ffc_name"] = ffc.display_column_name
+            then_cases.append(td)
+        elif td["action"] == rule_queue.IGNORE:
             then_cases.append(td)
 
     rm.final_fusion = ff
@@ -293,7 +297,7 @@ def render_single(request):
                 single["col_subject_id"] = ffc.pk
 
             elif rm.rule_type == "row":
-                if FinalFusionColumn.objects.get(rm_dependency=rm):
+                if len(FinalFusionColumn.objects.filter(rm_dependency=rm)) == 1:
                     single["dynamic"] = True
 
         except ObjectDoesNotExist:

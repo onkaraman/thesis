@@ -23,9 +23,10 @@ class RuleModule(models.Model):
         depending_dynamic_columns
         """
         ret = []
-        for td in json.loads(self.then_cases):
-            if "dyn_col" in td:
-                ret.append(td["dyn_col"])
+        if not self.archived:
+            for td in json.loads(self.then_cases):
+                if "dyn_col" in td:
+                    ret.append(td["dyn_col"])
         return ret
 
     def __str__(self):

@@ -7,6 +7,7 @@ from rule_module.models import RuleModule
 # Condition names
 APPLY = "APPLY"
 REPLACE = "REPLACE"
+IGNORE = "IGNORE"
 CONTAINS = "CONTAINS"
 
 
@@ -87,11 +88,14 @@ class RuleQueue:
                         if can_apply_then:
                             # Alle then cases übernehmen
                             for tc in then_cases:
-                                for tcn in trimmed_col_names:
-                                    if tc["ffc_name"] == tcn["short"]:
-                                        if tc["action"] == APPLY:
-                                            row[tcn["long"]] = self.span_tag % tc["value"]
-                                        elif tc["action"] == REPLACE:
-                                            row[tcn["long"]] = row[tcn["long"]].replace(tc["value"],
-                                                                                         self.span_tag %
-                                                                                         tc["value_replace"])
+                                if tc["action"] == IGNORE:
+                                    row["__ignore"] = True
+                                else:
+                                    for tcn in trimmed_col_names:
+                                        if tc["ffc_name"] == tcn["short"]:
+                                            if tc["action"] == APPLY:
+                                                row[tcn["long"]] = self.span_tag % tc["value"]
+                                            elif tc["action"] == REPLACE:
+                                                row[tcn["long"]] = row[tcn["long"]].replace(tc["value"],
+                                                                                             self.span_tag %
+                                                                                             tc["value_replace"])

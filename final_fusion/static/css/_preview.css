@@ -79,6 +79,12 @@
     cursor: default;
 }
 
+tr.ignore-row {
+    background-color: #ffd1d1;
+    color: #b14242;
+    text-decoration: line-through;
+}
+
 td .ruled {
     color: #f57618;
     background-color: #e8e8e8;
