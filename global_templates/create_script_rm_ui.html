@@ -2,6 +2,7 @@
 <script src="{% static 'js/ace/ace.js' %}"></script>
 
 <div id="script-rm-ui-modal">
+    {% csrf_token %}
     <i class="far fa-times-circle" id="close"></i>
     <p id="title">Skriptregel <span id="edit-mode">erstellen</span></p>
 
@@ -12,12 +13,12 @@
     <div id="vars-container">
         <p id="title"><i class="fab fa-codepen"></i>&nbsp; Kontext</p>
         <div id="context-vars">
-            <p>_row["FIR"] # FIRSTNAME COLUMN</p>
-            <p>_row["CAR"] # CAR COLUMN</p>
+            <p>Preparing ...</p>
         </div>
 
         <p id="title"><i class="fas fa-terminal"></i>&nbsp; Ausgabe</p>
-        <div id="output-vars">
+        <div id="output-msgs">
+            <p>Enter code and validate.</p>
         </div>
 
         <div id="controls">
@@ -27,5 +28,5 @@
         </div>
     </div>
 
-    <button class="btn btn-primary save-button">Regel speichern</button>
+    <button class="btn btn-primary" id="save-button">Regel speichern</button>
 </div>

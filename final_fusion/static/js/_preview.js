@@ -427,12 +427,52 @@ function request_get_col_vars(id) {
             context_vars.empty();
 
             if (json.success) {
-                Object.keys(json.cv).forEach(function(i){
-                    context_vars.append('<p>_row["'+ i +'"] <span class="comment"># '+ json.cv[i] +'</span></p>')
+                Object.keys(json.cv).forEach(function (i) {
+                    context_vars.append('<p>_row["' + i + '"] <span class="comment"># ' + json.cv[i] + '</span></p>')
                 });
             }
         },
         error: function (data, exception) {
+            alert(data.responseText);
+        }
+    });
+}
+
+function request_validate_code() {
+    start_loading_animation();
+
+    $.ajax({
+        type: 'POST',
+        headers: {
+            "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val()
+        },
+        url: "/api/sm/validate/",
+        data: {
+            "code": ace.edit("editor").getValue(),
+        },
+        success: function (data) {
+            stop_loading_animation();
+
+            let json = JSON.parse(data);
+
+            let save_button = $("#script-rm-ui-modal #save-button");
+            let output_vars = $("#output-msgs");
+            output_vars.empty();
+
+            if (json.valid) {
+                output_vars.css("color", "green");
+                save_button.prop("disabled", false);
+            } else {
+                output_vars.css("color", "indianred");
+                save_button.prop("disabled", true);
+            }
+
+            json.msg.forEach(function(i) {
+                output_vars.append("<p>> " + i + "</p>");
+            })
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
             alert(data.responseText);
         }
     });
@@ -580,6 +620,10 @@ function show_script_rm_ui_modal() {
     let modal = $("#script-rm-ui-modal");
     let spanner = $("#spanner");
 
+    $("#script-rm-ui-modal #save-button").prop("disabled", true);
+    ace.edit("editor").setValue("# For each row, do\n", 1);
+    $("#script-rm-ui-modal #output-msgs").empty();
+
     spanner.fadeIn(200);
     modal.fadeIn(200);
 
@@ -589,6 +633,7 @@ function show_script_rm_ui_modal() {
 function hide_script_rm_ui_modal() {
     $("#script-rm-ui-modal").fadeOut(100);
     $("#spanner").fadeOut(100);
+
     $("html, body").animate({scrollTop: last_scroll_y}, "slow");
 }
 
@@ -843,16 +888,24 @@ function register_script_rm_events() {
 
     let editor = ace.edit("editor");
     editor.renderer.setScrollMargin(10, 10);
-    editor.setValue("# For each row, do ...\n", 0);
+    editor.setValue("# For each row, do ...\n", 1);
 
-    $("#create-new-script-rm").click(function (e) {
+    let ns = $("#namespace").attr("ns");
+
+    $(document).on("click." + ns, "#create-new-script-rm", function (e) {
         show_script_rm_ui_modal();
     });
 
-    $("#script-rm-ui-modal #close").click(function (e) {
+    $(document).on("click." + ns, "#script-rm-ui-modal #close", function (e) {
         e.preventDefault();
         hide_script_rm_ui_modal();
     });
+
+    $(document).on("click." + ns, "#script-rm-ui-modal #validate-button", function (e) {
+        e.preventDefault();
+        request_validate_code();
+    });
+
 }
 
 var main = function () {
@@ -1000,4 +1053,4 @@ $(document).on("keyup." + $("#namespace").attr("ns"),
             hide_col_rm_ui_modal();
             hide_script_rm_ui_modal();
         }
-});
+    });

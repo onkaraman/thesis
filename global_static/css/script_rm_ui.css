@@ -54,6 +54,7 @@
 #vars-container #controls {
     display: inline-flex;
     margin-top: 20px;
+    width: 100%;
 }
 
 #vars-container #validate-button {
@@ -90,7 +91,7 @@
     color: #bdd3ef;
 }
 
-#output-vars {
+#output-msgs {
     font-family: consolas;
     font-size: 13px;
     background-color: #dedede;
@@ -98,8 +99,10 @@
     padding: 7px;
     padding-left: 15px;
     margin-top: 6px;
+    height: 52px;
+    overflow-y: scroll;
 }
 
-.save-button {
+#script-rm-ui-modal #save-button {
     clear: both;
 }

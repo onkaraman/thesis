@@ -7,7 +7,7 @@ from final_fusion.models import FinalFusion
 from final_fusion_column.models import FinalFusionColumn
 from rule_module.models import RuleModule
 from project.models import Project
-from rule_module import  rule_queue as rule_queue
+from rule_module import rule_queue as rule_queue
 
 
 def convert_request_bool_values(get_params):

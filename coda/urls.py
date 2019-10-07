@@ -8,6 +8,7 @@ from tq_file import views as tq_v
 from final_fusion import views as ff_v
 from final_fusion_column import views as ffc_v
 from rule_module import views as rm_v
+from script_module import views as sm_v
 
 
 urlpatterns = [
@@ -60,6 +61,9 @@ urlpatterns = [
     url(r'^api/rm/edit/row/$', rm_v.do_save_edit_row),
     url(r'^api/rm/delete/$', rm_v.do_delete_rm),
     url(r'^api/rm/create/row/$', rm_v.do_create_row_rm),
+
+    # SM API
+    url(r'^api/sm/validate/$', sm_v.do_validate_code),
 ]
 
 

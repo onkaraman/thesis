@@ -1,3 +1,77 @@
+import re
+import json
+from django.http import HttpResponse
 from django.db import models
+from django.utils import timezone
+from final_fusion.models import FinalFusion
 
-# Create your models here.
+
+class ScriptModule(models.Model):
+    """
+    ScriptModule
+    """
+    pass
+    creation_date = models.DateTimeField(default=timezone.now)
+    name = models.CharField(max_length=40, default="Script Module")
+    final_fusion = models.ForeignKey(FinalFusion, on_delete=models.CASCADE)
+    code_content = models.CharField(max_length=900)
+
+    def is_valid(self):
+        """
+        is_valid
+        """
+        msg = []
+
+        for l in self.code_content.split("\n"):
+            # Import statements
+            if re.search(r'^import \w+$', l):
+                msg.append("Import statements not allowed")
+                break
+
+            if re.search(r'^eval\(', l):
+                msg.append("eval() not allowed")
+                break
+
+            if re.search(r'^exec\(', l):
+                msg.append("exec() not allowed")
+                break
+
+            if re.search(r'^print\(', l):
+                msg.append("print() not allowed")
+                break
+
+        try:
+            # Check if all _row entries are still there
+            if not self.row_structure_retained():
+                msg.append("_row structure change not allowed")
+        except Exception as exc:
+            msg.append("Python code is invalid")
+            if exc.args:
+                msg.append(exc.args[0])
+
+        # Fair warnings
+        valid = len(msg) == 0
+        if valid:
+            msg.append("Script is valid and ready to use.")
+        if valid and not re.search(r'_row\[\"\w+\"\]', self.code_content):
+            msg.append("Script is probably useless.")
+
+        return {
+            "valid": valid,
+            "msg": msg
+        }
+
+    def row_structure_retained(self):
+        exec_vars = {"_row": self.final_fusion.get_col_vars()}
+        exec(self.code_content, globals(), exec_vars)
+
+        if "_row" not in exec_vars:
+            return False
+
+        for k in self.final_fusion.get_col_vars().keys():
+            if k not in exec_vars["_row"]:
+                return False
+        return True
+
+    def __str__(self):
+        return "#%d: %s" % (self.pk, self.name)
