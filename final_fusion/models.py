@@ -26,5 +26,25 @@ class FinalFusion(models.Model):
         except ObjectDoesNotExist:
             return False
 
+    def get_col_vars(self):
+        """
+        get_col_vars
+        """
+        from final_fusion_column.models import FinalFusionColumn
+
+        cv = {}
+        ffc = FinalFusionColumn.objects.filter(final_fusion=self, archived=False).order_by("pk")
+        for f in ffc:
+            short_name = f.display_column_name[:3].upper()
+
+            while short_name in cv:
+                short_name += f.display_column_name[-1].upper()
+
+            cv[short_name] = f.display_column_name
+
+        return cv
+
+
+
     def __str__(self):
         return "#%d: EF" % self.pk

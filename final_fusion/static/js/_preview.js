@@ -414,6 +414,30 @@ function request_get_single(id) {
     });
 }
 
+function request_get_col_vars(id) {
+    start_loading_animation();
+
+    $.ajax({
+        url: "/api/tf/get_col_vars",
+        success: function (data) {
+            stop_loading_animation();
+
+            let json = JSON.parse(data);
+            let context_vars = $("#context-vars");
+            context_vars.empty();
+
+            if (json.success) {
+                Object.keys(json.cv).forEach(function(i){
+                    context_vars.append('<p>_row["'+ i +'"] <span class="comment"># '+ json.cv[i] +'</span></p>')
+                });
+            }
+        },
+        error: function (data, exception) {
+            alert(data.responseText);
+        }
+    });
+}
+
 // UX
 function render_table_heads(cols) {
     let head_tr = $("#head-tr");
@@ -558,6 +582,8 @@ function show_script_rm_ui_modal() {
 
     spanner.fadeIn(200);
     modal.fadeIn(200);
+
+    request_get_col_vars();
 }
 
 function hide_script_rm_ui_modal() {

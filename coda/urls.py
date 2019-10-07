@@ -50,6 +50,7 @@ urlpatterns = [
     url(r'^api/ef/select_col/$', ff_v.do_select_column),
     url(r'^api/tf/preview_table/$', ff_v.render_preview_table),
     url(r'^api/tf/rm_preview_table/$', ff_v.render_preview_table_with_rm),
+    url(r'^api/tf/get_col_vars/$', ff_v.do_get_col_vars),
 
     # RM API
     url(r'^api/rm/get_single/$', rm_v.render_single),

@@ -33,7 +33,8 @@ INSTALLED_APPS = [
     'tq_file',
     'final_fusion',
     'final_fusion_column',
-    'rule_module'
+    'rule_module',
+    'script_module'
 ]
 
 MIDDLEWARE = [

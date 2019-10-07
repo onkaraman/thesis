@@ -67,6 +67,26 @@ def do_rename(request):
     return HttpResponse(json.dumps({"success": success}))
 
 
+def do_get_col_vars(request):
+    """
+    do_get_col_vars
+    """
+    success = False
+    cv = {}
+    valid_user = token_checker.token_is_valid(request)
+
+    if valid_user:
+        proj = Project.objects.get(pk=valid_user.last_opened_project_id)
+        ff = FinalFusion.objects.get(project=proj)
+        cv = ff.get_col_vars()
+        success = True
+
+    return HttpResponse(json.dumps({
+        "success": success,
+        "cv": cv
+    }))
+
+
 def i_render_preview_tf(request):
     """
     i_render_preview_tf

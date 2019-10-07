@@ -56,19 +56,38 @@
     margin-top: 20px;
 }
 
-#vars-container #run-button {
+#vars-container #validate-button {
     font-size: 14px;
     background-color: var(--green);
     border-color: #5ba221;
     padding-bottom: 4px;
 }
 
-#vars-container #run-button:hover {
+#vars-container #validate-button:hover {
     background-color: #5a843c;
 }
 
-#vars-container #run-button i {
+#vars-container #validate-button i {
     margin-right: 7px;
+}
+
+#context-vars {
+    color: #dfedff;
+    height: 116px;
+    min-width: 340px;
+    margin-top: 6px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    font-family: consolas;
+    background-color: #4970a0;
+    padding: 7px;
+    padding-left: 15px;
+}
+
+#context-vars .comment {
+    color: #bdd3ef;
 }
 
 #output-vars {
