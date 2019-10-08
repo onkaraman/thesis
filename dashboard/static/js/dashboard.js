@@ -123,9 +123,3 @@ $(document).on("click", "#simple-modal #close", function (e) {
     e.preventDefault();
     hide_simple_modal();
 });
-
-$(document).on("click", ".tq-item", function (e) {
-    e.preventDefault();
-    let id = $(e.currentTarget).attr("id")
-    request_view_tq(id);
-});

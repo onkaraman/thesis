@@ -1,0 +1,15 @@
+#editor-descr {
+    margin-top: 25px;
+}
+
+#editor-descr .far {
+    margin-right: 3px;
+}
+
+.ace_editor {
+    height: 500px;
+    width: 850px;
+    margin-top: 10px;
+    border: 1px solid #d0d0d0;
+    float: left;
+}

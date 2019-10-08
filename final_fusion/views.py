@@ -1,5 +1,6 @@
 import json
 from django.http import HttpResponse
+from django.core.exceptions import ObjectDoesNotExist
 from security.args_checker import ArgsChecker
 import security.token_checker as token_checker
 from tq_file.models import TQFile
@@ -87,19 +88,39 @@ def do_get_col_vars(request):
     }))
 
 
+def do_check_export_button_visibility(request):
+    """
+    do_check_export_button_visibility
+    """
+    visible = False
+
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user:
+        proj = Project.objects.get(pk=valid_user.last_opened_project_id)
+        try:
+            ff = FinalFusion.objects.get(project=proj)
+            visible = True
+        except ObjectDoesNotExist:
+            pass
+    return HttpResponse(json.dumps({"visible": visible}))
+
+
 def i_render_preview_tf(request):
     """
     i_render_preview_tf
     """
     valid_user = token_checker.token_is_valid(request)
     if valid_user:
-        proj = Project.objects.get(pk=valid_user.last_opened_project_id)
-        ff = FinalFusion.objects.get(project=proj)
-
-        dic = {
-            "name": ff.name
-        }
         return dashboard_includer.get_as_json("final_fusion/_preview.html")
+
+
+def i_render_ff(request):
+    """
+    i_render_preview_tf
+    """
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user:
+        return dashboard_includer.get_as_json("final_fusion/_export.html")
 
 
 def get_preview_table(user_profile):

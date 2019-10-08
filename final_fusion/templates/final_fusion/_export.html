@@ -1,0 +1,17 @@
+{% load staticfiles %}
+<script src="{% static 'js/ace/ace.js' %}"></script>
+
+<div id="export-container">
+    <div id="namespace" ns="{{ namespace }}"></div>
+    <h1>Endfusion exportieren</h1>
+    <h3>Basierend auf den Bearbeitungen der Teilfusion</h3>
+
+    <p id="editor-descr">
+        <i class="far fa-hand-point-right"></i>
+        Bearbeitungen werden für den Export-Download übernommen.
+    </p>
+
+    <div id="export-editor">
+        <script></script>
+    </div>
+</div>

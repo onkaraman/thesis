@@ -5,9 +5,17 @@ var all_pages = null;
 var items_per_page = 12;
 var selected_col_rm_name = null;
 var edit_rm_id = null;
+var delete_id = null;
 
+var _ns = $("#namespace").attr("ns");
 
 // Helpers
+function apply_single_sm(obj) {
+    show_script_rm_ui_modal();
+    $("#script-rm-ui-modal #save-button").addClass("edit");
+    ace.edit("editor").setValue(obj.code_content);
+}
+
 function apply_single_col_rm(obj) {
     let if_conditions = JSON.parse(obj.if_conditions);
     let then_cases = JSON.parse(obj.then_cases);
@@ -360,13 +368,13 @@ function request_get_all_rm() {
     });
 }
 
-function request_delete_rm(id) {
+function request_delete_rm() {
     start_loading_animation();
 
     $.ajax({
         url: "/api/rm/delete",
         data: {
-            "id": id,
+            "id": delete_id,
         },
         success: function (data) {
             stop_loading_animation();
@@ -384,7 +392,31 @@ function request_delete_rm(id) {
     });
 }
 
-function request_get_single(id) {
+function request_delete_sm() {
+    start_loading_animation();
+
+    $.ajax({
+        url: "/api/sm/delete",
+        data: {
+            "id": delete_id,
+        },
+        success: function (data) {
+            stop_loading_animation();
+
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                hide_simple_modal();
+                request_get_all_rm();
+            }
+        },
+        error: function (data, exception) {
+            alert(data.responseText);
+        }
+    });
+}
+
+function request_get_single_rm(id) {
     start_loading_animation();
 
     $.ajax({
@@ -405,6 +437,30 @@ function request_get_single(id) {
                 } else if (obj.type === "row") {
                     apply_single_row_rm(obj);
                 }
+            }
+        },
+        error: function (data, exception) {
+            alert(data.responseText);
+        }
+    });
+}
+
+function request_get_single_sm(id) {
+    start_loading_animation();
+
+    $.ajax({
+        url: "/api/sm/get_single",
+        data: {
+            "id": id,
+        },
+        success: function (data) {
+            stop_loading_animation();
+
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                let obj = JSON.parse(json.obj);
+                apply_single_sm(obj);
             }
         },
         error: function (data, exception) {
@@ -466,7 +522,7 @@ function request_validate_script_code() {
                 save_button.prop("disabled", true);
             }
 
-            json.msg.forEach(function(i) {
+            json.msg.forEach(function (i) {
                 output_vars.append("<p>> " + i + "</p>");
             })
         },
@@ -499,6 +555,39 @@ function request_save_script_module() {
                 request_get_all_rm();
             } else {
                 alert("Couldn't save script module.")
+            }
+
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+            alert(data.responseText);
+        }
+    });
+}
+
+function request_edit_script_module() {
+    start_loading_animation();
+
+    $.ajax({
+        type: 'POST',
+        headers: {
+            "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val()
+        },
+        url: "/api/sm/edit/",
+        data: {
+            "id": edit_rm_id,
+            "code": ace.edit("editor").getValue(),
+        },
+        success: function (data) {
+            stop_loading_animation();
+
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                hide_script_rm_ui_modal();
+                request_get_all_rm();
+            } else {
+                alert("Couldn't edit script module.")
             }
 
         },
@@ -665,6 +754,7 @@ function hide_script_rm_ui_modal() {
     $("#script-rm-ui-modal").fadeOut(100);
     $("#spanner").fadeOut(100);
 
+    $("#script-rm-ui-modal #save-button").removeClass("edit");
     $("html, body").animate({scrollTop: last_scroll_y}, "slow");
 }
 
@@ -885,28 +975,28 @@ function register_col_rm_events() {
 }
 
 function register_row_rm_events() {
-    $(document).on("click." + $("#namespace").attr("ns"), "#create-new-row-rm", function (e) {
+    $(document).on("click." + _ns, "#create-new-row-rm", function (e) {
         show_row_rm_ui_modal();
     });
 
-    $(document).on("click." + $("#namespace").attr("ns"), "#row-rm-ui-modal #close", function (e) {
+    $(document).on("click." + _ns, "#row-rm-ui-modal #close", function (e) {
         e.preventDefault();
         hide_row_rm_ui_modal();
     });
 
-    $(document).on("click." + $("#namespace").attr("ns"), "#add-row-button", function (e) {
+    $(document).on("click." + _ns, "#add-row-button", function (e) {
         add_when_row();
     });
 
-    $(document).on("click." + $("#namespace").attr("ns"), "#add-or-sep-button", function (e) {
+    $(document).on("click." + _ns, "#add-or-sep-button", function (e) {
         add_or_sep();
     });
 
-    $(document).on("click." + $("#namespace").attr("ns"), "#add-then-button", function (e) {
+    $(document).on("click." + _ns, "#add-then-button", function (e) {
         add_then_container();
     });
 
-    $(document).on("click." + $("#namespace").attr("ns"), "#row-rm-ui-modal .save-button", function (e) {
+    $(document).on("click." + _ns, "#row-rm-ui-modal .save-button", function (e) {
         $(this).prop("disabled", true);
         if ($(this).hasClass("edit")) request_edit_row_rm();
         else request_create_row_rm();
@@ -924,25 +1014,24 @@ function register_script_rm_events() {
     editor.renderer.setScrollMargin(10, 10);
     editor.setValue("# For each row, do ...\n", 1);
 
-    let ns = $("#namespace").attr("ns");
-
-    $(document).on("click." + ns, "#create-new-script-rm", function (e) {
+    $(document).on("click." + _ns, "#create-new-script-rm", function (e) {
         show_script_rm_ui_modal();
     });
 
-    $(document).on("click." + ns, "#script-rm-ui-modal #close", function (e) {
+    $(document).on("click." + _ns, "#script-rm-ui-modal #close", function (e) {
         e.preventDefault();
         hide_script_rm_ui_modal();
     });
 
-    $(document).on("click." + ns, "#script-rm-ui-modal #validate-button", function (e) {
+    $(document).on("click." + _ns, "#script-rm-ui-modal #validate-button", function (e) {
         e.preventDefault();
         request_validate_script_code();
     });
 
-    $(document).on("click." + ns, "#script-rm-ui-modal #save-button", function (e) {
+    $(document).on("click." + _ns, "#script-rm-ui-modal #save-button", function (e) {
         e.preventDefault();
-        request_save_script_module();
+        if ($(this).hasClass("edit")) request_edit_script_module();
+        else request_save_script_module();
     });
 
 }
@@ -988,7 +1077,7 @@ var main = function () {
 
 $(document).ready(main);
 
-$(document).on("click." + $("#namespace").attr("ns"), ".col-name-container", function () {
+$(document).on("click." + _ns, ".col-name-container", function () {
     let col_name = $(this);
     let col_id = col_name.parent().parent().attr("id");
     col_name.css("display", "none");
@@ -1008,88 +1097,92 @@ $(document).on("click." + $("#namespace").attr("ns"), ".col-name-container", fun
     });
 });
 
-$(document).on("click." + $("#namespace").attr("ns"),
-    ".col-rm-dropdown .dropdown-item", function (e) {
-        e.preventDefault();
-        selected_col_rm_name = $(this);
-        $("#select-col-button .sel-name").text($(this)[0].innerText);
-    });
-
-$(document).on("click." + $("#namespace").attr("ns"),
-    ".row-cols-dropdown .dropdown-item", function (e) {
-        e.preventDefault();
-        $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
-        $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
-    });
-
-$(document).on("click." + $("#namespace").attr("ns"),
-    ".when-dropdown .dropdown-item", function (e) {
-        e.preventDefault();
-        $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
-    });
-
-$(document).on("click." + $("#namespace").attr("ns"),
-    ".then-dropdown .dropdown-item", function (e) {
-        e.preventDefault();
-        $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
-
-        let dropdown = $(this).parent();
-        let add_then_button = $("#add-then-button");
-        let then_input = $(this).parent().parent().parent().find(".then-value");
-        let with_input = $(this).parent().parent().parent().find(".with-value");
-
-        if ($(this)[0].innerText === "REPLACE") {
-            add_then_button.prop("disabled", false);
-            then_input.prop("disabled", false);
-
-            then_input.attr("placeholder", "Ersetze");
-            with_input.attr("placeholder", "Mit");
-            dropdown.css("margin-top", -48);
-
-            with_input.show();
-        } else if ($(this)[0].innerText === "APPLY") {
-            add_then_button.prop("disabled", false);
-
-            then_input.prop("disabled", false);
-            then_input.attr("placeholder", "Übernehme");
-            dropdown.css("margin-top", "");
-            with_input.hide();
-        } else {
-            with_input.hide();
-            then_input.prop("disabled", true);
-
-            then_input.attr("placeholder", "Ganze Zeile wird ignoriert");
-            add_then_button.prop("disabled", true);
-        }
-    });
-
-$(document).on("click." + $("#namespace").attr("ns"), ".rm-col-item", function (e) {
+$(document).on("click." + _ns, ".col-rm-dropdown .dropdown-item", function (e) {
     e.preventDefault();
-    edit_rm_id = $(this).attr("id");
-    request_get_single($(this).attr("id"));
+    selected_col_rm_name = $(this);
+    $("#select-col-button .sel-name").text($(this)[0].innerText);
 });
 
-$(document).on("click." + $("#namespace").attr("ns"), ".rm-delete", function (e) {
+$(document).on("click." + _ns, ".row-cols-dropdown .dropdown-item", function (e) {
+    e.preventDefault();
+    $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
+    $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
+});
+
+$(document).on("click." + _ns, ".when-dropdown .dropdown-item", function (e) {
+    e.preventDefault();
+    $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
+});
+
+$(document).on("click." + _ns, ".then-dropdown .dropdown-item", function (e) {
+    e.preventDefault();
+    $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
+
+    let dropdown = $(this).parent();
+    let add_then_button = $("#add-then-button");
+    let then_input = $(this).parent().parent().parent().find(".then-value");
+    let with_input = $(this).parent().parent().parent().find(".with-value");
+
+    if ($(this)[0].innerText === "REPLACE") {
+        add_then_button.prop("disabled", false);
+        then_input.prop("disabled", false);
+
+        then_input.attr("placeholder", "Ersetze");
+        with_input.attr("placeholder", "Mit");
+        dropdown.css("margin-top", -48);
+
+        with_input.show();
+    } else if ($(this)[0].innerText === "APPLY") {
+        add_then_button.prop("disabled", false);
+
+        then_input.prop("disabled", false);
+        then_input.attr("placeholder", "Übernehme");
+        dropdown.css("margin-top", "");
+        with_input.hide();
+    } else {
+        with_input.hide();
+        then_input.prop("disabled", true);
+
+        then_input.attr("placeholder", "Ganze Zeile wird ignoriert");
+        add_then_button.prop("disabled", true);
+    }
+});
+
+$(document).on("click." + _ns, ".rm-col-item", function (e) {
+    e.preventDefault();
+    edit_rm_id = $(this).attr("id");
+
+    if ($(this).find(".type").text() === "script") {
+        request_get_single_sm(edit_rm_id);
+    } else {
+        request_get_single_rm(edit_rm_id);
+    }
+});
+
+$(document).on("click." + _ns, ".rm-delete", function (e) {
     e.preventDefault();
     e.stopPropagation();
     let name = $(e.currentTarget.parentElement).find(".name").text();
     let msg = "Möchten Sie wirklich <b>" + name + "</b> löschen?";
-    let id = $(e.currentTarget.parentElement).attr("id");
-    show_simple_modal("Regelmodul löschen", msg, request_delete_rm(id));
+    delete_id = $(e.currentTarget.parentElement).attr("id");
+
+    if ($(e.currentTarget.parentElement).find(".type").text() === "script") {
+        show_simple_modal("Regelmodul löschen", msg, request_delete_sm);
+    } else {
+        show_simple_modal("Regelmodul löschen", msg, request_delete_rm);
+    }
 });
 
-$(document).on("change." + $("#namespace").attr("ns"),
-    "#rm-activate-checkbox", function (e) {
-        let checked = $(this).prop('checked');
-        if (checked) request_tf_preview_with_rm();
-        else request_tf_preview();
-    });
+$(document).on("change." + _ns, "#rm-activate-checkbox", function (e) {
+    let checked = $(this).prop('checked');
+    if (checked) request_tf_preview_with_rm();
+    else request_tf_preview();
+});
 
-$(document).on("keyup." + $("#namespace").attr("ns"),
-    "body", function (e) {
-        if (e.key === "Escape") {
-            hide_row_rm_ui_modal();
-            hide_col_rm_ui_modal();
-            hide_script_rm_ui_modal();
-        }
-    });
+$(document).on("keyup." + _ns, "body", function (e) {
+    if (e.key === "Escape") {
+        hide_row_rm_ui_modal();
+        hide_col_rm_ui_modal();
+        hide_script_rm_ui_modal();
+    }
+});

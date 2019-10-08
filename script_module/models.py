@@ -63,6 +63,9 @@ class ScriptModule(models.Model):
         }
 
     def row_structure_retained(self):
+        """
+        row_structure_retained
+        """
         exec_vars = {"_row": self.final_fusion.get_col_vars()}
         exec(self.code_content, globals(), exec_vars)
 

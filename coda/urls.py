@@ -9,6 +9,8 @@ from final_fusion import views as ff_v
 from final_fusion_column import views as ffc_v
 from rule_module import views as rm_v
 from script_module import views as sm_v
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', dashboard_v.render_dashboard),
@@ -22,6 +24,7 @@ urlpatterns = [
     url(r'^include/tq/import/$', tq_v.i_render_import),
     url(r'^include/tq/view/$', tq_v.i_render_single_tq),
     url(r'^include/tf/preview/$', ff_v.i_render_preview_tf),
+    url(r'^include/ff/export/$', ff_v.i_render_ff),
 
     # User API
     url(r'^api/user/signup/$', user_profile_v.do_sign_up),
@@ -50,6 +53,7 @@ urlpatterns = [
     url(r'^api/tf/preview_table/$', ff_v.render_preview_table),
     url(r'^api/tf/rm_preview_table/$', ff_v.render_preview_table_with_rm),
     url(r'^api/tf/get_col_vars/$', ff_v.do_get_col_vars),
+    url(r'^api/ff/export_visible/$', ff_v.do_check_export_button_visibility),
 
     # RM API
     url(r'^api/rm/get_single/$', rm_v.render_single),
@@ -63,6 +67,9 @@ urlpatterns = [
     # SM API
     url(r'^api/sm/validate/$', sm_v.do_validate_code),
     url(r'^api/sm/create/$', sm_v.do_create),
+    url(r'^api/sm/edit/$', sm_v.do_edit),
+    url(r'^api/sm/get_single/$', sm_v.render_single),
+    url(r'^api/sm/delete/$', sm_v.do_delete_sm),
 ]
 
 

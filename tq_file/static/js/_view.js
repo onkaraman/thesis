@@ -4,6 +4,8 @@ var current_page = 1;
 var all_pages = null;
 var items_per_page = 10;
 
+var _ns = $("#namespace").attr("ns");
+
 function request_tq_table_data(id) {
     start_loading_animation();
 
@@ -94,6 +96,8 @@ function request_select_column_tf(col_name, jquery_obj) {
             } else {
                 jquery_obj.find(".tf-check").css("opacity", "0");
             }
+
+            request_check_export_visibility();
         },
         error: function (data, exception) {
             stop_loading_animation();
@@ -219,7 +223,7 @@ var main = function () {
 
 $(document).ready(main);
 
-$(document).on("mouseenter." + $("#namespace").attr("ns"), "td", function () {
+$(document).on("mouseenter." + _ns, "td", function () {
     let t = parseInt($(this).index()) + 1;
 
     let th_nth = $('#tq-table th:nth-child(' + t + ')');
@@ -233,7 +237,7 @@ $(document).on("mouseenter." + $("#namespace").attr("ns"), "td", function () {
     td_nth.css('cursor', 'pointer');
 });
 
-$(document).on("click." + $("#namespace").attr("ns"), "td", function () {
+$(document).on("click." + _ns, "td", function () {
     let t = parseInt($(this).index()) + 1;
 
     let th_nth = $('#tq-table th:nth-child(' + t + ')');
@@ -242,7 +246,7 @@ $(document).on("click." + $("#namespace").attr("ns"), "td", function () {
     request_select_column_tf(th_name, th_nth);
 });
 
-$(document).on("mouseleave." + $("#namespace").attr("ns"), "td", function () {
+$(document).on("mouseleave." + _ns, "td", function () {
     let t = parseInt($(this).index()) + 1;
     let td_nth = $('#tq-table td:nth-child(' + t + ')');
     let th_nth = $('#tq-table th:nth-child(' + t + ')');

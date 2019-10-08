@@ -53,14 +53,18 @@ function is_valid_email(emailAddress) {
 }
 
 function unbind_methods_with_namespace(ns) {
+    // TODO: Keep track of events to unbind and unbind them in a place where to async stuff is happening,
+    // a place where nothing is happening.
+
     let events = $._data($(document)[0], "events");
     for (let property in events) {
         for (let item in events[property]) {
 
             let handler = events[property][item];
+
             if (handler.namespace === ns) {
                 $(document).off(property + "." + ns);
-                console.log("Unbound: " + handler.type + "." + handler.namespace);
+                console.log("Unbound: " + handler.type + "." + handler.namespace + ": " + handler.selector);
             }
         }
     }
@@ -85,6 +89,7 @@ function request_template_include(url, data_dict) {
                 // Apply js
                 // Unbind existing namespace events first
                 unbind_methods_with_namespace(json.namespace);
+                //unbind_all_events();
 
                 $.getScript(json.js, function () {
                     console.log("Included " + json.js);
@@ -145,6 +150,29 @@ function request_rename_project(new_name) {
         },
         error: function (data, exception) {
             stop_loading_animation();
+            alert(data.responseText);
+        }
+    });
+}
+
+function request_check_export_visibility() {
+    start_loading_animation();
+
+    $.ajax({
+        url: "/api/ff/export_visible",
+        data: {},
+        success: function (data) {
+            stop_loading_animation();
+
+            let json = JSON.parse(data);
+
+            if (json.visible) {
+                $("#endfusion-button").show();
+            } else {
+                $("#endfusion-button").hide();
+            }
+        },
+        error: function (data, exception) {
             alert(data.responseText);
         }
     });
@@ -231,13 +259,11 @@ function start_new_project() {
     request_start_new_project();
 }
 
-
 var main = function () {
     fit_modals();
+    request_check_export_visibility();
 
-    $(window).resize(function () {
-        fit_modals();
-    });
+    $(window).resize(function () { fit_modals(); });
     reset_left_panel();
 
     let project_rename = $("#project-rename");
@@ -282,6 +308,7 @@ var main = function () {
     });
 
     $("#add-tq").click(function (e) {
+        $("#right-panel").hide();
         request_template_include("/include/tq/import", {})
     });
 
@@ -289,7 +316,18 @@ var main = function () {
         request_template_include("/include/tf/preview", {})
     });
 
+    $("#endfusion-button").click(function (e) {
+        $("#right-panel").hide();
+        request_template_include("/include/ff/export", {});
+    });
+
 };
 
-
 $(document).ready(main);
+
+$(document).on("click", ".tq-item", function (e) {
+    e.preventDefault();
+    let id = $(e.currentTarget).attr("id");
+    $("#right-panel").hide();
+    request_view_tq(id);
+});
