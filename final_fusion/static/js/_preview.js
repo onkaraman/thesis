@@ -79,6 +79,49 @@ function apply_single_row_rm(obj) {
     }
 }
 
+function get_row_when_data() {
+    let when_items = $(".when-item");
+
+    let when_data = [];
+    let and_bracket = [];
+
+    for (let i = 0; i < when_items.length; i += 1) {
+
+        if ($(when_items[i]).hasClass("or-sep-container")) {
+            when_data.push(and_bracket);
+            and_bracket = [];
+        } else {
+            and_bracket.push({
+                "id": $(when_items[i]).find(".pick-col-button .sel-name").attr("id"),
+                "condition": $(when_items[i]).find(".pick-when-condition").text().trim(),
+                "value": $(when_items[i]).find(".when-value").val().trim()
+            });
+        }
+    }
+
+    if (and_bracket.length > 0) when_data.push(and_bracket);
+
+    return when_data;
+}
+
+function get_row_then_data() {
+    let then_data = [];
+    let then_items = $("#then-container");
+    for (let i = 0; i < then_items.length; i += 1) {
+        let obj = {
+            "id": $(then_items[i]).find(".pick-col-button .sel-name").attr("id"),
+            "action": $(then_items[i]).find(".pick-then-condition").text().trim(),
+            "value": $(then_items[i]).find(".then-value").val().trim()
+        };
+
+        if (obj["action"] === "REPLACE") obj["value_replace"] = $(then_items[i]).find(".with-value").val().trim();
+        if (parseInt(obj["id"]) === -1) obj["dyn_col"] = $(then_items[i]).find(".dyncol-value").val().trim();
+
+        then_data.push(obj);
+    }
+    return then_data;
+}
+
 // Requests
 function request_tf_preview() {
     start_loading_animation();
@@ -102,7 +145,6 @@ function request_tf_preview() {
 }
 
 function request_tf_preview_with_rm() {
-    console.log("calling");
     start_loading_animation();
     $.ajax({
         url: "/api/tf/rm_preview_table",
@@ -238,49 +280,6 @@ function request_edit_col_rm() {
             alert(data.responseText);
         }
     });
-}
-
-function get_row_when_data() {
-    let when_items = $(".when-item");
-
-    let when_data = [];
-    let and_bracket = [];
-
-    for (let i = 0; i < when_items.length; i += 1) {
-
-        if ($(when_items[i]).hasClass("or-sep-container")) {
-            when_data.push(and_bracket);
-            and_bracket = [];
-        } else {
-            and_bracket.push({
-                "id": $(when_items[i]).find(".pick-col-button .sel-name").attr("id"),
-                "condition": $(when_items[i]).find(".pick-when-condition").text().trim(),
-                "value": $(when_items[i]).find(".when-value").val().trim()
-            });
-        }
-    }
-
-    if (and_bracket.length > 0) when_data.push(and_bracket);
-
-    return when_data;
-}
-
-function get_row_then_data() {
-    let then_data = [];
-    let then_items = $("#then-container");
-    for (let i = 0; i < then_items.length; i += 1) {
-        let obj = {
-            "id": $(then_items[i]).find(".pick-col-button .sel-name").attr("id"),
-            "action": $(then_items[i]).find(".pick-then-condition").text().trim(),
-            "value": $(then_items[i]).find(".then-value").val().trim()
-        };
-
-        if (obj["action"] === "REPLACE") obj["value_replace"] = $(then_items[i]).find(".with-value").val().trim();
-        if (parseInt(obj["id"]) === -1) obj["dyn_col"] = $(then_items[i]).find(".dyncol-value").val().trim();
-
-        then_data.push(obj);
-    }
-    return then_data;
 }
 
 function request_create_row_rm() {
@@ -438,7 +437,7 @@ function request_get_col_vars(id) {
     });
 }
 
-function request_validate_code() {
+function request_validate_script_code() {
     start_loading_animation();
 
     $.ajax({
@@ -470,6 +469,38 @@ function request_validate_code() {
             json.msg.forEach(function(i) {
                 output_vars.append("<p>> " + i + "</p>");
             })
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+            alert(data.responseText);
+        }
+    });
+}
+
+function request_save_script_module() {
+    start_loading_animation();
+
+    $.ajax({
+        type: 'POST',
+        headers: {
+            "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val()
+        },
+        url: "/api/sm/create/",
+        data: {
+            "code": ace.edit("editor").getValue(),
+        },
+        success: function (data) {
+            stop_loading_animation();
+
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                hide_script_rm_ui_modal();
+                request_get_all_rm();
+            } else {
+                alert("Couldn't save script module.")
+            }
+
         },
         error: function (data, exception) {
             stop_loading_animation();
@@ -770,6 +801,9 @@ function add_rm_col_item(item) {
     if (item.type === "row") {
         type_class = "row-type";
     }
+    if (item.type === "script") {
+        type_class = "script-type";
+    }
 
     let html = "<div class='rm-col-item' id='" + item.id + "'>" +
         "<i class='far fa-trash-alt rm-delete'></i>" +
@@ -903,7 +937,12 @@ function register_script_rm_events() {
 
     $(document).on("click." + ns, "#script-rm-ui-modal #validate-button", function (e) {
         e.preventDefault();
-        request_validate_code();
+        request_validate_script_code();
+    });
+
+    $(document).on("click." + ns, "#script-rm-ui-modal #save-button", function (e) {
+        e.preventDefault();
+        request_save_script_module();
     });
 
 }

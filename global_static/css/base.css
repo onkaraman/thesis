@@ -367,6 +367,11 @@ p {
     color: black;
 }
 
+.rm-col-item .script-type {
+    background-color: #dac259;
+    color: black;
+}
+
 .rm-col-item .name {
     margin-top: 2px;
     color: var(--cyan-primary);

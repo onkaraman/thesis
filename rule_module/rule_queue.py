@@ -3,6 +3,7 @@ from project.models import Project
 from final_fusion.models import FinalFusion
 from final_fusion_column.models import FinalFusionColumn
 from rule_module.models import RuleModule
+from script_module.models import ScriptModule
 
 # Condition names
 APPLY = "APPLY"
@@ -18,6 +19,7 @@ class RuleQueue:
     def __init__(self, table):
         self.table = table
         self.rule_modules = []
+        self.script_modules = []
         self.span_tag = "<span class='ruled'>%s</span>"
 
     def add_all_user_rule_modules(self, user_profile):
@@ -26,6 +28,7 @@ class RuleQueue:
         """
         ff = FinalFusion.objects.get(project=Project.objects.get(pk=user_profile.last_opened_project_id))
         self.rule_modules = list(RuleModule.objects.filter(final_fusion=ff, archived=False))
+        self.script_modules = ScriptModule.objects.filter(final_fusion=ff, archived=False)
 
     def replace_in_span(self, span, haystack, needle):
         """
@@ -99,3 +102,7 @@ class RuleQueue:
                                                 row[tcn["long"]] = row[tcn["long"]].replace(tc["value"],
                                                                                              self.span_tag %
                                                                                              tc["value_replace"])
+
+        for sm in self.script_modules:
+            for row in self.table["out_rows"]:
+                row = sm.apply_to_row(row, self.span_tag)

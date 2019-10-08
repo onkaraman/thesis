@@ -6,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from final_fusion.models import FinalFusion
 from final_fusion_column.models import FinalFusionColumn
 from rule_module.models import RuleModule
+from script_module.models import ScriptModule
 from project.models import Project
 from rule_module import rule_queue as rule_queue
 
@@ -255,12 +256,22 @@ def render_all_rm(request):
         proj = Project.objects.get(pk=valid_user.last_opened_project_id)
         ff = FinalFusion.objects.get(project=proj)
         rule_modules = RuleModule.objects.filter(final_fusion=ff, archived=False)
+        script_modules = ScriptModule.objects.filter(final_fusion=ff, archived=False)
 
         for rm in rule_modules:
             item = {
                 "id": rm.pk,
                 "name": rm.name,
                 "type": rm.rule_type
+            }
+
+            ret.append(item)
+
+        for sm in script_modules:
+            item = {
+                "id": sm.pk,
+                "name": sm.name,
+                "type": "script"
             }
 
             ret.append(item)

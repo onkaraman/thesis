@@ -9,8 +9,6 @@ from final_fusion import views as ff_v
 from final_fusion_column import views as ffc_v
 from rule_module import views as rm_v
 from script_module import views as sm_v
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', dashboard_v.render_dashboard),
@@ -64,7 +62,10 @@ urlpatterns = [
 
     # SM API
     url(r'^api/sm/validate/$', sm_v.do_validate_code),
+    url(r'^api/sm/create/$', sm_v.do_create),
 ]
+
+
 
 
 

@@ -12,13 +12,14 @@ class ScriptModule(models.Model):
     """
     pass
     creation_date = models.DateTimeField(default=timezone.now)
+    archived = models.BooleanField(default=False)
     name = models.CharField(max_length=40, default="Script Module")
     final_fusion = models.ForeignKey(FinalFusion, on_delete=models.CASCADE)
     code_content = models.CharField(max_length=900)
 
-    def is_valid(self):
+    def check_validity(self):
         """
-        is_valid
+        check_validity
         """
         msg = []
 
@@ -72,6 +73,24 @@ class ScriptModule(models.Model):
             if k not in exec_vars["_row"]:
                 return False
         return True
+
+    def apply_to_row(self, row, edit_style):
+        """
+        apply_to_row
+        """
+        orig = row.copy()
+        exec_vars = {"_row": row}
+
+        cv = self.final_fusion.get_col_vars()
+        for k in cv.keys():
+            row[k] = row.pop(cv[k])
+
+        exec(self.code_content, globals(), exec_vars)
+
+        for k in cv.keys():
+            row[cv[k]] = row.pop(k)
+            if row[cv[k]] != orig[cv[k]]:
+                row[cv[k]] = edit_style % row[cv[k]]
 
     def __str__(self):
         return "#%d: %s" % (self.pk, self.name)

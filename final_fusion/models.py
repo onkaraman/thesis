@@ -40,7 +40,7 @@ class FinalFusion(models.Model):
             while short_name in cv:
                 short_name += f.display_column_name[-1].upper()
 
-            cv[short_name] = f.display_column_name
+            cv[short_name] = f.get_as_json()["name"]
 
         return cv
 
