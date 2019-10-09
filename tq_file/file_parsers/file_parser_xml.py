@@ -7,8 +7,8 @@ class FileParserXML(FileParser):
     """
     FileParserXML
     """
-    def get_file_type(self):
-        return "xml"
+    def handles_file_type(self, extension):
+        return extension == "xml"
 
     def start_parse(self, file_path):
         with open(file_path) as fd:

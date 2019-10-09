@@ -8,7 +8,7 @@ class FileParser(ABC):
     """
 
     @abstractmethod
-    def get_file_type(self):
+    def handles_file_type(self, extension):
         """
         :return: A string containing the file type (extension format)  the inheriting class can parse.
         """

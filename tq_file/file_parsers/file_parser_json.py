@@ -8,8 +8,8 @@ class FileParserJSON(FileParser):
     """
     FileParserJSON
     """
-    def get_file_type(self):
-        return "json"
+    def handles_file_type(self, extension):
+        return extension == "json"
 
     def start_parse(self, file_path):
         file_ = open(os.path.join(settings.BASE_DIR, file_path))

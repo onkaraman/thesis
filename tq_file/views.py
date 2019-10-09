@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.middleware.csrf import get_token as get_csrf_token
 from tq_file.file_parsers.file_parser_json import FileParserJSON
 from tq_file.file_parsers.file_parser_xml import FileParserXML
+from tq_file.file_parsers.file_parser_xls_x import FileParserXLSx
 from tq_file.models import TQFile
 from project.models import Project
 from security.args_checker import ArgsChecker
@@ -14,11 +15,17 @@ import dashboard.includer as dashboard_includer
 def delegate_to_parser(file_path, extension):
     json_parser = FileParserJSON()
     xml_parser = FileParserXML()
+    excel_parser = FileParserXLSx()
 
-    if json_parser.get_file_type() == extension:
+    if json_parser.handles_file_type(extension):
         return json_parser.start_parse(file_path)
-    if xml_parser.get_file_type() == extension:
+
+    if xml_parser.handles_file_type(extension):
         return xml_parser.start_parse(file_path)
+
+    if excel_parser.handles_file_type(extension):
+        return excel_parser.start_parse(file_path)
+
     return False
 
 
