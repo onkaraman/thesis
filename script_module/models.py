@@ -1,6 +1,4 @@
 import re
-import json
-from django.http import HttpResponse
 from django.db import models
 from django.utils import timezone
 from final_fusion.models import FinalFusion
@@ -10,7 +8,6 @@ class ScriptModule(models.Model):
     """
     ScriptModule
     """
-    pass
     creation_date = models.DateTimeField(default=timezone.now)
     archived = models.BooleanField(default=False)
     name = models.CharField(max_length=40, default="Script Module")
@@ -77,7 +74,7 @@ class ScriptModule(models.Model):
                 return False
         return True
 
-    def apply_to_row(self, row, edit_style):
+    def apply_to_row(self, row, edit_style, changes_visible):
         """
         apply_to_row
         """
@@ -93,7 +90,8 @@ class ScriptModule(models.Model):
         for k in cv.keys():
             row[cv[k]] = row.pop(k)
             if row[cv[k]] != orig[cv[k]]:
-                row[cv[k]] = edit_style % row[cv[k]]
+                if changes_visible:
+                    row[cv[k]] = edit_style % row[cv[k]]
 
     def __str__(self):
         return "#%d: %s" % (self.pk, self.name)

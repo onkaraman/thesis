@@ -208,7 +208,7 @@ def render_preview_table_with_rm(request):
     if valid_user:
         table = get_preview_table(valid_user)
         rq = RuleQueue(table)
-        rq.add_all_user_rule_modules(valid_user)
+        rq.add_all_rule_modules(valid_user)
         rq.apply()
         table["out_rows"] = rq.table["out_rows"]
 
@@ -221,3 +221,25 @@ def render_preview_table_with_rm(request):
             "headers": table["out_headers"],
             "rows": table["out_rows"]
         }))
+
+
+def render_final_fusion(request):
+    """
+    render_final_fusion
+    """
+    ret = {}
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user:
+        proj = Project.objects.get(pk=valid_user.last_opened_project_id)
+        ff = FinalFusion.objects.get(project=proj)
+
+        table = get_preview_table(valid_user)
+        rq = RuleQueue(table, changes_visible=False)
+        rq.add_all_rule_modules(valid_user)
+        rq.apply()
+
+        ret["project_name"] = proj.name
+        ret["fusion_name"] = ff.name
+        ret["content"] = rq.table["out_rows"]
+
+    return HttpResponse(json.dumps(ret))
