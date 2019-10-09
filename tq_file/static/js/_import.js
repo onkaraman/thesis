@@ -14,7 +14,7 @@ function request_tq_upload(task_id) {
     $("#upload-button").prop("disabled", true);
 
     $.ajax({
-        url: "/api/tq/upload?task_id=" + task_id,
+        url: "/api/tq/upload/?task_id=" + task_id,
         type: 'POST',
         data: new FormData($('#upload-form')[0]),
         cache: false,
@@ -28,12 +28,12 @@ function request_tq_upload(task_id) {
             if (json.success === true) {
                 request_load_tqs();
                 $("#upload-button").prop("disabled", false);
-            } else {
             }
         },
         error: function (data, exception) {
             stop_loading_animation();
             alert(data.responseText);
+            $("#upload-button").prop("disabled", false);
         }
     });
 }

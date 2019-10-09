@@ -71,6 +71,32 @@ function unbind_methods_with_namespace(ns) {
 }
 
 // Requests
+function request_view_tq(id) {
+    request_template_include("/include/tq/view", {"id": id});
+}
+
+function request_load_tqs() {
+    start_loading_animation();
+
+    $.ajax({
+        url: "/api/tq/load",
+        success: function (data) {
+            stop_loading_animation();
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                $("#tqs-container").empty();
+                json.tqs.forEach(function (item) {
+                    add_tq_ui(item);
+                });
+            }
+        },
+        error: function (data, exception) {
+            alert(data.responseText);
+        }
+    });
+}
+
 function request_template_include(url, data_dict) {
     start_loading_animation();
 

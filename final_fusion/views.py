@@ -99,7 +99,8 @@ def do_check_export_button_visibility(request):
         proj = Project.objects.get(pk=valid_user.last_opened_project_id)
         try:
             ff = FinalFusion.objects.get(project=proj)
-            visible = True
+            if len(FinalFusionColumn.objects.filter(final_fusion=ff, archived=False)) > 0:
+                visible = True
         except ObjectDoesNotExist:
             pass
     return HttpResponse(json.dumps({"visible": visible}))

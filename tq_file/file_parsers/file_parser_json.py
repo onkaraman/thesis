@@ -2,7 +2,6 @@ import os
 import json
 from django.conf import settings
 from .file_parser import FileParser
-from tq_file.models import TQFile
 
 
 class FileParserJSON(FileParser):

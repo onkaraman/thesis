@@ -69,32 +69,6 @@ function request_delete_project() {
     });
 }
 
-function request_load_tqs() {
-    start_loading_animation();
-
-    $.ajax({
-        url: "/api/tq/load",
-        success: function (data) {
-            stop_loading_animation();
-            let json = JSON.parse(data);
-
-            if (json.success) {
-                $("#tqs-container").empty();
-                json.tqs.forEach(function (item) {
-                    add_tq_ui(item);
-                });
-            }
-        },
-        error: function (data, exception) {
-            alert(data.responseText);
-        }
-    });
-}
-
-function request_view_tq(id) {
-    request_template_include("/include/tq/view", {"id": id});
-}
-
 var main = function() {
     hide_edit_controls();
 };
