@@ -198,6 +198,10 @@ p {
     font-size: 13px;
 }
 
+#tq-icon .fas {
+    color: #63aaff;
+}
+
 .panel-button {
     display: inline-flex;
     margin-top: 8px;
@@ -214,6 +218,10 @@ p {
 .panel-button:hover {
     background-color: var(--cyan-primary);
     cursor: pointer;
+}
+
+#add-tq .fas {
+    color: #efefef;
 }
 
 .accented {

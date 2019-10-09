@@ -1,3 +1,7 @@
+#export-container {
+    margin-bottom: 20px;
+}
+
 #editor-descr {
     margin-top: 25px;
 }
@@ -6,10 +10,36 @@
     margin-right: 3px;
 }
 
+#editor-container {
+    display: grid;
+    margin-top: -5px;
+}
+
 .ace_editor {
     height: 500px;
     width: 667px;
-    margin-top: 10px;
     border: 1px solid #d0d0d0;
     float: left;
+}
+
+#download-link {
+    display: none;
+    margin-top: 20px;
+    width: 250px;
+    height: 35px;
+    color: white;
+    background-color: #6ea046;
+    border-color: #8e8e8e;
+    padding: 5px 15px;
+}
+
+#download-link:hover {
+    background-color: #649141;
+    color: white;
+    text-decoration: none;
+}
+
+#download-link .fas {
+    margin-right: 9px;
+    color: #375a1a;
 }
