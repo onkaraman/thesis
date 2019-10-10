@@ -10,7 +10,7 @@ class FileParserXML(FileParser):
     def handles_file_type(self, extension):
         return extension == "xml"
 
-    def start_parse(self, file_path):
+    def start_parse(self, file_path, data=None):
         with open(file_path) as fd:
             doc = xmltodict.parse(fd.read())
             parsable = []

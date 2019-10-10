@@ -11,7 +11,7 @@ class FileParserJSON(FileParser):
     def handles_file_type(self, extension):
         return extension == "json"
 
-    def start_parse(self, file_path):
+    def start_parse(self, file_path, data=None):
         file_ = open(os.path.join(settings.BASE_DIR, file_path))
         parsable = json.loads(file_.read())
 

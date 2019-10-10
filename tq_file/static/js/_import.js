@@ -13,8 +13,15 @@ function request_tq_upload(task_id) {
     start_loading_animation();
     $("#upload-button").prop("disabled", true);
 
+    let sheet_names = "";
+    let sel_sheets = $(".sheet-selected");
+
+    for (let i=0; i < sel_sheets.length; i+=1) {
+        sheet_names += $(sel_sheets[i]).find(".sheet-name").text() + ","
+    }
+
     $.ajax({
-        url: "/api/tq/upload/?task_id=" + task_id,
+        url: "/api/tq/upload/?task_id=" + task_id + "&sheet_names=" + sheet_names,
         type: 'POST',
         data: new FormData($('#upload-form')[0]),
         cache: false,
@@ -34,11 +41,14 @@ function request_tq_upload(task_id) {
                 sel_sheets.empty();
 
                 json.data.forEach(function (i) {
-                    sel_sheets.append("<button class='btn sheet-button'><i class='fas fa-table'></i>"+ i +"</button>");
+                    sel_sheets.append("<button class='btn sheet-button'>" +
+                        "<i class='fas fa-table'></i><span class='sheet-name'>"+ i +"</span>" +
+                        "</button>");
                 });
 
                 $("#sheets-container").show();
-                $("#upload-button").prop("disabled", false);
+                $("#upload-button").prop("disabled", true);
+                $("#upload-button #button-text").text("Ausgewählte Sheets parsen");
             }
 
         },
@@ -59,6 +69,8 @@ var main = function () {
 
         $("#selected-file").text(file_name);
         upload_button.prop("disabled", false);
+
+        $("#upload-button #button-text").text("Datei hochladen und auslesen");
     });
 
     upload_button.click(function (e) {
@@ -79,4 +91,6 @@ $(document).on("click." + _ns, ".sheet-button", function (e) {
     } else {
         $(this).removeClass("sheet-selected");
     }
+
+    $("#upload-button").prop("disabled", $(".sheet-selected").length <= 0);
 });

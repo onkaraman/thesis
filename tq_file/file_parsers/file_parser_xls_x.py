@@ -10,8 +10,8 @@ class FileParserXLSx(FileParser):
     def handles_file_type(self, extension):
         return "xls" == extension or "xlsx" == extension
 
-    def start_parse(self, file_path):
-        excel = pd.read_excel(file_path, sheet_name=None)["data"]
+    def start_parse(self, file_path, data=None):
+        excel = pd.read_excel(file_path, sheet_name=data)
         columns = list(excel.columns)
         rows = list(excel.values)
 

@@ -12,12 +12,12 @@ class FileParserXLSB(FileParser):
     def handles_file_type(self, extension):
         return extension == "xlsb"
 
-    def start_parse(self, file_path):
+    def start_parse(self, file_path, data=None):
         with open_xlsb(file_path) as wb:
 
             cols = []
             data_frame = []
-            with wb.get_sheet(1) as sheet:
+            with wb.get_sheet(data) as sheet:
                 for row in sheet.rows():
                     l = [item.v for item in row]
                     if not cols:

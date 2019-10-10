@@ -15,7 +15,7 @@ class FileParser(ABC):
         raise Exception("Method not implemented.")
 
     @abstractmethod
-    def start_parse(self, file_path):
+    def start_parse(self, file_path, data=None):
         """
         Will initiate the parsing process for the file.
         :return: The file path of the parsed file.
