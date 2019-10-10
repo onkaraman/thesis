@@ -19,6 +19,9 @@ function request_tq_table_data(id) {
             if (json.success) {
                 render_table_heads(json.table_data["cols"]);
                 render_table_body(json.table_data["cols"], json.table_data["rows"]);
+
+                if (json.has_been_flattened) $("#flattened").show();
+                else $("#flattened").hide();
             }
         },
         error: function (data, exception) {

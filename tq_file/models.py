@@ -14,6 +14,7 @@ class TQFile(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     source_file_name = models.CharField(max_length=100)
     display_file_name = models.CharField(max_length=50)
+    has_been_flattened = models.BooleanField(default=False)
     content_json = models.TextField()
 
     def get_as_table(self, user_profile):

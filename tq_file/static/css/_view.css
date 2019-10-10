@@ -16,6 +16,21 @@
     height: 56px;
 }
 
+#flattened {
+    display: none;
+    margin-top: 9px;
+    margin-left: 0px;
+    background-color: #ffeecf;
+    padding: 6px 8px 4px;
+    font-size: 15px;
+}
+
+#flattened .fas {
+    margin-right: 5px;
+    padding-left: 3px;
+    color: #ca983f;
+}
+
 #name-display .fas {
     padding-top: 16px;
     margin-left: 11px;

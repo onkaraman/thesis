@@ -1,4 +1,6 @@
 import json
+import security.token_checker as token_checker
+import dashboard.includer as dashboard_includer
 from django.conf import settings
 from django.http import HttpResponse
 from django.middleware.csrf import get_token as get_csrf_token
@@ -9,8 +11,7 @@ from tq_file.file_parsers.file_parser_xlsb import FileParserXLSB
 from tq_file.models import TQFile
 from project.models import Project
 from security.args_checker import ArgsChecker
-import security.token_checker as token_checker
-import dashboard.includer as dashboard_includer
+from .tq_flattener import TQFlattener
 
 
 def delegate_to_parser(file_path, extension, sheet):
@@ -71,10 +72,13 @@ def do_upload_tq(request):
                 filename_spl = file.name.split(".")
                 extension = filename_spl[len(filename_spl) - 1]
 
+                # Write into a file
                 file_path = "%s/%s" % (settings.TQ_UPLOAD_DIR, file.name)
                 with open(file_path, 'wb+') as destination:
                     for chunk in file.chunks():
                         destination.write(chunk)
+
+                tq_flattener = TQFlattener()
 
                 if (extension == "xlsx" or extension == "xlsb") and len(request.GET["sheet_names"]) < 1 \
                         and not ArgsChecker.str_is_malicious(request.GET["sheet_names"]):
@@ -82,25 +86,42 @@ def do_upload_tq(request):
                     msg = "sheet_check"
                     if sheets:
                         data = sheets
-
                 else:
                     sheet_names = None
                     if not ArgsChecker.str_is_malicious(request.GET["sheet_names"]):
                         sheet_names = [x for x in request.GET["sheet_names"].split(",") if len(x) > 1]
 
-                    for sheet in sheet_names:
-                        json_parsed = delegate_to_parser(file_path, extension, sheet)
+                    if len(sheet_names) > 0:
+                        for sheet in sheet_names:
+                            json_parsed = delegate_to_parser(file_path, extension, sheet)
+
+                            if json_parsed:
+                                TQFile.objects.create(
+                                    project=valid_user.get_project(),
+                                    source_file_name="%s/%s" % (file.name, sheet),
+                                    display_file_name=file.name,
+                                    content_json=json_parsed
+                                )
+                                success = True
+                            else:
+                                msg = "Uploaded file not supported"
+                    else:
+                        json_parsed = delegate_to_parser(file_path, extension, None)
+                        json_parsed_flat = tq_flattener.flatten(json_parsed)
+                        has_been_flattened = json_parsed != json_parsed_flat
+                        json_parsed = json_parsed_flat
 
                         if json_parsed:
                             TQFile.objects.create(
                                 project=valid_user.get_project(),
                                 source_file_name=file.name,
                                 display_file_name=file.name,
-                                content_json=json_parsed
+                                content_json=json_parsed,
+                                has_been_flattened=has_been_flattened
                             )
                             success = True
-                    else:
-                        msg = "Uploaded file not supported"
+                        else:
+                            msg = "Uploaded file not supported"
 
     else:
         msg = "User is not valid"
@@ -193,17 +214,20 @@ def render_single_tq_table(request):
     """
     success = False
     table_data = None
+    flattened = False
 
     valid_user = token_checker.token_is_valid(request)
     if valid_user and "id" in request.GET and ArgsChecker.is_number(request.GET["id"]):
         tq = TQFile.objects.get(pk=request.GET["id"])
         table_data = tq.get_as_table(valid_user)
+        flattened = tq.has_been_flattened
         success = True
 
     return HttpResponse(json.dumps(
         {
             "success": success,
-            "table_data": table_data
+            "table_data": table_data,
+            "has_been_flattened": flattened
         }))
 
 
