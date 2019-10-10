@@ -1,3 +1,7 @@
+#input-container {
+    display: inline-block;
+}
+
 #file-picker {
     width: 460px;
     float: left;
@@ -44,6 +48,45 @@
 #parse-error {
     margin-bottom: 25px;
 }
+
+#sheets-container {
+    display: none;
+}
+
+#sheets-title {
+    clear: both;
+    margin-top: 18px;
+    display: block;
+    font-weight: 600;
+}
+
+#selected-sheets {
+    margin-top: 16px;
+    margin-bottom: 15px;
+}
+
+.sheet-button {
+    width: 100%;
+}
+
+.sheet-button:hover {
+    color: black;
+    background-color: #bfd8c8;
+}
+
+.sheet-selected {
+    background-color: #69ae58;
+    color: white;
+}
+
+.sheet-selected:hover {
+    background-color: #69ae58;
+}
+
+.sheet-button .fas {
+    margin-right: 7px;
+}
+
 
 #upload-button {
     margin-top: 10px;

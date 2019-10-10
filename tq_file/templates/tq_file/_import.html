@@ -1,6 +1,8 @@
 {% load staticfiles %}
 
 <div id="add-tq-container">
+    <div id="namespace" ns="{{ namespace }}"></div>
+
     <h1>Teilquelle hinzufügen</h1>
     <h3>Strukturierte Dateien als Teilquellen dem Projekt hinzufügen</h3>
 
@@ -11,10 +13,18 @@
                 An error ocurred during parsing :(
             </p>
 
-            <input type="file" name="file" id="file" class="inputfile"/>
+            <div id="input-container">
+                <input type="file" name="file" id="file" class="inputfile"/>
+                <label for="file" id="file-browser-label">Datei wählen</label>
+                <p id="selected-file">No file selected</p>
+            </div>
 
-            <label for="file" id="file-browser-label">Datei wählen</label>
-            <p id="selected-file">No file selected</p>
+            <div id="sheets-container">
+                <p id="sheets-title">Please select data sheets to import from</p>
+                <div id="selected-sheets">
+
+                </div>
+            </div>
 
             <button type="submit" class="btn btn-primary" id="upload-button" disabled="true">
                 <i class="fas fa-folder-open"></i>

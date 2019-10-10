@@ -14,6 +14,9 @@ import dashboard.includer as dashboard_includer
 
 
 def delegate_to_parser(file_path, extension):
+    """
+    delegate_to_parser
+    """
     json_parser = FileParserJSON()
     xml_parser = FileParserXML()
     xls_x_parser = FileParserXLSx()
@@ -34,12 +37,29 @@ def delegate_to_parser(file_path, extension):
     return False
 
 
+def preparse_get_sheets(file_path, extension):
+    """
+    preparse_get_sheet
+    """
+    xls_x_parser = FileParserXLSx()
+    xlsb_parser = FileParserXLSB()
+
+    if xls_x_parser.handles_file_type(extension):
+        return xls_x_parser.get_sheet_names(file_path)
+
+    if xlsb_parser.handles_file_type(extension):
+        return xlsb_parser.get_sheet_names(file_path)
+
+    return None
+
+
 def do_upload_tq(request):
     """
     do_upload_tq
     """
     success = False
     msg = None
+    data = None
 
     valid_user = token_checker.token_is_valid(request)
     if valid_user:
@@ -52,23 +72,29 @@ def do_upload_tq(request):
                 extension = filename_spl[len(filename_spl) - 1]
 
                 file_path = "%s/%s" % (settings.TQ_UPLOAD_DIR, file.name)
-
                 with open(file_path, 'wb+') as destination:
                     for chunk in file.chunks():
                         destination.write(chunk)
 
-                json_parsed = delegate_to_parser(file_path, extension)
+                if (extension == "xlsx" or extension == "xlsb") and "sheet_name" not in request.GET:
+                    sheets = preparse_get_sheets(file_path, extension)
+                    msg = "sheet_check"
+                    if sheets:
+                        data = sheets
 
-                if json_parsed:
-                    tq = TQFile.objects.create(
-                        project=valid_user.get_project(),
-                        source_file_name=file.name,
-                        display_file_name=file.name,
-                        content_json=json_parsed
-                    )
-                    success = True
                 else:
-                    msg = "Uploaded file not supported"
+                    json_parsed = delegate_to_parser(file_path, extension)
+
+                    if json_parsed:
+                        TQFile.objects.create(
+                            project=valid_user.get_project(),
+                            source_file_name=file.name,
+                            display_file_name=file.name,
+                            content_json=json_parsed
+                        )
+                        success = True
+                    else:
+                        msg = "Uploaded file not supported"
 
     else:
         msg = "User is not valid"
@@ -76,7 +102,8 @@ def do_upload_tq(request):
     return HttpResponse(json.dumps(
         {
             "success": success,
-            "msg": msg
+            "msg": msg,
+            "data": data
         }))
 
 

@@ -21,3 +21,6 @@ class FileParserXLSx(FileParser):
             parsable.append(zipped)
 
         return json.dumps(parsable)
+
+    def get_sheet_names(self, file_path):
+        return pd.ExcelFile(file_path).sheet_names

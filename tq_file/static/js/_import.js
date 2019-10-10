@@ -1,5 +1,5 @@
 var picked_upload_file = null;
-
+var _ns = $("#namespace").attr("ns");
 
 function gen_uuid() {
     let uuid = ""
@@ -28,7 +28,19 @@ function request_tq_upload(task_id) {
             if (json.success === true) {
                 request_load_tqs();
                 $("#upload-button").prop("disabled", false);
+
+            } else if (json.msg === "sheet_check") {
+                let sel_sheets = $("#selected-sheets");
+                sel_sheets.empty();
+
+                json.data.forEach(function (i) {
+                    sel_sheets.append("<button class='btn sheet-button'><i class='fas fa-table'></i>"+ i +"</button>");
+                });
+
+                $("#sheets-container").show();
+                $("#upload-button").prop("disabled", false);
             }
+
         },
         error: function (data, exception) {
             stop_loading_animation();
@@ -59,3 +71,12 @@ var main = function () {
 };
 
 $(document).ready(main);
+
+$(document).on("click." + _ns, ".sheet-button", function (e) {
+    e.preventDefault();
+    if (!$(this).hasClass("sheet-selected")) {
+        $(this).addClass("sheet-selected");
+    } else {
+        $(this).removeClass("sheet-selected");
+    }
+});

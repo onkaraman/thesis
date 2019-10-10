@@ -32,3 +32,7 @@ class FileParserXLSB(FileParser):
             parsable.append(dict(zip(cols, d)))
 
         return json.dumps(parsable)
+
+    def get_sheet_names(self, file_path):
+        with open_xlsb(file_path) as wb:
+            return wb.sheets
