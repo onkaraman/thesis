@@ -48,7 +48,7 @@ class RuleQueue:
             if haystack in content:
                 return self.span_tag % content.replace(haystack, needle)
         else:
-            orig.replace(haystack, needle)
+            orig = orig.replace(haystack, needle)
 
         return orig
 

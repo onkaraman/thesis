@@ -23,6 +23,8 @@ function apply_single_col_rm(obj) {
     let then_cases = JSON.parse(obj.then_cases);
 
     show_col_rm_ui_modal();
+
+    $("#col-rm-ui-modal #rm-name").text(obj.name);
     $("#col-rm-ui-modal #edit-mode").text("bearbeiten");
     $("#select-col-button .sel-name").text(obj.col_subject_name);
     $("#select-col-button .sel-name").attr("id", obj.col_subject_id);
@@ -924,7 +926,7 @@ function add_rm_col_item(item) {
     let html = "<div class='rm-col-item' id='" + item.id + "'>" +
         "<i class='far fa-trash-alt rm-delete'></i>" +
         "<div class='inline'>" +
-        "<p class='type " + type_class + "'>" + item.type + "</p>" +
+        "<p class='type " + type_class + "'>" + item.type_display + "</p>" +
         "<p class='name'>" + item.name + "</p>" +
         "</div>" +
         "</div>";
@@ -987,7 +989,7 @@ function register_col_rm_events() {
         $("#then-apply").removeClass("btn-selected");
     });
 
-    $("#col-rm-ui-modal .save-button").click(function (e) {
+    $("#col-rm-ui-modal #save-button").click(function (e) {
         $(this).prop("disabled", true);
 
         if (edit_rm_id !== null) request_edit_col_rm();
@@ -997,6 +999,32 @@ function register_col_rm_events() {
     $("#col-rm-ui-modal #close").click(function (e) {
         e.preventDefault();
         hide_col_rm_ui_modal();
+    });
+
+    $("#col-name-container").on("click." + _ns, function (e) {
+        e.preventDefault();
+        let title = $("#col-name-container #title");
+        let rename = $("#col-name-container #rename");
+
+        rename.val($("#col-name-container #rm-name").text().trim());
+        title.hide();
+        rename.show();
+        rename.focus();
+    });
+
+    $("#col-name-container #rename").on("keyup." + _ns, function (e) {
+        if (e.key === "Enter") {
+            let title = $("#col-name-container #title");
+            let rename = $("#col-name-container #rename");
+
+            e.preventDefault();
+            e.stopPropagation();
+            rename.hide();
+            title.show();
+            $("#col-name-container #rm-name").text(rename.val());
+
+            request_rename_rm(rename.val());
+        }
     });
 }
 
@@ -1026,6 +1054,32 @@ function register_row_rm_events() {
         $(this).prop("disabled", true);
         if ($(this).hasClass("edit")) request_edit_row_rm();
         else request_create_row_rm();
+    });
+
+    $("#row-name-container").on("click." + _ns, function (e) {
+        e.preventDefault();
+        let title = $("#row-name-container #title");
+        let rename = $("#row-name-container #rename");
+
+        rename.val($("#row-name-container #rm-name").text().trim());
+        title.hide();
+        rename.show();
+        rename.focus();
+    });
+
+    $("#row-name-container #rename").on("keyup." + _ns, function (e) {
+        if (e.key === "Enter") {
+            let title = $("#row-name-container #title");
+            let rename = $("#row-name-container #rename");
+
+            e.preventDefault();
+            e.stopPropagation();
+            rename.hide();
+            title.show();
+            $("#row-name-container #rm-name").text(rename.val());
+
+            request_rename_rm(rename.val());
+        }
     });
 }
 
@@ -1058,6 +1112,32 @@ function register_script_rm_events() {
         e.preventDefault();
         if ($(this).hasClass("edit")) request_edit_script_module();
         else request_save_script_module();
+    });
+
+    $("#script-name-container #rename").on("keyup." + _ns, function (e) {
+        if (e.key === "Enter") {
+            let title = $("#script-name-container #title");
+            let rename = $("#script-name-container #rename");
+
+            e.preventDefault();
+            e.stopPropagation();
+            rename.hide();
+            title.show();
+            $("#script-name-container #rm-name").text(rename.val());
+
+            request_rename_rm(rename.val());
+        }
+    });
+
+    $("#script-name-container").on("click." + _ns, function (e) {
+        e.preventDefault();
+        let title = $("#script-name-container #title");
+        let rename = $("#script-name-container #rename");
+
+        rename.val($("#script-name-container #rm-name").text().trim());
+        title.hide();
+        rename.show();
+        rename.focus();
     });
 
 }
@@ -1098,31 +1178,6 @@ var main = function () {
 
         if (checked) request_tf_preview_with_rm();
         else request_tf_preview();
-    });
-
-    $("#script-name-container #rename").on("keyup." + _ns, function (e) {
-        if (e.key === "Enter") {
-            let title = $("#script-name-container #title");
-            let rename = $("#script-name-container #rename");
-
-            e.preventDefault();
-            e.stopPropagation();
-            rename.hide();
-            title.show();
-            $("#script-name-container #rm-name").text(rename.val());
-
-            request_rename_rm(rename.val());
-        }
-    });
-
-    $("#script-name-container").click(function (e) {
-        e.preventDefault();
-        let title = $("#script-name-container #title");
-        let rename = $("#script-name-container #rename");
-
-        rename.val($("#script-name-container #rm-name").text().trim());
-        title.hide();
-        rename.show();
     });
 };
 

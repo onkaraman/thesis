@@ -284,11 +284,18 @@ def render_all_rm(request):
         rule_modules = RuleModule.objects.filter(final_fusion=ff, archived=False)
         script_modules = ScriptModule.objects.filter(final_fusion=ff, archived=False)
 
+        types_display = {
+            "col": "COL",
+            "row": "ROW",
+            "script": "SCR"
+        }
+
         for rm in rule_modules:
             item = {
                 "id": rm.pk,
                 "name": rm.name,
-                "type": rm.rule_type
+                "type": rm.rule_type,
+                "type_display": types_display[rm.rule_type]
             }
 
             ret.append(item)
@@ -297,7 +304,8 @@ def render_all_rm(request):
             item = {
                 "id": sm.pk,
                 "name": sm.name,
-                "type": "script"
+                "type": "script",
+                "type_display": types_display["script"]
             }
 
             ret.append(item)
