@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="{% static 'css/col_rm_ui.css' %}">
     <link rel="stylesheet" href="{% static 'css/row_rm_ui.css' %}">
     <link rel="stylesheet" href="{% static 'css/script_rm_ui.css' %}">
+    <link rel="stylesheet" href="{% static 'css/open_all_rm.css' %}">
 
     <link rel="stylesheet" id="dynamic-css" href="">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
@@ -73,6 +74,7 @@
     {% include "create_col_rm_ui.html" %}
     {% include "create_row_rm_ui.html" %}
     {% include "create_script_rm_ui.html" %}
+    {% include "open_all_rm.html" %}
 
     <div id="panels">
         <div id="left-panel">
@@ -129,6 +131,9 @@
                     <a class="dropdown-item" href="#" id="create-new-col-rm">Neue Spaltenregel erstellen</a>
                     <a class="dropdown-item" href="#" id="create-new-row-rm">Neue Zeilenregel erstellen</a>
                     <a class="dropdown-item" href="#" id="create-new-script-rm">Neue Skriptregel erstellen</a>
+                    <a class="dropdown-item" href="#" id="open-existing-rm">
+                        <i class="far fa-folder-open"></i> Bereits erstelle Regelmodule
+                    </a>
                 </div>
             </div>
 

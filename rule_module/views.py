@@ -269,7 +269,7 @@ def do_save_edit_row(request):
     return HttpResponse(json.dumps({"success": success}))
 
 
-def render_all_rm(request):
+def render_all_rm(request, filter=None):
     """
     render_all_rm
     """
@@ -291,28 +291,73 @@ def render_all_rm(request):
         }
 
         for rm in rule_modules:
-            item = {
+            ret.append({
                 "id": rm.pk,
                 "name": rm.name,
                 "type": rm.rule_type,
                 "type_display": types_display[rm.rule_type]
-            }
-
-            ret.append(item)
+            })
 
         for sm in script_modules:
-            item = {
+            ret.append({
                 "id": sm.pk,
                 "name": sm.name,
                 "type": "script",
                 "type_display": types_display["script"]
-            }
-
-            ret.append(item)
+            })
 
     return HttpResponse(json.dumps({
         "success": success,
         "items": json.dumps(ret)
+    }))
+
+
+def render_filtered(request):
+    """
+    render_filtered
+    """
+    success = False
+    items = []
+
+    valid_user = token_checker.token_is_valid(request)
+
+    if valid_user and "filter" in request.GET and not ArgsChecker.str_is_malicious(request.GET["filter"]):
+        success = True
+        filter_name = request.GET["filter"].strip()
+
+        types_display = {
+            "col": "COL",
+            "row": "ROW",
+            "script": "SCR"
+        }
+
+        projects = Project.objects.get(user_profile=valid_user)
+        for p in projects:
+            ff = FinalFusion.objects.get(project=p)
+            rule_modules = RuleModule.objects.filter(final_fusion=ff, archived=False)
+            script_modules = ScriptModule.objects.filter(final_fusion=ff, archived=False)
+
+            for rm in rule_modules:
+                if filter_name in rm.name:
+                    items.append({
+                        "id": rm.pk,
+                        "name": rm.name,
+                        "type": rm.rule_type,
+                        "type_display": types_display[rm.rule_type]
+                    })
+
+            for sm in script_modules:
+                if filter_name in sm.name:
+                    items.append({
+                        "id": sm.pk,
+                        "name": sm.name,
+                        "type": "script",
+                        "type_display": types_display["script"]
+                    })
+
+    return HttpResponse(json.dumps({
+        "success": success,
+        "items": json.dumps(items)
     }))
 
 

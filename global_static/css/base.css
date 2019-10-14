@@ -332,6 +332,10 @@ p {
     margin-top: 1px;
 }
 
+#open-existing-rm .far {
+    margin-right: 5px;
+}
+
 #rm-list {
     margin-top: 25px;
     overflow-x: scroll;

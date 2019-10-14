@@ -786,6 +786,27 @@ function hide_script_rm_ui_modal() {
     $("html, body").animate({scrollTop: last_scroll_y}, "slow");
 }
 
+function show_open_rm_modal() {
+    last_scroll_y = $(window).scrollTop();
+    $("html, body").animate({scrollTop: 0}, "slow");
+
+    let modal = $("#open-rm-modal");
+    let spanner = $("#spanner");
+
+    spanner.fadeIn(200);
+    modal.fadeIn(200);
+
+    //request_get_col_vars();
+}
+
+function hide_open_rm_modal() {
+    $("#open-rm-modal").fadeOut(100);
+    $("#spanner").fadeOut(100);
+
+    $("html, body").animate({scrollTop: last_scroll_y}, "slow");
+}
+
+
 function add_when_row() {
     let html = "<div class='when-row-container when-item'>\n" +
         "<div class='dropdown'>\n" +
@@ -1093,6 +1114,7 @@ function register_script_rm_events() {
     let editor = ace.edit("editor");
     editor.renderer.setScrollMargin(10, 10);
     editor.setValue("# For each row, do ...\n", 1);
+    editor.clearSelection();
 
     $(document).on("click." + _ns, "#create-new-script-rm", function (e) {
         show_script_rm_ui_modal();
@@ -1142,6 +1164,18 @@ function register_script_rm_events() {
 
 }
 
+function register_open_rm_events() {
+    $("#open-existing-rm").click(function (e) {
+       e.preventDefault();
+       show_open_rm_modal();
+    });
+
+    $("#open-rm-modal #close").click(function (e) {
+        e.preventDefault();
+        hide_open_rm_modal();
+    });
+}
+
 var main = function () {
     request_tf_preview();
     request_get_all_rm();
@@ -1150,6 +1184,7 @@ var main = function () {
     register_col_rm_events();
     register_row_rm_events();
     register_script_rm_events();
+    register_open_rm_events();
 
     $("#right-panel").show("slide", {direction: "right"}, 200);
 
@@ -1292,5 +1327,6 @@ $(document).on("keyup." + _ns, "body", function (e) {
         hide_row_rm_ui_modal();
         hide_col_rm_ui_modal();
         hide_script_rm_ui_modal();
+        hide_open_rm_modal();
     }
 });
