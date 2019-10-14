@@ -64,6 +64,7 @@ urlpatterns = [
     url(r'^api/rm/edit/row/$', rm_v.do_save_edit_row),
     url(r'^api/rm/delete/$', rm_v.do_delete_rm),
     url(r'^api/rm/create/row/$', rm_v.do_create_row_rm),
+    url(r'^api/rm/rename/$', rm_v.do_rename_rm),
 
     # SM API
     url(r'^api/sm/validate/$', sm_v.do_validate_code),

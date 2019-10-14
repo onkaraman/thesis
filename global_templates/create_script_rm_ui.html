@@ -4,7 +4,13 @@
 <div id="script-rm-ui-modal">
     {% csrf_token %}
     <i class="far fa-times-circle" id="close"></i>
-    <p id="title">Skriptregel <span id="edit-mode">erstellen</span></p>
+    <div id="script-name-container">
+        <p id="title">
+            <span id="rm-name">Skriptregel</span> <span id="edit-mode">erstellen</span>
+            <i class="fas fa-pen"></i>
+        </p>
+        <input type='text' class='form-control' id="rename">
+    </div>
 
     <div id="editor">
         <script></script>

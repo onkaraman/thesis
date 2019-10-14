@@ -5,6 +5,7 @@ var all_pages = null;
 var items_per_page = 12;
 var selected_col_rm_name = null;
 var edit_rm_id = null;
+var edit_rm_type = null;
 var delete_id = null;
 
 var _ns = $("#namespace").attr("ns");
@@ -14,6 +15,7 @@ function apply_single_sm(obj) {
     show_script_rm_ui_modal();
     $("#script-rm-ui-modal #save-button").addClass("edit");
     ace.edit("editor").setValue(obj.code_content);
+    ace.edit("editor").clearSelection();
 }
 
 function apply_single_col_rm(obj) {
@@ -192,6 +194,30 @@ function request_rename_tf(new_name) {
                 $("#ef-name").text(new_name);
                 name_display.show();
                 tf_rename.hide();
+            }
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+            alert(data.responseText);
+        }
+    });
+}
+
+function request_rename_rm(new_name) {
+    start_loading_animation();
+    $.ajax({
+        url: "/api/rm/rename",
+        data: {
+            "id": edit_rm_id,
+            "type": edit_rm_type,
+            "name": new_name
+        },
+        success: function (data) {
+            stop_loading_animation();
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                request_get_all_rm();
             }
         },
         error: function (data, exception) {
@@ -1067,11 +1093,36 @@ var main = function () {
         }
     });
 
-    $('#rm-activate-checkbox').on("change." + $("#namespace").attr("ns"), function () {
+    $("#rm-activate-checkbox").on("change." + _ns, function () {
         let checked = $(this).prop('checked');
 
         if (checked) request_tf_preview_with_rm();
         else request_tf_preview();
+    });
+
+    $("#script-name-container #rename").on("keyup." + _ns, function (e) {
+        if (e.key === "Enter") {
+            let title = $("#script-name-container #title");
+            let rename = $("#script-name-container #rename");
+
+            e.preventDefault();
+            e.stopPropagation();
+            rename.hide();
+            title.show();
+            $("#script-name-container #rm-name").text(rename.val());
+
+            request_rename_rm(rename.val());
+        }
+    });
+
+    $("#script-name-container").click(function (e) {
+        e.preventDefault();
+        let title = $("#script-name-container #title");
+        let rename = $("#script-name-container #rename");
+
+        rename.val($("#script-name-container #rm-name").text().trim());
+        title.hide();
+        rename.show();
     });
 };
 
@@ -1153,8 +1204,10 @@ $(document).on("click." + _ns, ".rm-col-item", function (e) {
     edit_rm_id = $(this).attr("id");
 
     if ($(this).find(".type").text() === "script") {
+        edit_rm_type = "script";
         request_get_single_sm(edit_rm_id);
     } else {
+        edit_rm_type = "rm";
         request_get_single_rm(edit_rm_id);
     }
 });

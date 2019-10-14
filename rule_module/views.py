@@ -206,6 +206,32 @@ def do_delete_rm(request):
     return HttpResponse(json.dumps({"success": success}))
 
 
+def do_rename_rm(request):
+    """
+    do_rename_rm
+    """
+    success = False
+    valid_user = token_checker.token_is_valid(request)
+
+    if valid_user and "name" in request.GET and not ArgsChecker.str_is_malicious(request.GET["name"]) \
+            and "id" in request.GET and ArgsChecker.is_number(request.GET["id"]) \
+            and "type" in request.GET and not ArgsChecker.str_is_malicious(request.GET["type"]):
+        try:
+            rm = None
+
+            if request.GET["type"] == "rm":
+                rm = RuleModule.objects.get(pk=request.GET["id"])
+            elif request.GET["type"] == "script":
+                rm = ScriptModule.objects.get(pk=request.GET["id"])
+
+            rm.name = request.GET["name"]
+            rm.save()
+            success = True
+        except ObjectDoesNotExist:
+            pass
+    return HttpResponse(json.dumps({"success": success}))
+
+
 def do_save_edit_col(request):
     """
     do_save_edit_col

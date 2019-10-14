@@ -1,3 +1,35 @@
+#script-name-container {
+    display: flex;
+    width: fit-content;
+    margin-left: 1px;
+}
+
+#script-name-container .fas {
+    font-size: 13px;
+    margin-left: 11px;
+    margin-top: 6px;
+    color: grey;
+}
+
+#script-name-container:hover {
+    cursor: text;
+}
+
+#script-name-container #rename {
+    display: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    padding-left: 2px;
+    padding-bottom: 0px;
+    margin-top: -1px;
+    margin-left: 2px;
+    padding-top: 0;
+    height: 31px;
+    font-weight: 600;
+    font-size: 17px;
+}
+
 .btn-selected {
     background-color: var(--orange) !important;
 }
