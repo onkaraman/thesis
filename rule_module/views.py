@@ -331,15 +331,16 @@ def render_filtered(request):
             "script": "SCR"
         }
 
-        projects = Project.objects.get(user_profile=valid_user)
+        projects = Project.objects.filter(user_profile=valid_user, archived=False)
         for p in projects:
             ff = FinalFusion.objects.get(project=p)
             rule_modules = RuleModule.objects.filter(final_fusion=ff, archived=False)
             script_modules = ScriptModule.objects.filter(final_fusion=ff, archived=False)
 
             for rm in rule_modules:
-                if filter_name in rm.name:
+                if filter_name.lower() in rm.name.lower():
                     items.append({
+                        "project_name": p.name,
                         "id": rm.pk,
                         "name": rm.name,
                         "type": rm.rule_type,
@@ -349,6 +350,7 @@ def render_filtered(request):
             for sm in script_modules:
                 if filter_name in sm.name:
                     items.append({
+                        "project_name": p.name,
                         "id": sm.pk,
                         "name": sm.name,
                         "type": "script",

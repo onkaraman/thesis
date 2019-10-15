@@ -374,6 +374,32 @@ function request_edit_row_rm() {
     });
 }
 
+function request_filtered_rm(filter_val) {
+    start_loading_animation();
+    $.ajax({
+        url: "/api/rm/get_filtered",
+        data: {
+            "filter": filter_val
+        },
+        success: function (data) {
+            stop_loading_animation();
+            $("#created-rm-container").empty();
+
+            let json = JSON.parse(data);
+            if (json.success) {
+                JSON.parse(json.items).forEach(function (item) {
+                    add_created_rm_item(item);
+                });
+            }
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+            alert(data.responseText);
+        }
+    });
+}
+
+
 function request_get_all_rm() {
     start_loading_animation();
     $.ajax({
@@ -796,13 +822,14 @@ function show_open_rm_modal() {
     spanner.fadeIn(200);
     modal.fadeIn(200);
 
-    //request_get_col_vars();
+    request_filtered_rm("");
 }
 
 function hide_open_rm_modal() {
     $("#open-rm-modal").fadeOut(100);
     $("#spanner").fadeOut(100);
 
+    $("#filter-input").val("");
     $("html, body").animate({scrollTop: last_scroll_y}, "slow");
 }
 
@@ -953,6 +980,19 @@ function add_rm_col_item(item) {
         "</div>";
 
     $("#rm-list").append(html);
+}
+
+function add_created_rm_item(item) {
+
+    let html = '<div class="created-rm-item" id="' + item.id + '">' +
+        '<p class="from-project">' + item.project_name + '</p>\n' +
+            '<div class="name-container">'+
+                '<p class="rm-type">' + item.type_display + '</p>'+
+                '<p class="name">' + item.name + '</p>'+
+            '</div>' +
+        '</div>';
+
+    $("#created-rm-container").append(html);
 }
 
 // Events
@@ -1166,13 +1206,17 @@ function register_script_rm_events() {
 
 function register_open_rm_events() {
     $("#open-existing-rm").click(function (e) {
-       e.preventDefault();
-       show_open_rm_modal();
+        e.preventDefault();
+        show_open_rm_modal();
     });
 
     $("#open-rm-modal #close").click(function (e) {
         e.preventDefault();
         hide_open_rm_modal();
+    });
+
+    $("#filter-input").keyup(function (e) {
+        request_filtered_rm($(this).val());
     });
 }
 

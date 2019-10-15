@@ -42,19 +42,26 @@
 }
 
 #created-rm-container {
+    display: inline-block;
     border: 1px solid #d0d0d0;
     padding: 10px;
     height: 270px;
     margin-bottom: 18px;
     overflow-y: auto;
+    width: 100%;
+    padding-right: 0px;
 }
 
 .created-rm-item {
+    margin-right: 13px;
+    margin-bottom: 13px;
+    width: 304px;
+    height: 91px;
     border: 1px solid #4992a7;
     background-color: #f1f4f7;
     cursor: pointer;
     padding: 8px 10px;
-    width: 290px;
+    float: left;
 }
 
 .created-rm-item:hover {
