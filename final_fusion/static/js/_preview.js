@@ -399,6 +399,28 @@ function request_filtered_rm(filter_val) {
     });
 }
 
+function request_transfer_rm(id) {
+    start_loading_animation();
+    $.ajax({
+        url: "/api/rm/transfer",
+        data: {
+            "id": id
+        },
+        success: function (data) {
+            stop_loading_animation();
+
+            let json = JSON.parse(data);
+            if (json.success) {
+                hide_open_rm_modal();
+                request_get_all_rm();
+            }
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+            alert(data.responseText);
+        }
+    });
+}
 
 function request_get_all_rm() {
     start_loading_animation();
@@ -1358,6 +1380,13 @@ $(document).on("click." + _ns, ".rm-delete", function (e) {
     } else {
         show_simple_modal("Regelmodul löschen", msg, request_delete_rm);
     }
+});
+
+$(document).on("click." + _ns, ".created-rm-item", function (e) {
+    e.preventDefault();
+    let id = $(this).attr("id");
+    request_transfer_rm(id);
+
 });
 
 $(document).on("change." + _ns, "#rm-activate-checkbox", function (e) {

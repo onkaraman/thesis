@@ -60,6 +60,7 @@ urlpatterns = [
     url(r'^api/rm/get_single/$', rm_v.render_single),
     url(r'^api/rm/get_filtered/$', rm_v.render_filtered),
     url(r'^api/rm/get_all/$', rm_v.render_all_rm),
+    url(r'^api/rm/transfer/$', rm_v.do_transfer_rm),
     url(r'^api/rm/create/col/$', rm_v.do_create_col_rm),
     url(r'^api/rm/edit/col/$', rm_v.do_save_edit_col),
     url(r'^api/rm/edit/row/$', rm_v.do_save_edit_row),

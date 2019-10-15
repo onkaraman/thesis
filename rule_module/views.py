@@ -269,6 +269,31 @@ def do_save_edit_row(request):
     return HttpResponse(json.dumps({"success": success}))
 
 
+def do_transfer_rm(request):
+    """
+    do_transfer_rm
+    """
+    success = False
+    valid_user = token_checker.token_is_valid(request)
+
+    if valid_user and "id" in request.GET and ArgsChecker.is_number(request.GET["id"]):
+        rm_id = request.GET["id"]
+
+        proj = Project.objects.get(pk=valid_user.last_opened_project_id)
+        ff = FinalFusion.objects.get(project=proj)
+
+        try:
+            rm = RuleModule.objects.get(pk=rm_id)
+            rm.pk = None
+            rm.final_fusion = ff
+            rm.save()
+            success = True
+        except ObjectDoesNotExist as exc:
+            pass
+
+    return HttpResponse(json.dumps({"success": success}))
+
+
 def render_all_rm(request, filter=None):
     """
     render_all_rm
