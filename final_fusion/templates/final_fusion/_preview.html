@@ -32,4 +32,46 @@
                 class="fas fa-chevron-right"></i></a>
     </div>
 
+    <div id="structure-changes-container">
+        <p id="title"><i class="fas fa-chevron-down"></i>Strukturveränderungen</p>
+
+        <div id="append-container">
+            <p id="title">Spalten kombinieren</p>
+            <p id="descr">Kombinieren Sie zwei Spalten zu einer neuen. Die B-Spalte wird der A-Spalte angehängt.</p>
+
+            <div id="inline-items">
+                <div id="dropdowns">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" id="select-append-a">
+                            <p><i class="fas fa-caret-down"></i><span class="sel-name">A-Spalte</span></p>
+                        </button>
+                        <div class="dropdown-menu col-rm-dropdown" aria-labelledby="select-append-a">
+                            <a class="dropdown-item col-rm-dropdown-item" href="#">Spalte A</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false" id="select-append-b">
+                            <p><i class="fas fa-caret-down"></i><span class="sel-name">B-Spalte</span></p>
+                        </button>
+                        <div class="dropdown-menu col-rm-dropdown" aria-labelledby="select-append-b">
+                            <a class="dropdown-item col-rm-dropdown-item" href="#">Spalte B</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="del-source-cols-db">
+                    <label class="checkbox-inline" id="gen-col-toggle">
+                      <input id="del-source-col-db" type="checkbox" data-toggle="toggle">
+                      <span class="input-checkbox"></span>
+                      <span id="toggle-text">Quellspalten entfernen</span>
+                    </label>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </div>
