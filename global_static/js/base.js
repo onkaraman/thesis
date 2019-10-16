@@ -52,24 +52,6 @@ function is_valid_email(emailAddress) {
     return pattern.test(emailAddress);
 }
 
-function unbind_methods_with_namespace(ns) {
-    // TODO: Keep track of events to unbind and unbind them in a place where to async stuff is happening,
-    // a place where nothing is happening.
-
-    let events = $._data($(document)[0], "events");
-    for (let property in events) {
-        for (let item in events[property]) {
-
-            let handler = events[property][item];
-
-            if (handler.namespace === ns) {
-                $(document).off(property + "." + ns);
-                console.log("Unbound: " + handler.type + "." + handler.namespace + ": " + handler.selector);
-            }
-        }
-    }
-}
-
 // Requests
 function request_view_tq(id) {
     request_template_include("/include/tq/view", {"id": id});
@@ -110,19 +92,6 @@ function request_template_include(url, data_dict) {
 
             // Apply css
             $("head link#dynamic-css").attr("href", json.css);
-
-            try {
-                // Apply js
-                // Unbind existing namespace events first
-                unbind_methods_with_namespace(json.namespace);
-                //unbind_all_events();
-
-                $.getScript(json.js, function () {
-                    console.log("Included " + json.js);
-                });
-
-            } catch (error) {
-            }
 
             $("#center-panel").empty();
             $("#center-panel").html(html);
@@ -176,6 +145,50 @@ function request_rename_project(new_name) {
         },
         error: function (data, exception) {
             stop_loading_animation();
+            alert(data.responseText);
+        }
+    });
+}
+
+function request_autoload_project() {
+    start_loading_animation();
+    $.ajax({
+        data: {},
+        url: "/api/project/autoload",
+        success: function (data) {
+            stop_loading_animation();
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                request_load_project(json.id);
+            }
+        },
+        error: function (data, exception) {
+            alert(data.responseText);
+        }
+    });
+}
+
+
+function request_load_project(id) {
+    start_loading_animation();
+    $.ajax({
+        data: {
+            "id": id
+        },
+        url: "/api/project/load",
+        success: function (data) {
+            stop_loading_animation();
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                $("#project-name p").text(json.name);
+                show_new_project_ui();
+                request_load_tqs();
+                request_template_include("/include/project/new");
+            }
+        },
+        error: function (data, exception) {
             alert(data.responseText);
         }
     });
@@ -288,6 +301,7 @@ function start_new_project() {
 var main = function () {
     fit_modals();
     request_check_export_visibility();
+    request_autoload_project();
 
     $(window).resize(function () { fit_modals(); });
     reset_left_panel();

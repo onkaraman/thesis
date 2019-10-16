@@ -1,4 +1,6 @@
 import json
+from datetime import datetime
+from django.utils.timezone import utc
 from django.http import HttpResponse
 from .models import Project
 import security.token_checker as token_checker
@@ -21,7 +23,7 @@ def do_create_new(request):
         number = len(Project.objects.filter(user_profile=valid_user))
         project = Project.objects.create(name="Fusion Project %d" % number,
                                          user_profile=valid_user)
-        ff = FinalFusion.objects.create(project=project)
+        FinalFusion.objects.create(project=project)
 
         valid_user.last_opened_project_id = project.pk
         valid_user.save()
@@ -54,6 +56,28 @@ def do_load(request):
         {
             "success": success,
             "name": name
+        }))
+
+
+def do_autoload(request):
+    """
+    do_autoload
+    """
+    success = False
+    proj_id = None
+
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user:
+        try:
+            project = Project.objects.get(pk=valid_user.last_opened_project_id, archived=False)
+            proj_id = project.pk
+            success = True
+        except ObjectDoesNotExist:
+            pass
+    return HttpResponse(json.dumps(
+        {
+            "success": success,
+            "id": proj_id
         }))
 
 
@@ -119,3 +143,32 @@ def i_render_new_project(request):
     valid_user = token_checker.token_is_valid(request)
     if valid_user:
         return dashboard_includer.get_as_json("project/_new_project.html")
+
+
+def render_project_details(request):
+    """
+    render_project_details
+    """
+    success = False
+
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user:
+        try:
+            project = Project.objects.get(pk=valid_user.last_opened_project_id, archived=False)
+            c_date = project.creation_date.strftime('%d.%m.%Y')
+            days_past = datetime.utcnow().replace(tzinfo=utc) - project.creation_date.replace(tzinfo=utc)
+
+            return HttpResponse(json.dumps(
+                {
+                    "success": True,
+                    "creation_date": str(c_date),
+                    "days_past": days_past.days,
+                }))
+
+        except ObjectDoesNotExist:
+            pass
+
+    return HttpResponse(json.dumps(
+        {
+            "success": success,
+        }))

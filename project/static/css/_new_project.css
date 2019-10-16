@@ -1,0 +1,109 @@
+#new-projects-container h2 {
+    font-size: 17px;
+}
+
+#new-projects-container #create-box {
+    float: left;
+}
+
+#new-projects-container #notes-box {
+    float: left;
+    margin-top: 10px;
+    margin-left: 110px;
+    width: 750px;
+}
+
+#auto-save {
+    margin-bottom: 22px;
+    display: block;
+    background-color: #c5efe0;
+    border-radius: 2px;
+    font-size: 15px;
+    padding: 4px 20px 4px 9px;
+}
+
+#auto-save .fas {
+    margin-right: 8px;
+    color: #246b52;
+}
+
+#creation-p {
+    margin-top: -7px;
+    display: block;
+    font-size: 15px;
+    color: #717171;
+}
+
+#creation-p #creation-date {
+
+}
+
+#creation-p #days {
+
+}
+
+#create-note-container{
+    margin-top: 35px;
+    width: 354px;
+}
+
+#create-note-container h1{
+    font-size: 21px;
+    margin-bottom: 8px;
+}
+
+#create-note-container #name {
+    height: 37px;
+    margin-bottom: 9px;
+    border: 1px solid #cacaca;
+    font-weight: 600;
+}
+
+#create-note-container #content {
+    height: 100px;
+    resize: none;
+    border: 1px solid #b5b5b5;
+}
+
+#create-note-container #upload-button {
+    margin-top: 10px;
+    width: 100%;
+}
+
+#create-note-container #upload-button .far {
+    margin-right: 5px;
+    color: #00bbe6;
+}
+
+.note-item {
+    width: 330px;
+    margin-bottom: 10px;
+    margin-right: 12px;
+    border: 1px solid yellow;
+    padding: 15px 20px;
+    border-radius: 4px;
+    background-color: #ffffd1;
+    float: left;
+}
+
+.note-item .close {
+    font-size: 16px;
+    margin-top: 3px;
+}
+
+.note-name {
+    margin-bottom: 7px;
+    font-weight: 600;
+    font-size: 16px;
+}
+.note-name .far {
+    margin-right: 7px;
+    color: #a0a000;
+    font-size: 13px;
+}
+
+.note-content {
+    max-height: 120px;
+    overflow-y: auto;
+    cursor: default;
+}

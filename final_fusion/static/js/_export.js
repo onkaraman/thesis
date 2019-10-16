@@ -24,6 +24,7 @@ function request_get_ff() {
                 file_name = json.fusion_name;
                 config_editor();
                 ace.edit("export-editor").setValue(JSON.stringify(json, null, '\t'));
+                ace.edit("export-editor").clearSelection();
 
                 apply_download_url();
                 $("#export-editor").show();

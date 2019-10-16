@@ -9,7 +9,7 @@ from final_fusion import views as ff_v
 from final_fusion_column import views as ffc_v
 from rule_module import views as rm_v
 from script_module import views as sm_v
-
+from project_note import views as pn_v
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,10 +32,17 @@ urlpatterns = [
     url(r'^api/user/logout/$', user_profile_v.do_logout),
 
     # Project API
+    url(r'^api/project/details/$', project_v.render_project_details),
+    url(r'^api/project/autoload/$', project_v.do_autoload),
     url(r'^api/project/new/$', project_v.do_create_new),
     url(r'^api/project/load/$', project_v.do_load),
     url(r'^api/project/rename/$', project_v.do_rename),
     url(r'^api/project/delete/$', project_v.do_delete_project),
+
+    # Project notes API,
+    url(r'^api/note/create/$', pn_v.do_create),
+    url(r'^api/note/delete/$', pn_v.do_delete),
+    url(r'^api/note/all/$', pn_v.render_all),
 
     # TQ API
     url(r'^api/tq/load/$', tq_v.render_all_tqs),
@@ -75,6 +82,7 @@ urlpatterns = [
     url(r'^api/sm/get_single/$', sm_v.render_single),
     url(r'^api/sm/delete/$', sm_v.do_delete_sm),
 ]
+
 
 
 

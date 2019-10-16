@@ -196,9 +196,6 @@ p {
 #tq-icon {
     margin-top: 7px;
     font-size: 13px;
-}
-
-#tq-icon .fas {
     color: #63aaff;
 }
 
@@ -218,10 +215,6 @@ p {
 .panel-button:hover {
     background-color: var(--cyan-primary);
     cursor: pointer;
-}
-
-#add-tq .fas {
-    color: #efefef;
 }
 
 .accented {
@@ -247,6 +240,11 @@ p {
 
 #endfusion-button:hover {
     background-color: var(--cyan-primary);
+}
+
+#endfusion-button .fas {
+    color: #92da58;
+    margin-top: 5px;
 }
 
 /* Center Panel */
@@ -392,4 +390,15 @@ p {
 
 .rm-col-item .rm-delete {
     margin-top: 6px;
+}
+
+#footer {
+    margin-top: 80px;
+    margin-left: 12px;
+    font-size: 13px;
+    color: #888888;
+}
+
+#footer p {
+    margin-bottom: 6px;
 }

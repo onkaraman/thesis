@@ -1359,7 +1359,7 @@ $(document).on("click." + _ns, ".rm-col-item", function (e) {
     e.preventDefault();
     edit_rm_id = $(this).attr("id");
 
-    if ($(this).find(".type").text() === "script") {
+    if ($(this).find(".type").text() === "SCR") {
         edit_rm_type = "script";
         request_get_single_sm(edit_rm_id);
     } else {

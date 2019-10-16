@@ -1,5 +1,9 @@
 {% load staticfiles %}
 
+{% block headers %}
+    <script src="{% static 'js/_import.js' %}"></script>
+{% endblock %}
+
 <div id="add-tq-container">
     <div id="namespace" ns="{{ namespace }}"></div>
 

@@ -34,7 +34,8 @@ INSTALLED_APPS = [
     'final_fusion',
     'final_fusion_column',
     'rule_module',
-    'script_module'
+    'script_module',
+    'project_note'
 ]
 
 MIDDLEWARE = [

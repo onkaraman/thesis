@@ -1,5 +1,10 @@
 {% load staticfiles %}
 
+{% block headers %}
+    <script src="{% static 'js/_view.js' %}"></script>
+{% endblock %}
+
+
 <div id="view-tq-container">
     <div id="namespace" ns="{{ namespace }}"></div>
     <div id="tq-id" pk="{{ id }}"></div>

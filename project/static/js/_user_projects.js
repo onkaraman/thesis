@@ -1,29 +1,3 @@
-// Requests
-function request_load_project(id) {
-    start_loading_animation();
-    $.ajax({
-        data: {
-            "id": id
-        },
-        url: "/api/project/load",
-        success: function (data) {
-            stop_loading_animation();
-            let json = JSON.parse(data);
-
-            if (json.success) {
-                $("#project-name p").text(json.name);
-                show_new_project_ui();
-                request_load_tqs();
-            }
-
-            request_template_include("/include/project/new");
-        },
-        error: function (data, exception) {
-            alert(data.responseText);
-        }
-    });
-}
-
 var main = function () {
     request_load_tqs();
 

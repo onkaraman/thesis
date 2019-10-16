@@ -1,0 +1,54 @@
+#dashboard-container h1 {
+
+}
+
+#left-box {
+    background-color: #2f2fc5;
+    margin-top: 30px;
+    padding: 30px 40px;
+    height: 410px;
+    width: fit-content;
+    border-radius: 3px;
+}
+
+#left-box #words {
+    width: 380px;
+    float: left;
+    margin-top: 9px;
+    margin-right: 70px;
+}
+
+#left-box #words p {
+    font-size: 26px;
+    color: white;
+}
+
+#left-box #words .subtext {
+    font-size: 15px;
+    color: white;
+    margin-bottom: 12px;
+}
+
+#left-box #dia {
+    float: right;
+    background-color: white;
+    width: 341px;
+    height: 291px;
+    margin-left: 60px;
+    margin-top: 7px;
+}
+
+#fusion-diag {
+    width: 250px;
+    margin-left: 40px;
+    margin-top: 40px;
+}
+
+#right-box {
+
+}
+
+#right-box h1 {
+
+}
+

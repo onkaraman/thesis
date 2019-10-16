@@ -1,5 +1,9 @@
 {% load staticfiles %}
 
+{% block headers %}
+    <script src="{% static 'js/_preview.js' %}"></script>
+{% endblock %}
+
 <div id="preview-tf-container">
     <div id="namespace" ns="{{ namespace }}"></div>
 

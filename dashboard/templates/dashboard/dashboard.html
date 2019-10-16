@@ -10,6 +10,26 @@
 
 {% block content %}
     <div id="dashboard-container">
-        <h1>Dashboard</h1>
+        <h1>CODA - Connect Data</h1>
+        <div id="left-box">
+            <div id="words">
+                <p>Hochladen</p>
+                <p class="subtext">Laden Sie Teilquellen (TQ) aus verschiedenen Formaten hoch:
+                    JSON, XML oder tabellarisch aufgebaute Excel-Dateien.</p>
+
+                <p>Verbinden</p>
+                <p class="subtext">Wählen Sie diejenigen Spalten aus aus den TQ aus, die in der fusonierten
+                Endtabelle vorhanden sein sollen.</p>
+
+                <p>Fusionieren</p>
+                <p class="subtext">Verschmelzen Sie die TQ mithifle von Regelmodulen um inhaltliche
+                Veränderung anwenden zu können. Das Endprodukt steht Ihnen anschließend im JSON-Format
+                zur Verfügung.</p>
+
+            </div>
+            <div id="dia">
+                <img src="{% static 'img/fusion_diag.png' %}" id="fusion-diag"/>
+            </div>
+        </div>
     </div>
 {% endblock %}

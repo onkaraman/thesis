@@ -1,6 +1,31 @@
 {% load staticfiles %}
 
+{% block headers %}
+    <script src="{% static 'js/_new_project.js' %}"></script>
+{% endblock %}
+
 <div id="new-projects-container">
-    <h1>Neues Projekt</h1>
-    <p>Congratulations - New project new life</p>
+    <div id="create-box">
+        <p id="auto-save"><i class="fas fa-save"></i> Ihre Änderungen werden automatisch gespeichert</p>
+        <h1>Willkommen zurück</h1>
+        <h2>Ihr Projekt wurde automatisch geöffnet.</h2>
+
+        <p id="creation-p">Erstellt am <span id="creation-date">01.01.2019</span>
+            (Vor <span id="days">10</span> Tagen)</p>
+
+        <div id="create-note-container">
+            <h1>Notiz erstellen</h1>
+            <input type='text' class='form-control' id="name" placeholder="Name">
+            <textarea class="form-control"id="content" placeholder="Inhalt"></textarea>
+
+            <button type="submit" class="btn btn-primary" id="upload-button" disabled="true">
+                <i class="far fa-sticky-note"></i>
+                <span id="button-text">Speichern</span>
+            </button>
+        </div>
+    </div>
+
+    <div id="notes-box">
+
+    </div>
 </div>

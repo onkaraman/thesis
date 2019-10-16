@@ -1,5 +1,9 @@
 {% load staticfiles %}
-<script src="{% static 'js/ace/ace.js' %}"></script>
+
+{% block headers %}
+    <script src="{% static 'js/ace/ace.js' %}"></script>
+    <script src="{% static 'js/_export.js' %}"></script>
+{% endblock %}
 
 <div id="export-container">
     <div id="namespace" ns="{{ namespace }}"></div>

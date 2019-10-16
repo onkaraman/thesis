@@ -1,5 +1,9 @@
 {% load staticfiles %}
 
+{% block headers %}
+    <script src="{% static 'js/_user_projects.js' %}"></script>
+{% endblock %}
+
 <div id="user-projects-container">
     <div id="namespace" ns="{{ namespace }}"></div>
     <h1>Meine Projekte</h1>
