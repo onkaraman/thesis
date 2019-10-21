@@ -147,6 +147,7 @@ function request_tf_preview() {
             if (json.success) {
                 render_table_heads(json.headers);
                 render_table_body(json.headers, json.rows);
+                prepare_restruc_append();
             }
         },
         error: function (data, exception) {
@@ -674,17 +675,76 @@ function request_edit_script_module() {
     });
 }
 
+function request_restruct_append() {
+    let a_id = $("#select-append-a .sel-name").attr("id");
+    let b_id = $("#select-append-b .sel-name").attr("id");
+    let remove_cols = $("#del-source-col-db").prop('checked');
+
+    let apply_button = $("#append-container #apply-button");
+    apply_button.prop("disabled", true);
+    start_loading_animation();
+
+    $.ajax({
+        data: {
+            "a_id": a_id,
+            "b_id": b_id,
+            "remove_cols": remove_cols
+        },
+        url: "/api/tf/append_tables",
+        success: function (data) {
+            apply_button.prop("disabled", false);
+            stop_loading_animation();
+
+            let json = JSON.parse(data);
+            if (json.success) {
+                request_tf_preview();
+            }
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+            apply_button.prop("disabled", false);
+            alert(data.responseText);
+        }
+    });
+}
+
+function request_delete_appended_col() {
+    start_loading_animation();
+
+    $.ajax({
+        url: "/api/tf/remove_appended",
+        data: {
+            "id": delete_id,
+        },
+        success: function (data) {
+            stop_loading_animation();
+
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                hide_simple_modal();
+                request_tf_preview();
+            }
+        },
+        error: function (data, exception) {
+            alert(data.responseText);
+        }
+    });
+}
+
 // UX
 function render_table_heads(cols) {
     let head_tr = $("#head-tr");
     head_tr.empty();
 
     cols.forEach(function (i) {
-        let opacity = 0;
+        let man_del = "";
+        if (i.manually_removable) man_del = '<i class="far fa-trash-alt"></i>';
+
         head_tr.append('' +
             '<th scope="col" id="' + i.id + '">' +
             '<div class="th-width">' +
-            '<div class="col-name-container"><p>' + i.name + '</p><i class="fas fa-pen"></i></div>' +
+            '<div class="col-name-container"><p>' + i.name + '</p><i class="fas fa-pen"></i>' + man_del + '</div>' +
             '<input type="text" class="form-control col-rename-input">' +
             '</div>' +
             '</th>');
@@ -744,6 +804,26 @@ function add_to_table(cols, row, index) {
     $("#table-body").append(to_append);
 }
 
+function prepare_restruc_append() {
+    let columns = $("#head-tr").find(".col-name-container p");
+
+    let a_dropdown = $("#restruct-a-dropdown");
+    let b_dropdown = $("#restruct-b-dropdown");
+
+    a_dropdown.empty();
+    b_dropdown.empty();
+
+    for (let i = 0; i < columns.length; i += 1) {
+        let name = $(columns[i])[0].innerText;
+        let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
+
+        let item = "<a class='dropdown-item' href='#' id='"+id+"'>"+name+"</a>";
+        a_dropdown.append(item);
+        b_dropdown.append(item);
+    }
+
+    $("#append-container #apply-button").prop("disabled", true);
+}
 
 // Modals
 function show_col_rm_ui_modal() {
@@ -857,28 +937,26 @@ function hide_open_rm_modal() {
 
 
 function add_when_row() {
-    let html = "<div class='when-row-container when-item'>\n" +
-        "<div class='dropdown'>\n" +
-        "<button class='btn btn-primary dropdown-toggle pick-col-button' type='button' data-toggle='dropdown'\n" +
-        "aria-haspopup='true' aria-expanded='false'>\n" +
-        "<i class='fas fa-caret-down'></i><span class='sel-name'>Spalte auswählen</span>\n" +
-        "</button>\n" +
+    let html = "<div class='when-row-container when-item'>" +
+        "<div class='dropdown'>" +
+            "<button class='btn btn-primary dropdown-toggle pick-col-button' type='button' data-toggle='dropdown'" +
+            "aria-haspopup='true' aria-expanded='false'>" +
+            "<i class='fas fa-caret-down'></i><span class='sel-name'>Spalte auswählen</span>" +
+            "</button>" +
 
-        "<div class='dropdown-menu row-cols-dropdown' aria-labelledby='pick-col-button'>\n" +
-        "</div>\n" +
-
-        "</div>\n" +
-
-        "<div class='dropdown'>\n" +
-        "<button class='btn btn-primary dropdown-toggle pick-when-condition' type='button' data-toggle='dropdown'\n" +
-        "aria-haspopup='true' aria-expanded='false'>\n" +
-        "<i class='fas fa-caret-down'></i><span class='sel-name'>WHEN</span>\n" +
-        "</button>\n" +
-        "<div class='dropdown-menu when-dropdown' aria-labelledby='pick-when-condition'>\n" +
-        "<a class='dropdown-item when-is' href='#'>IS</a>\n" +
-        "<a class='dropdown-item when-is' href='#'>CONTAINS</a>\n" +
-        "</div>\n" +
-        "</div>\n" +
+            "<div class='dropdown-menu row-cols-dropdown' aria-labelledby='pick-col-button'>" +
+        "</div>" +
+        "</div>" +
+        "<div class='dropdown'>" +
+        "<button class='btn btn-primary dropdown-toggle pick-when-condition' type='button' data-toggle='dropdown'" +
+        "aria-haspopup='true' aria-expanded='false'>" +
+        "<i class='fas fa-caret-down'></i><span class='sel-name'>WHEN</span>" +
+        "</button>" +
+        "<div class='dropdown-menu when-dropdown' aria-labelledby='pick-when-condition'>" +
+            "<a class='dropdown-item when-is' href='#'>IS</a>" +
+            "<a class='dropdown-item when-is' href='#'>CONTAINS</a>" +
+        "</div>" +
+        "</div>" +
         "<input type='text' class='form-control when-value'>" +
         "<i class='fas fa-times delete'>" +
         "</div>";
@@ -1280,11 +1358,15 @@ var main = function () {
         if (checked) request_tf_preview_with_rm();
         else request_tf_preview();
     });
+
+    $("#append-container #apply-button").click(function (e) {
+        request_restruct_append();
+    });
 };
 
 $(document).ready(main);
 
-$(document).on("click." + _ns, ".col-name-container", function () {
+$(document).on("click", ".col-name-container", function () {
     let col_name = $(this);
     let col_id = col_name.parent().parent().attr("id");
     col_name.css("display", "none");
@@ -1304,24 +1386,24 @@ $(document).on("click." + _ns, ".col-name-container", function () {
     });
 });
 
-$(document).on("click." + _ns, ".col-rm-dropdown .dropdown-item", function (e) {
+$(document).on("click", ".col-rm-dropdown .dropdown-item", function (e) {
     e.preventDefault();
     selected_col_rm_name = $(this);
     $("#select-col-button .sel-name").text($(this)[0].innerText);
 });
 
-$(document).on("click." + _ns, ".row-cols-dropdown .dropdown-item", function (e) {
+$(document).on("click", ".row-cols-dropdown .dropdown-item", function (e) {
     e.preventDefault();
     $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
     $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
 });
 
-$(document).on("click." + _ns, ".when-dropdown .dropdown-item", function (e) {
+$(document).on("click", ".when-dropdown .dropdown-item", function (e) {
     e.preventDefault();
     $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
 });
 
-$(document).on("click." + _ns, ".then-dropdown .dropdown-item", function (e) {
+$(document).on("click", ".then-dropdown .dropdown-item", function (e) {
     e.preventDefault();
     $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
 
@@ -1355,7 +1437,7 @@ $(document).on("click." + _ns, ".then-dropdown .dropdown-item", function (e) {
     }
 });
 
-$(document).on("click." + _ns, ".rm-col-item", function (e) {
+$(document).on("click", ".rm-col-item", function (e) {
     e.preventDefault();
     edit_rm_id = $(this).attr("id");
 
@@ -1368,7 +1450,7 @@ $(document).on("click." + _ns, ".rm-col-item", function (e) {
     }
 });
 
-$(document).on("click." + _ns, ".rm-delete", function (e) {
+$(document).on("click", ".rm-delete", function (e) {
     e.preventDefault();
     e.stopPropagation();
     let name = $(e.currentTarget.parentElement).find(".name").text();
@@ -1382,24 +1464,56 @@ $(document).on("click." + _ns, ".rm-delete", function (e) {
     }
 });
 
-$(document).on("click." + _ns, ".created-rm-item", function (e) {
+$(document).on("click", ".created-rm-item", function (e) {
     e.preventDefault();
     let id = $(this).attr("id");
     request_transfer_rm(id);
 
 });
 
-$(document).on("change." + _ns, "#rm-activate-checkbox", function (e) {
+$(document).on("change", "#rm-activate-checkbox", function (e) {
     let checked = $(this).prop('checked');
     if (checked) request_tf_preview_with_rm();
     else request_tf_preview();
 });
 
-$(document).on("keyup." + _ns, "body", function (e) {
+$(document).on("keyup", "body", function (e) {
     if (e.key === "Escape") {
         hide_row_rm_ui_modal();
         hide_col_rm_ui_modal();
         hide_script_rm_ui_modal();
         hide_open_rm_modal();
+        hide_simple_modal();
     }
 });
+
+$(document).on("click", "#restruct-a-dropdown .dropdown-item", function (e) {
+    e.preventDefault();
+    $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
+    $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
+
+    if ($("#select-append-b .sel-name").attr("id")) {
+        $("#append-container #apply-button").prop("disabled", false);
+    }
+});
+
+$(document).on("click", "#restruct-b-dropdown .dropdown-item", function (e) {
+    e.preventDefault();
+    $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
+    $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
+
+    if ($("#select-append-a .sel-name").attr("id")) {
+        $("#append-container #apply-button").prop("disabled", false);
+    }
+});
+
+$(document).on("click", ".th-width .fa-trash-alt", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    delete_id = $(this).parent().parent().parent().attr("id");
+    let msg = "Möchten Sie die Spalte " + $(this).parent()[0].textContent + " löschen?";
+    show_simple_modal("Spalte löschen", msg, request_delete_appended_col);
+});
+
+//# sourceURL=/static/js/_preview.js

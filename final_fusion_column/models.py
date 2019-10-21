@@ -17,6 +17,7 @@ class FinalFusionColumn(models.Model):
     display_column_name = models.CharField(max_length=30)
     rows_json = models.TextField(max_length=2000)
     rm_dependency = models.ForeignKey(RuleModule, on_delete=models.CASCADE, null=True)
+    manually_removable = models.BooleanField(default=False)
 
     def get_as_json(self):
         """

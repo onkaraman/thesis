@@ -46,8 +46,8 @@
                                 aria-haspopup="true" aria-expanded="false" id="select-append-a">
                             <p><i class="fas fa-caret-down"></i><span class="sel-name">A-Spalte</span></p>
                         </button>
-                        <div class="dropdown-menu col-rm-dropdown" aria-labelledby="select-append-a">
-                            <a class="dropdown-item col-rm-dropdown-item" href="#">Spalte A</a>
+                        <div class="dropdown-menu" aria-labelledby="select-append-a" id="restruct-a-dropdown">
+                            <a class="dropdown-item restruct-a-dropdown-item" href="#">Spalte A</a>
                         </div>
                     </div>
 
@@ -56,8 +56,8 @@
                                 aria-haspopup="true" aria-expanded="false" id="select-append-b">
                             <p><i class="fas fa-caret-down"></i><span class="sel-name">B-Spalte</span></p>
                         </button>
-                        <div class="dropdown-menu col-rm-dropdown" aria-labelledby="select-append-b">
-                            <a class="dropdown-item col-rm-dropdown-item" href="#">Spalte B</a>
+                        <div class="dropdown-menu" aria-labelledby="select-append-b" id="restruct-b-dropdown">
+                            <a class="dropdown-item restruct-b-dropdown-item" href="#">Spalte B</a>
                         </div>
                     </div>
                 </div>
@@ -70,6 +70,10 @@
                     </label>
                 </div>
 
+                <button class="btn btn-primary" id="apply-button">
+                    <i class="fas fa-chevron-right"></i>
+                    Anwenden
+                </button>
             </div>
         </div>
     </div>

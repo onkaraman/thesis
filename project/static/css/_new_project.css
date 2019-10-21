@@ -86,6 +86,10 @@
     float: left;
 }
 
+.note-item:hover {
+    background-color: #f5f5c7;
+}
+
 .note-item .close {
     font-size: 16px;
     margin-top: 3px;

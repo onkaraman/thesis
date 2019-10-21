@@ -68,6 +68,74 @@ def do_rename(request):
     return HttpResponse(json.dumps({"success": success}))
 
 
+def do_append_cols(request):
+    """
+    do_append_cols
+    """
+    success = False
+    valid_user = token_checker.token_is_valid(request)
+
+    if valid_user and "a_id" in request.GET and ArgsChecker.is_number(request.GET["a_id"]) \
+            and "b_id" in request.GET and ArgsChecker.is_number(request.GET["b_id"]) and \
+            "remove_cols" in request.GET and not ArgsChecker.str_is_malicious(request.GET["remove_cols"]):
+
+        try:
+            a_col = FinalFusionColumn.objects.get(pk=request.GET["a_id"])
+            b_col = FinalFusionColumn.objects.get(pk=request.GET["b_id"])
+
+            appended_rows = json.loads(a_col.rows_json)
+
+            for r in json.loads(b_col.rows_json):
+                appended_rows.append(r)
+
+            FinalFusionColumn.objects.create(
+                final_fusion=a_col.final_fusion,
+                source_column_name="%s~ + %s~" % (a_col.display_column_name[:2], b_col.display_column_name[:2]),
+                display_column_name="%s~ + %s~" % (a_col.display_column_name[:2], b_col.display_column_name[:2]),
+                rows_json=json.dumps(appended_rows),
+                rm_dependency=None,
+                manually_removable=True
+            )
+
+            if request.GET["remove_cols"] == "true":
+                a_col.archived = True
+                a_col.save()
+                b_col.archived = True
+                b_col.save()
+
+            success = True
+
+        except ObjectDoesNotExist as oe:
+            pass
+
+    return HttpResponse(json.dumps({
+        "success": success,
+    }))
+
+
+def do_remove_appended(request):
+    """
+    do_remove_appended
+    """
+    success = False
+    valid_user = token_checker.token_is_valid(request)
+
+    if valid_user and "id" in request.GET and ArgsChecker.is_number(request.GET["id"]):
+
+        try:
+            app_col = FinalFusionColumn.objects.get(pk=request.GET["id"], manually_removable=True)
+            app_col.archived = True
+            app_col.save()
+            success = True
+
+        except ObjectDoesNotExist as oe:
+            pass
+
+    return HttpResponse(json.dumps({
+        "success": success,
+    }))
+
+
 def do_get_col_vars(request):
     """
     do_get_col_vars
@@ -145,7 +213,12 @@ def get_preview_table(user_profile):
         else:
             as_json = ffc_col.get_as_json()
 
-            out_headers.append({"name": as_json["name"], "id": ffc_col.pk })
+            out_headers.append({
+                "name": as_json["name"],
+                "id": ffc_col.pk,
+                "manually_removable": ffc_col.manually_removable
+            })
+
             ffc_rows = json.loads(as_json["rows"])
 
             header_rows.append({
