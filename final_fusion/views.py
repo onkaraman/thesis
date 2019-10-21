@@ -174,6 +174,25 @@ def do_check_export_button_visibility(request):
     return HttpResponse(json.dumps({"visible": visible}))
 
 
+def do_count_duplicates(request):
+    """
+    do_check_export_button_visibility
+    """
+    count = 0
+
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user:
+        proj = Project.objects.get(pk=valid_user.last_opened_project_id)
+
+        try:
+            ff = FinalFusion.objects.get(project=proj)
+            count = ff.count_duplicates(valid_user)
+        except ObjectDoesNotExist:
+            pass
+
+    return HttpResponse(json.dumps({"count": count}))
+
+
 def i_render_preview_tf(request):
     """
     i_render_preview_tf

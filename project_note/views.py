@@ -60,7 +60,8 @@ def render_all(request):
     items = []
 
     if valid_user:
-        notes = ProjectNote.objects.filter(archived=False)
+        proj = Project.objects.get(pk=valid_user.last_opened_project_id)
+        notes = ProjectNote.objects.filter(project=proj, archived=False)
         for n in notes:
             items.append({
                 "id": n.pk,

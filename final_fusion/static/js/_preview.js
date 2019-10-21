@@ -148,6 +148,7 @@ function request_tf_preview() {
                 render_table_heads(json.headers);
                 render_table_body(json.headers, json.rows);
                 prepare_restruc_append();
+                request_count_duplicates();
             }
         },
         error: function (data, exception) {
@@ -725,6 +726,23 @@ function request_delete_appended_col() {
                 hide_simple_modal();
                 request_tf_preview();
             }
+        },
+        error: function (data, exception) {
+            alert(data.responseText);
+        }
+    });
+}
+
+function request_count_duplicates() {
+    start_loading_animation();
+
+    $.ajax({
+        url: "/api/tf/count_duplicates",
+        success: function (data) {
+            stop_loading_animation();
+
+            let json = JSON.parse(data);
+            $("#duplicate-container #duplicates #count").text(json.count);
         },
         error: function (data, exception) {
             alert(data.responseText);

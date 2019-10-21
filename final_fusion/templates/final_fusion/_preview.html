@@ -36,8 +36,8 @@
         <p id="title"><i class="fas fa-chevron-down"></i>Strukturveränderungen</p>
 
         <div id="append-container">
-            <p id="title">Spalten kombinieren</p>
-            <p id="descr">Kombinieren Sie zwei Spalten zu einer neuen. Die B-Spalte wird der A-Spalte angehängt.</p>
+            <p class="restruct-title">Spalten kombinieren</p>
+            <p class="restruct-descr">Kombinieren Sie zwei Spalten zu einer neuen. Die B-Spalte wird der A-Spalte angehängt.</p>
 
             <div id="inline-items">
                 <div id="dropdowns">
@@ -76,6 +76,24 @@
                 </button>
             </div>
         </div>
+
+        <div id="duplicate-container">
+            <p class="restruct-title">Duplikate entfernen</p>
+            <p class="restruct-descr">Entscheiden Sie ob Duplikate der Tabelle entfernt werden sollen.</p>
+
+            <div style="display: inline-flex">
+                <p id="duplicates"><span id="count">0</span> Duplikate gefunden</p>
+
+                <div id="ignore-duplicates-cb-container">
+                    <label class="checkbox-inline" id="gen-col-toggle">
+                      <input id="ignore-duplicates-cb" type="checkbox" data-toggle="toggle">
+                      <span class="input-checkbox"></span>
+                      <span id="toggle-text">Diese im Export ignorieren</span>
+                    </label>
+            </div>
+            </div>
+        </div>
+
     </div>
 
 </div>

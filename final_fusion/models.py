@@ -44,7 +44,24 @@ class FinalFusion(models.Model):
 
         return cv
 
+    def count_duplicates(self, user_profile):
+        """
+        count_duplicates
+        """
+        import final_fusion.views as ff_v
 
+        count = 0
+        table = ff_v.get_preview_table(user_profile)
+        checked_rows = []
+
+        for row in table["out_rows"]:
+            vals = list(row.values())
+            if vals in checked_rows:
+                count += 1
+
+            checked_rows.append(vals)
+
+        return count
 
     def __str__(self):
         return "#%d: EF" % self.pk
