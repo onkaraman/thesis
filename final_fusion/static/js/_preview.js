@@ -145,6 +145,8 @@ function request_tf_preview() {
             let json = JSON.parse(data);
 
             if (json.success) {
+                $("#ignore-duplicates-cb").prop('checked', json.ignore_duplicates)
+
                 render_table_heads(json.headers);
                 render_table_body(json.headers, json.rows);
                 prepare_restruc_append();
@@ -746,6 +748,23 @@ function request_count_duplicates() {
         },
         error: function (data, exception) {
             alert(data.responseText);
+        }
+    });
+}
+
+function request_apply_duplicate_setting() {
+    start_loading_animation();
+
+    $.ajax({
+        data: {
+            "setting": $("#ignore-duplicates-cb").prop('checked')
+        },
+        url: "/api/tf/apply_duplicate_setting",
+        success: function (data) {
+            stop_loading_animation();
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
         }
     });
 }
@@ -1379,6 +1398,26 @@ var main = function () {
 
     $("#append-container #apply-button").click(function (e) {
         request_restruct_append();
+    });
+
+    $("#structure-changes-container #title").click(function (e) {
+        if ($(this).find(".fas").hasClass("fa-chevron-down")) {
+            $("#append-container").show();
+            $("#duplicate-container").show();
+
+            $(this).find(".fas").removeClass("fa-chevron-down");
+            $(this).find(".fas").addClass("fa-chevron-up");
+        } else {
+            $("#append-container").hide();
+            $("#duplicate-container").hide();
+
+            $(this).find(".fas").removeClass("fa-chevron-up");
+            $(this).find(".fas").addClass("fa-chevron-down");
+        }
+    });
+
+    $("#ignore-duplicates-cb").change(function (e) {
+        request_apply_duplicate_setting();
     });
 };
 

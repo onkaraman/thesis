@@ -11,6 +11,7 @@ class FinalFusion(models.Model):
     creation_date = models.DateTimeField(default=timezone.now)
     name = models.CharField(max_length=40, default="Final Fusion")
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    ignore_duplicates = models.BooleanField(default=False)
 
     def tq_column_is_added(self, name, tq):
         """
@@ -44,7 +45,8 @@ class FinalFusion(models.Model):
 
         return cv
 
-    def count_duplicates(self, user_profile):
+    @staticmethod
+    def count_duplicates(user_profile):
         """
         count_duplicates
         """
@@ -62,6 +64,26 @@ class FinalFusion(models.Model):
             checked_rows.append(vals)
 
         return count
+
+    @staticmethod
+    def remove_duplicates(rows):
+        """
+        remove_duplicates
+        """
+        checked_rows = []
+        indices = []
+
+        for row in rows:
+            vals = list(row.values())
+            if vals in checked_rows:
+                indices.append(rows.index(row))
+
+            checked_rows.append(vals)
+
+        for i in indices:
+            rows.remove(rows[i])
+
+        return rows
 
     def __str__(self):
         return "#%d: EF" % self.pk

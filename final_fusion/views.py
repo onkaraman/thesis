@@ -193,6 +193,30 @@ def do_count_duplicates(request):
     return HttpResponse(json.dumps({"count": count}))
 
 
+def do_apply_duplicates_settings(request):
+    """
+    do_apply_duplicates_settings
+    """
+    success = False
+
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user and "setting" in request.GET and not ArgsChecker.str_is_malicious(request.GET["setting"]):
+
+        setting = request.GET["setting"]
+        proj = Project.objects.get(pk=valid_user.last_opened_project_id)
+        ff = FinalFusion.objects.get(project=proj)
+
+        if setting == "false":
+            ff.ignore_duplicates = False
+        elif setting == "true":
+            ff.ignore_duplicates = True
+
+        ff.save()
+        success = True
+
+    return HttpResponse(json.dumps({"success": success}))
+
+
 def i_render_preview_tf(request):
     """
     i_render_preview_tf
@@ -273,18 +297,24 @@ def render_preview_table(request):
     render_preview_table
     """
     success = False
+    ignore_duplicates = False
     table = {"out_headers": None, "out_rows": None}
 
     valid_user = token_checker.token_is_valid(request)
     if valid_user:
         table = get_preview_table(valid_user)
 
+        proj = Project.objects.get(pk=valid_user.last_opened_project_id)
+        ff = FinalFusion.objects.get(project=proj)
+
         if len(table["out_rows"]) > 0:
             success = True
+            ignore_duplicates = ff.ignore_duplicates
 
     return HttpResponse(json.dumps(
         {
             "success": success,
+            "ignore_duplicates": ignore_duplicates,
             "headers": table["out_headers"],
             "rows": table["out_rows"]
         }))
@@ -330,6 +360,9 @@ def render_final_fusion(request):
         rq = RuleQueue(table, changes_visible=False)
         rq.add_all_rule_modules(valid_user)
         rq.apply()
+
+        if ff.ignore_duplicates:
+            rq.table["out_rows"] = ff.remove_duplicates(rq.table["out_rows"])
 
         ret["project_name"] = proj.name
         ret["fusion_name"] = ff.name

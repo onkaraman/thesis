@@ -63,6 +63,7 @@ urlpatterns = [
     url(r'^api/tf/append_tables/$', ff_v.do_append_cols),
     url(r'^api/tf/remove_appended/$', ff_v.do_remove_appended),
     url(r'^api/tf/count_duplicates/$', ff_v.do_count_duplicates),
+    url(r'^api/tf/apply_duplicate_setting/$', ff_v.do_apply_duplicates_settings),
     url(r'^api/ff/export_visible/$', ff_v.do_check_export_button_visibility),
     url(r'^api/ff/export_content/$', ff_v.render_final_fusion),
 
