@@ -1,4 +1,5 @@
 #export-container {
+    display: none;
     margin-bottom: 20px;
 }
 
@@ -17,7 +18,7 @@
 
 .ace_editor {
     height: 500px;
-    width: 667px;
+    width: 800px;
     border: 1px solid #d0d0d0;
     float: left;
 }
@@ -25,12 +26,13 @@
 #download-link {
     display: none;
     margin-top: 20px;
-    width: 250px;
+    width: 800px;
     height: 35px;
     color: white;
     background-color: #6ea046;
     border-color: #8e8e8e;
     padding: 5px 15px;
+    text-align: center;
 }
 
 #download-link:hover {
@@ -40,6 +42,6 @@
 }
 
 #download-link .fas {
-    margin-right: 9px;
+    margin-right: 14px;
     color: #375a1a;
 }

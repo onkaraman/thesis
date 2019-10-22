@@ -22,6 +22,9 @@ function request_tq_table_data(id) {
 
                 if (json.has_been_flattened) $("#flattened").show();
                 else $("#flattened").hide();
+
+                $("#view-tq-container").show();
+                $("#loading-content-container").hide();
             }
         },
         error: function (data, exception) {

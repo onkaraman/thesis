@@ -1,3 +1,11 @@
+#view-tq-container {
+    display: none;
+}
+
+#name-container {
+    width: 420px;
+}
+
 #name-container:hover {
     cursor: text;
 }
@@ -43,6 +51,7 @@
 }
 
 #head-tr th {
+    width: 70px;
     border-bottom: 3px solid var(--cyan-lo);
 }
 

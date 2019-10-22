@@ -9,6 +9,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from security.args_checker import ArgsChecker
 from tq_file.models import TQFile
 from final_fusion.models import FinalFusion
+from rule_module.models import RuleModule
+from script_module.models import ScriptModule
 
 
 def do_create_new(request):
@@ -125,10 +127,16 @@ def i_render_user_projects(request):
         projects = Project.objects.filter(user_profile=valid_user, archived=False)
         project_list = []
         for p in projects:
+            ff = FinalFusion.objects.get(project=p)
+
+            rm_count = len(RuleModule.objects.filter(final_fusion=ff, archived=False))
+            rm_count += len(ScriptModule.objects.filter(final_fusion=ff, archived=False))
+
             project_list.append({
                 "id": p.pk,
                 "name": p.name,
                 "tq_len": len(TQFile.objects.filter(project=p, archived=False)),
+                "rm_len": rm_count,
                 "date": "Erstellt am %s" % p.creation_date.strftime('%d.%m.%Y'),
             })
 

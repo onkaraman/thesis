@@ -2,6 +2,18 @@
     margin-top: 30px;
 }
 
+#legend-container {
+    margin-top: 12px;
+    margin-left: 3px;
+    font-size: 14px;
+}
+
+#legend-container .fas {
+    color: #5097ab;
+    margin-right: 5px;
+}
+
+
 .project-item {
     float: left;
     width: 410px;
@@ -25,16 +37,38 @@
 
 .project-item .name {
     font-weight: 600;
+    margin-bottom: 4px;
+    text-shadow: 0px 1px 1px #8a8a8a3d;
 }
 
-.project-item .tq_len-container {
+.project-item .tq-len-container {
     display: inline-flex;
     font-size: 16px;
     padding-left: 2px;
 }
 
-.tq_len-container .tq_len {
+.tq-len-container .fas {
+    color: #5097ab;
+}
+
+.tq-len-container .tq-len {
     margin-left: 5px;
+}
+
+.rm-count-container {
+    display: inline-flex;
+    font-size: 16px;
+    padding-left: 2px;
+}
+
+.rm-count-container .fas {
+    margin-left: 7px;
+    color: #5097ab;
+}
+
+.rm-count-container .rm-count {
+    margin-left: 7px;
+    margin-top: -4px;
 }
 
 .project-item .date {

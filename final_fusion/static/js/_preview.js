@@ -149,8 +149,14 @@ function request_tf_preview() {
 
                 render_table_heads(json.headers);
                 render_table_body(json.headers, json.rows);
+
+                resize_panels();
+
                 prepare_restruc_append();
                 request_count_duplicates();
+
+                $("#preview-tf-container").show();
+                $("#loading-content-container").hide();
             }
         },
         error: function (data, exception) {
@@ -1388,6 +1394,7 @@ var main = function () {
             update_pagination();
         }
     });
+
 
     $("#rm-activate-checkbox").on("change." + _ns, function () {
         let checked = $(this).prop('checked');

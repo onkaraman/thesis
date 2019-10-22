@@ -8,9 +8,14 @@
     <div id="namespace" ns="{{ namespace }}"></div>
     <h1>Meine Projekte</h1>
 
+    <div id="legend-container">
+        <p id="tq"><i class="fas fa-clone panel-icon"></i> Anzahl der Teilquellen (TQ)</p>
+        <p id="rm"><i class="fas fa-dice-four"></i> Anzahl der Regelmodule</p>
+    </div>
+
     <div id="project-list">
         {% for project in projects %}
-            {% include "project_item.html" with id=project.id name=project.name date=project.date tq_len=project.tq_len %}
+            {% include "project_item.html" with id=project.id name=project.name date=project.date tq_len=project.tq_len rm_len=project.rm_len %}
         {% endfor %}
     </div>
 </div>

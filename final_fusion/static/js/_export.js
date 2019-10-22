@@ -29,6 +29,9 @@ function request_get_ff() {
                 apply_download_url();
                 $("#export-editor").show();
                 $("#download-link").css("display", "block");
+
+                $("#export-container").show();
+                $("#loading-content-container").hide();
             }
         },
         error: function (data, exception) {

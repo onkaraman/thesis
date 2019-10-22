@@ -1,4 +1,9 @@
+#name-container {
+    width: 420px;
+}
+
 #preview-tf-container {
+    display: none;
     margin-bottom: 30px;
 }
 
@@ -127,7 +132,7 @@ td .ruled {
 
 #structure-changes-container {
     margin-top: 50px;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
     border-top: 1px solid #d6d6d6;
     padding-top: 15px;
 }

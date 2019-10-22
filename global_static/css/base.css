@@ -126,6 +126,7 @@ p {
 .top-button p {
     font-size: 15px;
     margin-top: 2px;
+    text-shadow: 0px 1px 1px #8a8a8a3d;
 }
 
 .top-icon {
@@ -232,6 +233,7 @@ p {
 .panel-button p {
     margin-left: 8px;
     margin-top: 1px;
+    text-shadow: 0px 1px 1px #8a8a8a;
 }
 
 #endfusion-button {
@@ -251,6 +253,9 @@ p {
 #center-panel {
     padding-left: 50px;
     padding-top: 32px;
+    padding-right: 50px;
+    overflow-y: auto;
+    overflow-x: auto;
 }
 
 /* Right Panel */
@@ -336,8 +341,6 @@ p {
 
 #rm-list {
     margin-top: 25px;
-    overflow-x: scroll;
-    height: inherit;
 }
 
 .rm-col-item {
@@ -391,6 +394,26 @@ p {
 .rm-col-item .rm-delete {
     margin-top: 6px;
 }
+
+/* Loading content */
+#loading-content-container {
+    background-color: #e4e6e8;
+    width: 300px;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+#loading-content-container #spinner {
+    width: 43px;
+    margin-right: 9px;
+}
+
+#loading-content-container p {
+    font-size: 19px;
+    margin-top: 9px;
+    text-shadow: 0px 1px 1px #ccccccb5;
+}
+
 
 #footer {
     margin-top: 80px;
