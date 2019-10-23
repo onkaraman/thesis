@@ -75,25 +75,3 @@ var main = function() {
 
 $(document).ready(main);
 
-$(document).on("click", ".project-delete", function (e) {
-    e.preventDefault();
-    fit_modals();
-
-    delete_project_id = e.currentTarget.parentElement.getAttribute("id");
-    let project_name = $(e.currentTarget.parentElement.getElementsByClassName("name")[0]).text();
-
-    let msg = "Möchten Sie wirklich <b>" + project_name + "</b> löschen?";
-    $("html, body").animate({ scrollTop: 80 }, "slow");
-    show_simple_modal("Projekt löschen", msg, request_delete_project);
-});
-
-
-$(document).on("click", "#simple-modal #no", function (e) {
-    e.preventDefault();
-    hide_simple_modal();
-});
-
-$(document).on("click", "#simple-modal #close", function (e) {
-    e.preventDefault();
-    hide_simple_modal();
-});

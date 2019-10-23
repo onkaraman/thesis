@@ -10,6 +10,15 @@
     <h1>Teilquelle hinzufügen</h1>
     <h3>Strukturierte Dateien als Teilquellen dem Projekt hinzufügen</h3>
 
+    <div id="possible-errors-container">
+        <h1><i class="fas fa-exclamation-triangle"></i><span class="filename">Datei</span> konnte nicht geparst werden</h1>
+        <div id="descr">
+            Bitte stellen Sie sicher, dass
+            <span id="syntax"><span class="filename">Datei</span> frei von Syntaxfehlern ist.</span>
+            <span id="not-even"><span class="filename">Datei</span> eine eindeutige Anzahl von <i>Keys</i> hat (bei JSON/XML)</span>
+        </div>
+    </div>
+
     <div id="file-picker">
         <form id="upload-form" enctype="multipart/form-data">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">

@@ -2,6 +2,35 @@
     display: inline-block;
 }
 
+#possible-errors-container {
+    display: none;
+    margin-top: 24px;
+    margin-bottom: 8px;
+    width: 500px;
+    border: 1px solid var(--red-contrast);
+    padding: 13px 20px;
+    border-radius: 4px;
+}
+
+#possible-errors-container h1 {
+    font-size: 18px;
+    color: var(--red-contrast);
+}
+
+#possible-errors-container h1 .fas {
+    font-size: 17px;
+    margin-right: 10px;
+}
+
+#possible-errors-container #descr {
+    margin-top: 9px;
+    margin-bottom: 4px;
+}
+
+#possible-errors-container p {
+    font-size: 16px;
+}
+
 #file-picker {
     width: 460px;
     float: left;
@@ -38,7 +67,7 @@
 }
 
 #file-browser-label:hover {
-    background-color: #313131;
+    background-color: #4b4b4b;
 }
 
 #invalid-filetype {

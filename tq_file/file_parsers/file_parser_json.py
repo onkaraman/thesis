@@ -1,5 +1,6 @@
 import os
 import json
+from json.decoder import JSONDecodeError
 from django.conf import settings
 from .file_parser import FileParser
 
@@ -13,6 +14,10 @@ class FileParserJSON(FileParser):
 
     def start_parse(self, file_path, data=None):
         file_ = open(os.path.join(settings.BASE_DIR, file_path))
-        parsable = json.loads(file_.read())
+
+        try:
+            parsable = json.loads(file_.read())
+        except JSONDecodeError:
+            return None
 
         return json.dumps(parsable)

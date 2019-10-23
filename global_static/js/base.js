@@ -184,7 +184,11 @@ function request_load_project(id) {
             if (json.success) {
                 $("#project-name p").text(json.name);
                 show_new_project_ui();
+                reset_left_panel();
+
                 request_load_tqs();
+                request_check_export_visibility();
+
                 request_template_include("/include/project/new");
             }
         },
@@ -207,6 +211,7 @@ function request_check_export_visibility() {
 
             if (json.visible) {
                 $("#endfusion-button").show();
+                $("#rms-container .panel-button").show();
             } else {
                 $("#endfusion-button").hide();
             }
@@ -254,10 +259,12 @@ function left_panel_toggle() {
         $("#left-panel").css("width", "56px");
         $(".panel-button p").hide();
         $(".panel-header").hide();
+        $("#footer").hide();
     } else if ($("#left-panel").width() < 100) {
         $("#left-panel").css("width", "220px");
         $(".panel-button p").show();
         $(".panel-header").show();
+        $("#footer").show();
     }
 }
 
@@ -302,6 +309,7 @@ function stop_loading_animation() {
 
 function reset_left_panel() {
     $("#tqs-container").empty();
+    $("#rms-container .panel-button").css("display", "none");
     $("#endfusion-button").hide();
     resize_panels();
 }
@@ -310,21 +318,7 @@ function start_new_project() {
     request_start_new_project();
 }
 
-var main = function () {
-    fit_modals();
-    request_check_export_visibility();
-    request_autoload_project();
-
-    $(window).resize(function () {
-        fit_modals();
-        resize_panels();
-    });
-
-    reset_left_panel();
-
-    let project_rename = $("#project-rename");
-    let project_name_p = $("#project-name p");
-
+function register_left_panel_events() {
     $("#logo").click(function (e) {
         window.location = "/";
     });
@@ -332,6 +326,12 @@ var main = function () {
     $("#left-panel-hamburger").click(function (e) {
         left_panel_toggle();
     });
+}
+
+function register_top_button_events() {
+    let project_rename = $("#project-rename");
+    let project_name_p = $("#project-name p");
+
 
     $("#new-project").click(function (e) {
         start_new_project();
@@ -362,6 +362,23 @@ var main = function () {
         hide_edit_controls();
         request_template_include("/include/project/user_projects", {})
     });
+}
+
+var main = function () {
+    fit_modals();
+    register_left_panel_events();
+    register_top_button_events();
+
+    request_check_export_visibility();
+    request_autoload_project();
+
+    $(window).resize(function () {
+        fit_modals();
+        resize_panels();
+    });
+
+    reset_left_panel();
+
 
     $("#add-tq").click(function (e) {
         $("#right-panel").hide();
@@ -386,4 +403,14 @@ $(document).on("click", ".tq-item", function (e) {
     let id = $(e.currentTarget).attr("id");
     $("#right-panel").hide();
     request_view_tq(id);
+});
+
+$(document).on("click", "#simple-modal #no", function (e) {
+    e.preventDefault();
+    hide_simple_modal();
+});
+
+$(document).on("click", "#simple-modal #close", function (e) {
+    e.preventDefault();
+    hide_simple_modal();
 });

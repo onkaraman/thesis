@@ -21,7 +21,7 @@ def delegate_to_parser(file_path, extension, sheet):
     json_parser = FileParserJSON()
     xml_parser = FileParserXML()
     xls_x_parser = FileParserXLSx()
-    xlsb_parser = FileParserXLSB();
+    xlsb_parser = FileParserXLSB()
 
     if json_parser.handles_file_type(extension):
         return json_parser.start_parse(file_path)
@@ -78,8 +78,6 @@ def do_upload_tq(request):
                     for chunk in file.chunks():
                         destination.write(chunk)
 
-                tq_flattener = TQFlattener()
-
                 if (extension == "xlsx" or extension == "xlsb") and len(request.GET["sheet_names"]) < 1 \
                         and not ArgsChecker.str_is_malicious(request.GET["sheet_names"]):
                     sheets = preparse_get_sheets(file_path, extension)
@@ -107,11 +105,12 @@ def do_upload_tq(request):
                                 msg = "Uploaded file not supported"
                     else:
                         json_parsed = delegate_to_parser(file_path, extension, None)
-                        json_parsed_flat = tq_flattener.flatten(json_parsed)
-                        has_been_flattened = json_parsed != json_parsed_flat
-                        json_parsed = json_parsed_flat
 
-                        if json_parsed:
+                        if json_parsed and TQFlattener.keys_are_even(json_parsed):
+                            json_parsed_flat = TQFlattener.flatten(json_parsed)
+                            has_been_flattened = json_parsed != json_parsed_flat
+                            json_parsed = json_parsed_flat
+
                             TQFile.objects.create(
                                 project=valid_user.get_project(),
                                 source_file_name=file.name,
@@ -120,8 +119,10 @@ def do_upload_tq(request):
                                 has_been_flattened=has_been_flattened
                             )
                             success = True
+                        elif json_parsed and not TQFlattener.keys_are_even(json_parsed):
+                            msg = "not_even"
                         else:
-                            msg = "Uploaded file not supported"
+                            msg = "syntax"
 
     else:
         msg = "User is not valid"
@@ -203,7 +204,8 @@ def i_render_single_tq(request):
         tq = TQFile.objects.get(pk=request.GET["id"], archived=False)
         dic = {
             "id": tq.pk,
-            "name": tq.display_file_name
+            "name": tq.display_file_name,
+            "created": tq.creation_date.strftime('%d.%m.%Y')
         }
         return dashboard_includer.get_as_json("tq_file/_view.html", template_context=dic)
 

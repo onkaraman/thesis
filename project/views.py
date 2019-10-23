@@ -124,7 +124,7 @@ def i_render_user_projects(request):
     valid_user = token_checker.token_is_valid(request)
     dic = {}
     if valid_user:
-        projects = Project.objects.filter(user_profile=valid_user, archived=False)
+        projects = Project.objects.filter(user_profile=valid_user, archived=False).order_by("pk")
         project_list = []
         for p in projects:
             ff = FinalFusion.objects.get(project=p)

@@ -30,12 +30,12 @@ function request_tq_upload(task_id) {
 
         success: function (data) {
             stop_loading_animation();
+            $("#upload-button").prop("disabled", false);
+
             var json = JSON.parse(data);
 
             if (json.success === true) {
                 request_load_tqs();
-                $("#upload-button").prop("disabled", false);
-
             } else if (json.msg === "sheet_check") {
                 let sel_sheets = $("#selected-sheets");
                 sel_sheets.empty();
@@ -49,6 +49,22 @@ function request_tq_upload(task_id) {
                 $("#sheets-container").show();
                 $("#upload-button").prop("disabled", true);
                 $("#upload-button #button-text").text("Ausgewählte Sheets parsen");
+            } else if(json.success === false) {
+                let filenames = $("#possible-errors-container .filename");
+
+                for(let i=0; i< filenames.length; i+=1) {
+                    $(filenames[i]).text($("#selected-file").text());
+                }
+
+                $("#possible-errors-container").show();
+
+                if (json.msg === "syntax") {
+                    $("#possible-errors-container #not-even").hide();
+                    $("#possible-errors-container #syntax").show();
+                } else {
+                    $("#possible-errors-container #not-even").show();
+                    $("#possible-errors-container #syntax").hide();
+                }
             }
 
         },
@@ -64,13 +80,14 @@ var main = function () {
     let upload_button = $("#upload-button");
 
     $('input[type="file"]').change(function (e) {
+        $("#possible-errors-container").hide();
         let file_name = e.target.files[0].name;
         picked_upload_file = e.target.files[0];
 
         $("#selected-file").text(file_name);
         upload_button.prop("disabled", false);
 
-        $("#upload-button #button-text").text("Datei hochladen und auslesen");
+        $("#upload-button #button-text").text("Datei hochladen und parsen");
     });
 
     upload_button.click(function (e) {
@@ -94,3 +111,5 @@ $(document).on("click." + _ns, ".sheet-button", function (e) {
 
     $("#upload-button").prop("disabled", $(".sheet-selected").length <= 0);
 });
+
+//# sourceURL=/static/js/_import.js

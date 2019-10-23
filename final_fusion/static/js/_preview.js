@@ -157,6 +157,9 @@ function request_tf_preview() {
 
                 $("#preview-tf-container").show();
                 $("#loading-content-container").hide();
+
+                $("#rm-activate-checkbox").prop("disabled", false);
+                $("#rm-activate-toggle").css("cursor", "");
             }
         },
         error: function (data, exception) {
@@ -178,6 +181,9 @@ function request_tf_preview_with_rm() {
             if (json.success) {
                 render_table_heads(json.headers);
                 render_table_body(json.headers, json.rows);
+
+                $("#rm-activate-checkbox").prop("disabled", false);
+                $("#rm-activate-toggle").css("cursor", "");
             }
         },
         error: function (data, exception) {
@@ -782,7 +788,7 @@ function render_table_heads(cols) {
 
     cols.forEach(function (i) {
         let man_del = "";
-        if (i.manually_removable) man_del = '<i class="far fa-trash-alt"></i>';
+        if (i.manually_removable) man_del = '<i class="far fa-trash-alt man-del"></i>';
 
         head_tr.append('' +
             '<th scope="col" id="' + i.id + '">' +
@@ -1537,6 +1543,10 @@ $(document).on("click", ".created-rm-item", function (e) {
 
 $(document).on("change", "#rm-activate-checkbox", function (e) {
     let checked = $(this).prop('checked');
+
+    $("#rm-activate-checkbox").prop("disabled", true);
+    $("#rm-activate-toggle").css("cursor", "not-allowed");
+
     if (checked) request_tf_preview_with_rm();
     else request_tf_preview();
 });

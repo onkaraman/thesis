@@ -42,7 +42,7 @@
     border-bottom: 3px solid var(--cyan-lo);
 }
 
-.th-width .fa-pen, .fa-trash {
+.th-width .fa-pen, .man-del {
     color: #b7b7b7;
     margin-left: 11px;
     margin-right: 10px;
@@ -58,25 +58,26 @@
     color: var(--cyan-primary);
 }
 
-.th-width .fa-trash-alt {
+.th-width .man-del {
     margin-left: 6px;
     cursor: pointer;
 }
 
-.th-width .fa-trash-alt:hover {
+.th-width .man-del:hover {
     color: var(--red-contrast);
 }
 
 
-.rm-delete {
+.rm-col-item .rm-delete {
     float: right;
-    font-size: 17px;
-    margin-top: 13px;
+    font-size: 15px;
+    margin-top: 7px;
     z-index: 1;
-    margin-bottom: -21px;
+    color: #8c8c8c;
+    margin-right: -2px;
 }
 
-.rm-delete:hover {
+.rm-col-item .rm-delete:hover {
     color: var(--red-contrast);
 }
 
