@@ -6,7 +6,7 @@
     display: none;
     margin-top: 24px;
     margin-bottom: 8px;
-    width: 500px;
+    max-width: 461px;
     border: 1px solid var(--red-contrast);
     padding: 13px 20px;
     border-radius: 4px;

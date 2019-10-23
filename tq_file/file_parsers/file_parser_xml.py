@@ -12,12 +12,15 @@ class FileParserXML(FileParser):
 
     def start_parse(self, file_path, data=None):
         with open(file_path) as fd:
-            doc = xmltodict.parse(fd.read())
-            parsable = []
-            for odict in doc["dataset"]["record"]:
-                d = {}
-                for k in odict.keys():
-                    d[k] = odict[k]
-                parsable.append(d)
+            try:
+                doc = xmltodict.parse(fd.read())
+                parsable = []
+                for odict in doc["dataset"]["record"]:
+                    d = {}
+                    for k in odict.keys():
+                        d[k] = odict[k]
+                    parsable.append(d)
 
-            return json.dumps(parsable)
+                return json.dumps(parsable)
+            except Exception:
+                return None
