@@ -391,6 +391,10 @@ p {
     margin-left: 9px;
 }
 
+.rm-col-item .invalid {
+    color: #ce1616;
+}
+
 .rm-col-item .rm-delete {
     margin-top: 6px;
 }

@@ -85,7 +85,10 @@ class ScriptModule(models.Model):
         for k in cv.keys():
             row[k] = row.pop(cv[k])
 
-        exec(self.code_content, globals(), exec_vars)
+        try:
+            exec(self.code_content, globals(), exec_vars)
+        except KeyError as ke:
+            pass
 
         for k in cv.keys():
             row[cv[k]] = row.pop(k)

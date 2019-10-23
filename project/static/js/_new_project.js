@@ -67,7 +67,6 @@ function request_delete_note(id) {
             if (json.success) request_all_notes();
         },
         error: function (data, exception) {
-            upload_button.prop("disabled", false);
             alert(data.responseText);
         }
     });
@@ -135,7 +134,7 @@ $(document).ready(main);
 
 $(document).on("click", ".note-item .close", function (e) {
     e.preventDefault();
-    let id = $(this).attr("id");
+    let id = $(this).parent().attr("id");
     request_delete_note(id);
 
 });

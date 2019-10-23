@@ -68,7 +68,7 @@ class RuleQueue:
 
         for sm in self.script_modules:
             for row in self.table["out_rows"]:
-                row = sm.apply_to_row(row, self.span_tag, self.changes_visible)
+                sm.apply_to_row(row, self.span_tag, self.changes_visible)
 
     def apply_col_rms(self, rm, if_cond, then_cases):
         """

@@ -29,5 +29,22 @@ class RuleModule(models.Model):
                     ret.append(td["dyn_col"])
         return ret
 
+    def is_valid(self):
+        """
+        is_valid
+        """
+        from final_fusion_column.models import FinalFusionColumn
+
+        if self.rule_type == "col":
+            col_pk = json.loads(self.col_subject)[0]
+            return len(FinalFusionColumn.objects.filter(pk=col_pk, archived=False)) == 1
+
+        elif self.rule_type == "row":
+            for cond in json.loads(self.if_conditions):
+                for c in cond:
+                    if len(FinalFusionColumn.objects.filter(pk=c["id"], archived=False)) == 0:
+                        return False
+            return True
+
     def __str__(self):
         return "#%d: (%s) Rule: %s" % (self.pk, self.rule_type, self.name)

@@ -1106,19 +1106,19 @@ function add_then_container() {
 }
 
 function add_rm_col_item(item) {
+    let valid_class = "";
+    if (!item.is_valid) valid_class = "invalid";
+
     let type_class = "col-type";
-    if (item.type === "row") {
-        type_class = "row-type";
-    }
-    if (item.type === "script") {
-        type_class = "script-type";
-    }
+
+    if (item.type === "row") type_class = "row-type";
+    if (item.type === "script") type_class = "script-type";
 
     let html = "<div class='rm-col-item' id='" + item.id + "'>" +
         "<i class='far fa-trash-alt rm-delete'></i>" +
         "<div class='inline'>" +
         "<p class='type " + type_class + "'>" + item.type_display + "</p>" +
-        "<p class='name'>" + item.name + "</p>" +
+        "<p class='name " + valid_class + "'>" + item.name + "</p>" +
         "</div>" +
         "</div>";
 

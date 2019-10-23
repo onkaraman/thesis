@@ -294,7 +294,7 @@ def do_transfer_rm(request):
     return HttpResponse(json.dumps({"success": success}))
 
 
-def render_all_rm(request, filter=None):
+def render_all_rm(request):
     """
     render_all_rm
     """
@@ -320,7 +320,9 @@ def render_all_rm(request, filter=None):
                 "id": rm.pk,
                 "name": rm.name,
                 "type": rm.rule_type,
-                "type_display": types_display[rm.rule_type]
+                "type_display": types_display[rm.rule_type],
+                "is_valid": rm.is_valid()
+
             })
 
         for sm in script_modules:
@@ -328,7 +330,8 @@ def render_all_rm(request, filter=None):
                 "id": sm.pk,
                 "name": sm.name,
                 "type": "script",
-                "type_display": types_display["script"]
+                "type_display": types_display["script"],
+                "is_valid": sm.check_validity()["valid"]
             })
 
     return HttpResponse(json.dumps({
