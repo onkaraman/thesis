@@ -747,6 +747,25 @@ function request_delete_appended_col() {
     });
 }
 
+function request_unionize_columns() {
+    start_loading_animation();
+
+    $.ajax({
+        url: "/api/tf/unionize_columns",
+        success: function (data) {
+            stop_loading_animation();
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                request_tf_preview();
+            }
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+        }
+    });
+}
+
 function request_count_duplicates() {
     start_loading_animation();
 
@@ -926,7 +945,6 @@ function show_row_rm_ui_modal() {
 }
 
 function hide_row_rm_ui_modal() {
-
     $("#row-rm-ui-modal").fadeOut(100);
     $("#spanner").fadeOut(100);
 
@@ -1427,6 +1445,12 @@ var main = function () {
             $(this).find(".fas").removeClass("fa-chevron-up");
             $(this).find(".fas").addClass("fa-chevron-down");
         }
+    });
+
+    $("#unionize-container #unionize").click(function (e) {
+        e.preventDefault();
+        $("#structure-changes-container #title").click();
+        request_unionize_columns();
     });
 
     $("#ignore-duplicates-cb").change(function (e) {

@@ -20,6 +20,10 @@
         </div>
     </div>
 
+    <div id="success-upload-container">
+        <p><i class="fas fa-check"></i><span class="filename">Datei</span> wurde erfolgreich hochgeladen.</p>
+    </div>
+
     <div id="file-picker">
         <form id="upload-form" enctype="multipart/form-data">
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">

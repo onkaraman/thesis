@@ -76,6 +76,7 @@ function request_delete_tq() {
             let json = JSON.parse(data);
             if (json.success) {
                 hide_simple_modal();
+                request_template_include("/include/project/new", {});
                 request_load_tqs();
             }
         },
@@ -139,7 +140,7 @@ function update_pagination() {
     let page_l = $("#page-l");
     let page_r = $("#page-r");
 
-    all_pages = tq_table_rows.length / items_per_page;
+    all_pages = Math.ceil(tq_table_rows.length / items_per_page);
     let offset = (current_page - 1) * items_per_page;
     if (current_page === 1) offset = 0;
 
@@ -222,6 +223,8 @@ function register_events() {
 }
 
 var main = function () {
+    $(document).off('.' + _ns);
+
     let id = $("#tq-id").attr("pk");
     request_tq_table_data(id);
     register_events();
@@ -265,3 +268,5 @@ $(document).on("mouseleave." + _ns, "td", function () {
     td_nth.css('background-color', '');
     td_nth.css('cursor', '');
 });
+
+//# sourceURL=/static/js/_view.js

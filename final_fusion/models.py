@@ -86,4 +86,4 @@ class FinalFusion(models.Model):
         return rows
 
     def __str__(self):
-        return "#%d: EF" % self.pk
+        return "#%d: %s" % (self.pk, self.name)

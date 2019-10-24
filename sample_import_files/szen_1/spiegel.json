@@ -1,0 +1,32 @@
+[
+  {
+    "bauteilname": "Xeno Glasscheibe",
+    "bauteilversion": "6.0",
+    "bauteilcode": "BBN1+3",
+    "bauteilposition": "(2, 24, -12)",
+    "ausrichtung": "M",
+    "tool_x_code": "ZEHH+B1",
+    "cad_valide": 1,
+    "cac_valide": 1
+  },
+  {
+    "bauteilname": "Rahmen G1",
+    "bauteilversion": "12.3",
+    "bauteilcode": "UUEH1+0",
+    "bauteilposition": "(2, 33, -18)",
+    "ausrichtung": "M",
+    "tool_x_code": "EJH11+Bn",
+    "cad_valide": 0,
+    "cac_valide": 1
+  },
+  {
+    "bauteilname": "Lichtsensor",
+    "bauteilversion": "2.1",
+    "bauteilcode": "KGD11D",
+    "bauteilposition": "(2, 41, -19)",
+    "ausrichtung": "M",
+    "tool_x_code": "PQOKD+C1",
+    "cad_valide": 1,
+    "cac_valide": 1
+  }
+]

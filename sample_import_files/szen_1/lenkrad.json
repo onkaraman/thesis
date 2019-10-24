@@ -1,0 +1,36 @@
+[
+  {
+    "bauteilname": "Lenksäule",
+    "bauteilversion": "3.12",
+    "bauteilcode": "KK183",
+    "bauteilposition": "(31, -51, 101)",
+    "ausrichtung": "L",
+    "tool_x_code": "LJ8+XX",
+    "cad_valide": 1,
+    "cac_valide": 1,
+    "konstrukteur": "P. Schwallbach"
+  },
+  {
+    "bauteilname": "EPS-Sensor",
+    "bauteilversion": "1.9",
+    "bauteilcode": "810D",
+    "bauteilposition": "(14, -63, 78)",
+    "ausrichtung": "R",
+    "tool_x_code": "HHDB1+1",
+    "cad_valide": 1,
+    "cac_valide": 0,
+    "konstrukteur": "A.H. Devrim"
+  },
+  {
+    "bauteilname": "Lautstärkeregler",
+    "bauteilversion": "4.2",
+    "bauteilcode": "KKDAN",
+    "bauteilposition": "(22, -77, 67)",
+    "ausrichtung": "L",
+    "tool_x_code": "FFQGW+0",
+    "cad_valide": 1,
+    "cac_valide": 1,
+    "konstrukteur": "G. Skroegen"
+  }
+
+]

@@ -24,14 +24,18 @@ class FinalFusionColumn(models.Model):
         get_as_json
         """
         if self.source_tq:
-            source_name = self.source_tq.display_file_name
+            name = "%s (%s)" % (self.display_column_name, self.source_tq.display_file_name)
         else:
-            source_name = "DYN"
+            name = self.display_column_name
 
         return {
-            "name": "%s (%s)" % (self.display_column_name, source_name),
+            "pure_name": self.display_column_name,
+            "name": name,
             "rows": self.rows_json
         }
 
     def __str__(self):
-        return "#%d: %s" % (self.pk, self.display_column_name)
+        if self.source_tq:
+            return "#%d: %s (TQ %s)" % (self.pk, self.display_column_name, self.source_tq.pk)
+        else:
+            return "#%d: %s" % (self.pk, self.display_column_name)

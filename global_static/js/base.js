@@ -2,7 +2,6 @@ var anim_loop = false;
 let next_anim_color = "#00aad2";
 let next_anim = true;
 
-
 // jQuery
 jQuery.extend({
     //https://stackoverflow.com/questions/690781/debugging-scripts-added-via-jquery-getscript-function
@@ -244,11 +243,14 @@ function fit_modals() {
 
 function resize_panels() {
     let doc_width = $(document).width();
+
     let lp_width = $("#left-panel").width();
     let rp_width = $("#right-panel").width();
     if ($("#right-panel").css("display") === "none") rp_width = 0;
 
-    $("#center-panel").css("width", doc_width - lp_width - rp_width);
+    let c_width = doc_width - lp_width - rp_width;
+
+    $("#tf-table-container").css("width", c_width-80);
 
     $("#left-panel").css("height", $(window).height());
     $("#right-panel").css("height", $(window).height());

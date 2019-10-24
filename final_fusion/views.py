@@ -113,6 +113,50 @@ def do_append_cols(request):
     }))
 
 
+def do_unionize_columns(request):
+    """
+    do_unionize_columns
+    """
+    success = False
+    valid_user = token_checker.token_is_valid(request)
+
+    if valid_user:
+        proj = Project.objects.get(pk=valid_user.last_opened_project_id)
+        ff = FinalFusion.objects.get(project=proj)
+
+        ffc_group = {}
+        ffcs = FinalFusionColumn.objects.filter(final_fusion=ff, archived=False).order_by("pk")
+
+        for ffc in ffcs:
+            if ffc.display_column_name not in ffc_group:
+                ffc_group[ffc.display_column_name] = [ffc]
+            else:
+                ffc_group[ffc.display_column_name].append(ffc)
+
+        for k in ffc_group.keys():
+            appended_rows = []
+            for ffc in ffc_group[k]:
+                for row in json.loads(ffc.source_tq.content_json):
+                    appended_rows.append(row[k])
+                ffc.archived = True
+                ffc.save()
+
+            FinalFusionColumn.objects.create(
+                final_fusion=ff,
+                source_tq=None,
+                source_column_name=k,
+                display_column_name=k,
+                rows_json=json.dumps(appended_rows),
+                manually_removable=True
+            )
+
+        success = True
+
+    return HttpResponse(json.dumps({
+        "success": success,
+    }))
+
+
 def do_remove_appended(request):
     """
     do_remove_appended

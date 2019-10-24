@@ -80,6 +80,7 @@ class ScriptModule(models.Model):
         """
         orig = row.copy()
         exec_vars = {"_row": row}
+        pre_imports = "import math, re, random\n"
 
         cv = self.final_fusion.get_col_vars()
         for k in cv.keys():

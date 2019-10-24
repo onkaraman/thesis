@@ -35,6 +35,13 @@ function request_tq_upload(task_id) {
             var json = JSON.parse(data);
 
             if (json.success === true) {
+                let filenames = $("#success-upload-container .filename");
+
+                for(let i=0; i< filenames.length; i+=1) {
+                    $(filenames[i]).text($("#selected-file").text());
+                }
+
+                $("#success-upload-container").show();
                 request_load_tqs();
             } else if (json.msg === "sheet_check") {
                 let sel_sheets = $("#selected-sheets");
@@ -81,6 +88,8 @@ var main = function () {
 
     $('input[type="file"]').change(function (e) {
         $("#possible-errors-container").hide();
+        $("#success-upload-container").hide();
+
         let file_name = e.target.files[0].name;
         picked_upload_file = e.target.files[0];
 

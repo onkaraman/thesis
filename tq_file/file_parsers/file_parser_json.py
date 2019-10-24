@@ -13,7 +13,7 @@ class FileParserJSON(FileParser):
         return extension == "json"
 
     def start_parse(self, file_path, data=None):
-        file_ = open(os.path.join(settings.BASE_DIR, file_path))
+        file_ = open(os.path.join(settings.BASE_DIR, file_path), encoding="UTF-8")
 
         try:
             parsable = json.loads(file_.read())

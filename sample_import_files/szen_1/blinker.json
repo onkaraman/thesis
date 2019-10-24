@@ -1,0 +1,32 @@
+[
+  {
+    "bauteilname": "Scheibenwischer-Knopf",
+    "bauteilversion": "1.3",
+    "bauteilcode": "1438",
+    "bauteilposition": "(10, -139, 301)",
+    "ausrichtung": "L",
+    "tool_x_code": "TT+1he",
+    "cad_valide": 1,
+    "cac_valide": 0
+  },
+  {
+    "bauteilname": "Tempomat-Knopf",
+    "bauteilversion": "3.3",
+    "bauteilcode": "G491",
+    "bauteilposition": "(11, -134, 304)",
+    "ausrichtung": "L",
+    "tool_x_code": "DJ10+1e",
+    "cad_valide": 1,
+    "cac_valide": 1
+  },
+  {
+    "bauteilname": "Blinker Hebel",
+    "bauteilversion": "8.1",
+    "bauteilcode": "JJ33P",
+    "bauteilposition": "(8, -127, 297)",
+    "ausrichtung": "L",
+    "tool_x_code": "DJ10+1e",
+    "cad_valide": 0,
+    "cac_valide": 1
+  }
+]

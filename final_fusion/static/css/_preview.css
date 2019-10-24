@@ -33,9 +33,10 @@
 }
 
 #tf-table-container {
-    min-width: 940px;
-    min-height: 545px;
     margin-top: 30px;
+    overflow: auto;
+    margin-bottom: 32px;
+    padding-bottom: 40px;
 }
 
 #head-tr th {
@@ -133,7 +134,7 @@ td .ruled {
 
 #structure-changes-container {
     margin-top: 50px;
-    margin-bottom: 60px;
+    margin-bottom: 20px;
     border-top: 1px solid #d6d6d6;
     padding-top: 15px;
 }
@@ -234,6 +235,22 @@ td .ruled {
     padding-bottom: 4px;
     margin-top: -2px;
     display: block;
+}
+
+#unionize-container {
+    margin-top: 26px;
+    margin-left: 10px;
+    border-top: 1px solid #d0d0d0;
+    padding-top: 14px;
+    padding-left: 3px;
+}
+
+#unionize-container #unionize {
+    margin-bottom: 2px;
+}
+
+#unionize-container p {
+    margin-top: 4px;
 }
 
 #duplicate-container {
