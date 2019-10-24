@@ -3,11 +3,14 @@ import security.token_checker as token_checker
 import dashboard.includer as dashboard_includer
 from django.conf import settings
 from django.http import HttpResponse
+from django.core.exceptions import ObjectDoesNotExist
 from django.middleware.csrf import get_token as get_csrf_token
 from tq_file.file_parsers.file_parser_json import FileParserJSON
 from tq_file.file_parsers.file_parser_xml import FileParserXML
 from tq_file.file_parsers.file_parser_xls_x import FileParserXLSx
 from tq_file.file_parsers.file_parser_xlsb import FileParserXLSB
+from final_fusion_column.models import FinalFusionColumn
+from final_fusion.models import FinalFusion
 from tq_file.models import TQFile
 from project.models import Project
 from security.args_checker import ArgsChecker
@@ -52,6 +55,79 @@ def preparse_get_sheets(file_path, extension):
         return xlsb_parser.get_sheet_names(file_path)
 
     return None
+
+
+def do_select_column(request):
+    """
+    do_select_column
+    """
+    added = False
+
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user and "tq_id" in request.GET and ArgsChecker.is_number(request.GET["tq_id"]) \
+            and "col_name" in request.GET and not ArgsChecker.str_is_malicious(request.GET["col_name"]):
+        tq_id = request.GET["tq_id"]
+        col_name = request.GET["col_name"]
+
+        try:
+            tq = TQFile.objects.get(pk=tq_id)
+            col = tq.get_column(col_name)
+
+            ef = FinalFusion.objects.get(project=Project.objects.get(pk=valid_user.last_opened_project_id))
+            ffc_fetch = FinalFusionColumn.objects.filter(final_fusion=ef, source_tq=tq, source_column_name=col_name)
+
+            if len(ffc_fetch) == 0:
+                FinalFusionColumn.objects.create(
+                    final_fusion=ef,
+                    source_tq=tq,
+                    source_column_name=col_name,
+                    display_column_name=col_name,
+                    rows_json=json.dumps(col)
+                )
+                added = True
+            elif len(ffc_fetch) == 1:
+                if not ffc_fetch[0].archived:
+                    ffc_fetch[0].archived = True
+                    ffc_fetch[0].save()
+                    added = False
+                else:
+                    ffc_fetch[0].archived = False
+                    ffc_fetch[0].save()
+                    added = True
+        except ObjectDoesNotExist:
+            pass
+
+    return HttpResponse(json.dumps({"added": added}))
+
+
+def do_select_all(request):
+    """
+    do_select_all
+    """
+    success = False
+
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user and "tq_id" in request.GET and ArgsChecker.is_number(request.GET["tq_id"]):
+        proj = Project.objects.get(pk=valid_user.last_opened_project_id)
+        ff = FinalFusion.objects.get(project=proj)
+
+        tq = TQFile.objects.get(pk=request.GET["tq_id"], project=proj, archived=False)
+        for dic in json.loads(tq.content_json):
+            for col in dic.keys():
+                if len(FinalFusionColumn.objects.filter(source_tq=tq,
+                                                        archived=False,
+                                                        source_column_name=col)) == 0:
+                    FinalFusionColumn.objects.create(
+                        final_fusion=ff,
+                        source_tq=tq,
+                        source_column_name=col,
+                        display_column_name=col,
+                        rows_json=json.dumps(tq.get_column(col))
+                    )
+            break
+        success = True
+
+    return HttpResponse(json.dumps({"success": success}))
 
 
 def do_upload_tq(request):

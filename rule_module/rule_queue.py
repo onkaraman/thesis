@@ -90,7 +90,8 @@ class RuleQueue:
 
                 if "when_is" in if_cond and "then_apply" in then_cases:
                     if row[subject_name] == if_cond["when_is"]:
-                        row[subject_name] = self.replace_content(row[subject_name], then_cases["then_apply"])
+                        row[subject_name] = self.replace_content(row[subject_name], if_cond["when_is"],
+                                                                 then_cases["then_apply"])
 
     def apply_row_rms(self, if_condition, then_cases):
         """
@@ -120,10 +121,11 @@ class RuleQueue:
                             else:
                                 del self.table["out_rows"][self.table["out_rows"].index(row)]
                         else:
-                            for tcn in trimmed_col_names:
-                                if tc["ffc_name"] == tcn["short"]:
-                                    if tc["action"] == APPLY:
-                                        row[tcn["long"]] = self.replace_content(row[tcn["long"]], tc["value"])
+                            if tc["action"] == APPLY:
+                                row[tc["ffc_name"]] = self.replace_content(row[tc["ffc_name"]], row[tc["ffc_name"]],
+                                                                           tc["value"])
 
-                                    elif tc["action"] == REPLACE:
-                                        row[tcn["long"]] = self.replace_content(tc["value"], tc["value_replace"])
+                            elif tc["action"] == REPLACE:
+                                row[tc["ffc_name"]] = self.replace_content(row[tc["ffc_name"]], tc["value"],
+                                                                           tc["value_replace"])
+

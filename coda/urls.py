@@ -48,6 +48,8 @@ urlpatterns = [
     url(r'^api/tq/load/$', tq_v.render_all_tqs),
     url(r'^api/tq/rename/$', tq_v.do_rename),
     url(r'^api/tq/upload/$', tq_v.do_upload_tq),
+    url(r'^api/tq/select_col/$', tq_v.do_select_column),
+    url(r'^api/tq/select_all_col/$', tq_v.do_select_all),
     url(r'^api/tq/delete/$', tq_v.do_delete),
     url(r'^api/tq/view/$', tq_v.render_single_tq_table),
 
@@ -56,7 +58,6 @@ urlpatterns = [
 
     # TF/EF API
     url(r'^api/tf/rename/$', ff_v.do_rename),
-    url(r'^api/ef/select_col/$', ff_v.do_select_column),
     url(r'^api/tf/preview_table/$', ff_v.render_preview_table),
     url(r'^api/tf/rm_preview_table/$', ff_v.render_preview_table_with_rm),
     url(r'^api/tf/get_col_vars/$', ff_v.do_get_col_vars),

@@ -70,7 +70,7 @@
 }
 
 #when-rows-container {
-    max-height: 200px;
+    display: contents;
     overflow-y: auto;
     overflow-x: hidden;
 }

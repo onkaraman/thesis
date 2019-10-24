@@ -45,9 +45,14 @@
     color: grey;
 }
 
+#quick-links {
+    margin-top: 12px;
+    margin-left: 3px;
+}
+
 #vis-table {
+    margin-top: 25px;
     min-width: 940px;
-    margin-top: 30px;
 }
 
 #head-tr th {

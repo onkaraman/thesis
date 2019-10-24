@@ -43,6 +43,8 @@ function apply_single_col_rm(obj) {
     } else {
         $("#then-replace").addClass("btn-selected");
     }
+
+    $("#col-rm-ui-modal #save-button").prop("disabled", false);
 }
 
 function apply_single_row_rm(obj) {
@@ -160,6 +162,9 @@ function request_tf_preview() {
 
                 $("#rm-activate-checkbox").prop("disabled", false);
                 $("#rm-activate-toggle").css("cursor", "");
+            } else {
+                request_check_export_visibility();
+                request_template_include("/include/project/new", {});
             }
         },
         error: function (data, exception) {
@@ -276,6 +281,7 @@ function request_create_col_rm() {
         url: "/api/rm/create/col",
         data: {
             "subject_id": selected_col_rm_name.attr("id"),
+            "name": $("#col-name-container #rename").val(),
             "when_is": $("#when-is").hasClass("btn-selected"),
             "when_contains": $("#when-contains").hasClass("btn-selected"),
             "when_value": $("#col-when-value").val(),
@@ -308,6 +314,7 @@ function request_edit_col_rm() {
         url: "/api/rm/edit/col",
         data: {
             "id": edit_rm_id,
+            "name": $("#col-name-container #rename").val(),
             "subject_id": $("#select-col-button .sel-name").attr("id"),
             "when_is": $("#when-is").hasClass("btn-selected"),
             "when_contains": $("#when-contains").hasClass("btn-selected"),
@@ -911,6 +918,16 @@ function show_col_rm_ui_modal() {
         $(".col-rm-dropdown").append("<a class='dropdown-item' href='#' id='" + id + "'>" + name + "</a>");
     }
 
+    let title = $("#col-name-container #title");
+    let rename = $("#col-name-container #rename");
+
+    rename.hide();
+    title.show();
+
+
+    $("#col-name-container #rm-name").text("Neue Spaltenregel");
+    $("#col-rm-ui-modal #save-button").prop("disabled", true);
+
     spanner.fadeIn(200);
     modal.fadeIn(200);
 }
@@ -1187,49 +1204,55 @@ function register_rename_tf_events() {
 }
 
 function register_col_rm_events() {
-    $("#create-new-col-rm").click(function (e) {
+    $(document).on("click." + _ns, "#create-new-col-rm", function (e) {
         show_col_rm_ui_modal();
     });
 
-    $("#when-is").click(function (e) {
+    $(document).on("click." + _ns, "#when-is", function (e) {
         $("#when-contains").removeClass("btn-selected");
         $(this).addClass("btn-selected");
         $("#then-apply").addClass("btn-selected");
         $("#then-replace").prop("disabled", true);
     });
 
-    $("#when-contains").click(function (e) {
+    $(document).on("click." + _ns, "#when-contains", function (e) {
         $(this).addClass("btn-selected");
         $("#when-is").removeClass("btn-selected");
         $("#then-apply").removeClass("btn-selected");
         $("#then-replace").prop("disabled", false);
     });
 
-    $("#then-apply").click(function (e) {
+    $(document).on("click." + _ns, "#then-apply", function (e) {
         $(this).addClass("btn-selected");
         $("#when-is").prop("disabled", false);
         $("#then-replace").removeClass("btn-selected");
+        $("#col-rm-ui-modal #save-button").prop("disabled", false);
     });
 
-    $("#then-replace").click(function (e) {
+    $(document).on("click." + _ns, "#then-replace", function (e) {
         $(this).addClass("btn-selected");
         $("#when-is").prop("disabled", true);
         $("#then-apply").removeClass("btn-selected");
+        $("#col-rm-ui-modal #save-button").prop("disabled", false);
     });
 
-    $("#col-rm-ui-modal #save-button").click(function (e) {
+    $(document).on("click." + _ns, "#col-rm-ui-modal #save-button", function (e) {
         $(this).prop("disabled", true);
+
+        if ($("#col-name-container #rename").val().length == 0) {
+            $("#col-name-container #rename").val($("#col-name-container #rm-name").text());
+        }
 
         if (edit_rm_id !== null) request_edit_col_rm();
         else request_create_col_rm();
     });
 
-    $("#col-rm-ui-modal #close").click(function (e) {
+    $(document).on("click." + _ns, "#col-rm-ui-modal #close" ,function (e) {
         e.preventDefault();
         hide_col_rm_ui_modal();
     });
 
-    $("#col-name-container").on("click." + _ns, function (e) {
+    $(document).on("click." + _ns, "#col-name-container", function (e) {
         e.preventDefault();
         let title = $("#col-name-container #title");
         let rename = $("#col-name-container #rename");
@@ -1240,7 +1263,7 @@ function register_col_rm_events() {
         rename.focus();
     });
 
-    $("#col-name-container #rename").on("keyup." + _ns, function (e) {
+    $(document).on("keyup." + _ns, "#col-name-container #rename", function (e) {
         if (e.key === "Enter") {
             let title = $("#col-name-container #title");
             let rename = $("#col-name-container #rename");
@@ -1254,6 +1277,8 @@ function register_col_rm_events() {
             request_rename_rm(rename.val());
         }
     });
+
+    $("#col-rm-ui-modal").draggable();
 }
 
 function register_row_rm_events() {
@@ -1309,6 +1334,8 @@ function register_row_rm_events() {
             request_rename_rm(rename.val());
         }
     });
+
+    $("#row-rm-ui-modal").draggable();
 }
 
 function register_script_rm_events() {
@@ -1369,6 +1396,7 @@ function register_script_rm_events() {
         rename.focus();
     });
 
+    $("#script-rm-ui-modal").draggable();
 }
 
 function register_open_rm_events() {
@@ -1388,6 +1416,8 @@ function register_open_rm_events() {
 }
 
 var main = function () {
+    $(document).off('.' + _ns);
+
     request_tf_preview();
     request_get_all_rm();
 
@@ -1460,7 +1490,7 @@ var main = function () {
 
 $(document).ready(main);
 
-$(document).on("click", ".col-name-container", function () {
+$(document).on("click." + _ns, ".col-name-container", function () {
     let col_name = $(this);
     let col_id = col_name.parent().parent().attr("id");
     col_name.css("display", "none");
@@ -1480,24 +1510,24 @@ $(document).on("click", ".col-name-container", function () {
     });
 });
 
-$(document).on("click", ".col-rm-dropdown .dropdown-item", function (e) {
+$(document).on("click." + _ns, ".col-rm-dropdown .dropdown-item", function (e) {
     e.preventDefault();
     selected_col_rm_name = $(this);
     $("#select-col-button .sel-name").text($(this)[0].innerText);
 });
 
-$(document).on("click", ".row-cols-dropdown .dropdown-item", function (e) {
+$(document).on("click." + _ns, ".row-cols-dropdown .dropdown-item", function (e) {
     e.preventDefault();
     $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
     $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
 });
 
-$(document).on("click", ".when-dropdown .dropdown-item", function (e) {
+$(document).on("click." + _ns, ".when-dropdown .dropdown-item", function (e) {
     e.preventDefault();
     $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
 });
 
-$(document).on("click", ".then-dropdown .dropdown-item", function (e) {
+$(document).on("click." + _ns, ".then-dropdown .dropdown-item", function (e) {
     e.preventDefault();
     $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
 
@@ -1531,7 +1561,7 @@ $(document).on("click", ".then-dropdown .dropdown-item", function (e) {
     }
 });
 
-$(document).on("click", ".rm-col-item", function (e) {
+$(document).on("click." + _ns, ".rm-col-item", function (e) {
     e.preventDefault();
     edit_rm_id = $(this).attr("id");
 
@@ -1544,7 +1574,7 @@ $(document).on("click", ".rm-col-item", function (e) {
     }
 });
 
-$(document).on("click", ".rm-delete", function (e) {
+$(document).on("click." + _ns, ".rm-delete", function (e) {
     e.preventDefault();
     e.stopPropagation();
     let name = $(e.currentTarget.parentElement).find(".name").text();
@@ -1558,14 +1588,14 @@ $(document).on("click", ".rm-delete", function (e) {
     }
 });
 
-$(document).on("click", ".created-rm-item", function (e) {
+$(document).on("click." + _ns, ".created-rm-item", function (e) {
     e.preventDefault();
     let id = $(this).attr("id");
     request_transfer_rm(id);
 
 });
 
-$(document).on("change", "#rm-activate-checkbox", function (e) {
+$(document).on("change." + _ns, "#rm-activate-checkbox", function (e) {
     let checked = $(this).prop('checked');
 
     $("#rm-activate-checkbox").prop("disabled", true);
@@ -1575,7 +1605,7 @@ $(document).on("change", "#rm-activate-checkbox", function (e) {
     else request_tf_preview();
 });
 
-$(document).on("keyup", "body", function (e) {
+$(document).on("keyup." + _ns, "body", function (e) {
     if (e.key === "Escape") {
         hide_row_rm_ui_modal();
         hide_col_rm_ui_modal();
@@ -1585,7 +1615,7 @@ $(document).on("keyup", "body", function (e) {
     }
 });
 
-$(document).on("click", "#restruct-a-dropdown .dropdown-item", function (e) {
+$(document).on("click." + _ns, "#restruct-a-dropdown .dropdown-item", function (e) {
     e.preventDefault();
     $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
     $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
@@ -1595,7 +1625,7 @@ $(document).on("click", "#restruct-a-dropdown .dropdown-item", function (e) {
     }
 });
 
-$(document).on("click", "#restruct-b-dropdown .dropdown-item", function (e) {
+$(document).on("click." + _ns, "#restruct-b-dropdown .dropdown-item", function (e) {
     e.preventDefault();
     $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
     $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
@@ -1605,7 +1635,7 @@ $(document).on("click", "#restruct-b-dropdown .dropdown-item", function (e) {
     }
 });
 
-$(document).on("click", ".th-width .fa-trash-alt", function (e) {
+$(document).on("click." + _ns, ".th-width .fa-trash-alt", function (e) {
     e.preventDefault();
     e.stopPropagation();
 

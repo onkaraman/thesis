@@ -43,7 +43,9 @@ def request_to_col_rm(request, id=None):
     get_params = convert_request_bool_values(request.GET)
 
     subject_id = get_params["subject_id"]
+
     when_is = get_params["when_is"]
+    name = get_params["name"]
     when_contains = get_params["when_contains"]
     when_value = get_params["when_value"]
     then_apply = get_params["then_apply"]
@@ -60,7 +62,7 @@ def request_to_col_rm(request, id=None):
             rm.rule_type = "col"
             rm.col_subject = json.dumps([ffc.pk])
 
-            if ((when_is and not when_contains) or (not when_is and when_contains)) \
+            if not ArgsChecker.str_is_malicious(name) and ((when_is and not when_contains) or (not when_is and when_contains)) \
                     and ((then_apply and not then_replace) or (not then_apply and then_replace)):
 
                 # Construct if condition
@@ -80,7 +82,7 @@ def request_to_col_rm(request, id=None):
                 rm.if_conditions = json.dumps(if_condition)
                 rm.then_cases = json.dumps(then_case)
                 rm.final_fusion = ffc.final_fusion
-                rm.name = "When %s, then %s" % (when_value, then_value)
+                rm.name = name
                 return rm
 
         except ObjectDoesNotExist:

@@ -213,6 +213,7 @@ function request_check_export_visibility() {
                 $("#rms-container .panel-button").show();
             } else {
                 $("#endfusion-button").hide();
+                $("#rms-container .panel-button").hide();
             }
         },
         error: function (data, exception) {

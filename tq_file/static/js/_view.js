@@ -86,10 +86,10 @@ function request_delete_tq() {
     });
 }
 
-function request_select_column_tf(col_name, jquery_obj) {
+function request_select_column(col_name, jquery_obj) {
     start_loading_animation();
     $.ajax({
-        url: "/api/ef/select_col",
+        url: "/api/tq/select_col",
         data: {
             "tq_id": $("#tq-id").attr("pk"),
             "col_name": col_name
@@ -105,6 +105,29 @@ function request_select_column_tf(col_name, jquery_obj) {
             }
 
             request_check_export_visibility();
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+            alert(data.responseText);
+        }
+    });
+}
+
+function request_select_all_columns() {
+    start_loading_animation();
+    let id = $("#tq-id").attr("pk");
+
+    $.ajax({
+        url: "/api/tq/select_all_col",
+        data: {
+            "tq_id": id,
+        },
+        success: function (data) {
+            stop_loading_animation();
+            let json = JSON.parse(data);
+
+            request_check_export_visibility();
+            request_template_include("/include/tq/view", {"id": id});
         },
         error: function (data, exception) {
             stop_loading_animation();
@@ -197,6 +220,10 @@ function register_events() {
         }
     });
 
+    $("#quick-links #take-all").click(function (e) {
+        request_select_all_columns();
+    });
+
     $("#page-r").click(function (e) {
         e.preventDefault();
 
@@ -221,6 +248,7 @@ function register_events() {
     });
 
 }
+
 
 var main = function () {
     $(document).off('.' + _ns);
@@ -252,7 +280,7 @@ $(document).on("click." + _ns, "td", function () {
     let th_nth = $('#tq-table th:nth-child(' + t + ')');
     let th_name = th_nth[0].textContent.trim();
 
-    request_select_column_tf(th_name, th_nth);
+    request_select_column(th_name, th_nth);
 });
 
 $(document).on("mouseleave." + _ns, "td", function () {
