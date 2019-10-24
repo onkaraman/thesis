@@ -84,6 +84,8 @@ def do_upload_tq(request):
                     msg = "sheet_check"
                     if sheets:
                         data = sheets
+                    else:
+                        msg = "syntax"
                 else:
                     sheet_names = None
                     if not ArgsChecker.str_is_malicious(request.GET["sheet_names"]):
