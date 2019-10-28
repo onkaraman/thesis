@@ -19,7 +19,7 @@ from .tq_flattener import TQFlattener
 
 def delegate_to_parser(file_path, extension, sheet):
     """
-    delegate_to_parser
+    delegate_to_parser_
     """
     json_parser = FileParserJSON()
     xml_parser = FileParserXML()

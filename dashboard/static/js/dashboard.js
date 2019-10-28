@@ -42,7 +42,6 @@ function add_tq_ui(item) {
     );
 }
 
-
 // Requests
 function request_delete_project() {
     start_loading_animation();

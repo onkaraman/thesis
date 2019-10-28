@@ -52,6 +52,7 @@ function apply_single_row_rm(obj) {
     let then_cases = JSON.parse(obj.then_cases);
 
     show_row_rm_ui_modal();
+    $("#row-rm-ui-modal #rm-name").text(obj.name);
     $("#row-rm-ui-modal #edit-mode").text("bearbeiten");
     $("#row-rm-ui-modal .save-button").addClass("edit");
 
@@ -121,15 +122,18 @@ function get_row_when_data() {
 function get_row_then_data() {
     let then_data = [];
     let then_items = $("#then-container");
-    for (let i = 0; i < then_items.length; i += 1) {
+
+    for (let i = 0; i < then_items.children().length; i += 1) {
+        let child = $($(then_items.children()[i]));
+
         let obj = {
-            "id": $(then_items[i]).find(".pick-col-button .sel-name").attr("id"),
-            "action": $(then_items[i]).find(".pick-then-condition").text().trim(),
-            "value": $(then_items[i]).find(".then-value").val().trim()
+            "id": child.find(".pick-col-button .sel-name").attr("id"),
+            "action": child.find(".pick-then-condition").text().trim(),
+            "value": child.find(".then-value").val().trim()
         };
 
-        if (obj["action"] === "REPLACE") obj["value_replace"] = $(then_items[i]).find(".with-value").val().trim();
-        if (parseInt(obj["id"]) === -1) obj["dyn_col"] = $(then_items[i]).find(".dyncol-value").val().trim();
+        if (obj["action"] === "REPLACE") obj["value_replace"] = child.find(".with-value").val().trim();
+        if (parseInt(obj["id"]) === -1) obj["dyn_col"] = child.find(".dyncol-value").val().trim();
 
         then_data.push(obj);
     }
@@ -385,7 +389,6 @@ function request_edit_row_rm() {
             let json = JSON.parse(data);
             if (json.success) {
                 hide_row_rm_ui_modal();
-                $("#rms-container").click();
                 request_get_all_rm();
             }
         },
@@ -957,6 +960,8 @@ function show_row_rm_ui_modal() {
     let modal = $("#row-rm-ui-modal");
     let spanner = $("#spanner");
 
+    $("#row-rm-ui-modal #rm-name").text("Neue Spaltenregel");
+
     spanner.fadeIn(200);
     modal.fadeIn(200);
 }
@@ -1303,12 +1308,6 @@ function register_row_rm_events() {
         add_then_container();
     });
 
-    $(document).on("click." + _ns, "#row-rm-ui-modal .save-button", function (e) {
-        $(this).prop("disabled", true);
-        if ($(this).hasClass("edit")) request_edit_row_rm();
-        else request_create_row_rm();
-    });
-
     $("#row-name-container").on("click." + _ns, function (e) {
         e.preventDefault();
         let title = $("#row-name-container #title");
@@ -1334,6 +1333,13 @@ function register_row_rm_events() {
             request_rename_rm(rename.val());
         }
     });
+
+    $(document).on("click." + _ns, "#row-rm-ui-modal .save-button", function (e) {
+        $(this).prop("disabled", true);
+        if ($(this).hasClass("edit")) request_edit_row_rm();
+        else request_create_row_rm();
+    });
+
 
     $("#row-rm-ui-modal").draggable();
 }

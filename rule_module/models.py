@@ -15,8 +15,8 @@ class RuleModule(models.Model):
 
     rule_type = models.CharField(max_length=10)
     col_subject = models.CharField(max_length=200, null=True)
-    if_conditions = models.CharField(max_length=200)
-    then_cases = models.CharField(max_length=200)
+    if_conditions = models.CharField(max_length=1000)
+    then_cases = models.CharField(max_length=1000)
 
     def depending_dynamic_columns(self):
         """

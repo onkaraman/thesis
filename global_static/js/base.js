@@ -52,6 +52,29 @@ function is_valid_email(emailAddress) {
 }
 
 // Requests
+function request_template_include(url, data_dict) {
+    start_loading_animation();
+
+    $.ajax({
+        url: url,
+        data: data_dict,
+        success: function (data) {
+            stop_loading_animation();
+            let json = JSON.parse(data);
+            let html = json.html.replace(new RegExp("\>[\s]+\<", "g"), "><");
+
+            // Apply css
+            $("head link#dynamic-css").attr("href", json.css);
+
+            $("#center-panel").empty();
+            $("#center-panel").html(html);
+        },
+        error: function (data, exception) {
+            alert(data.responseText);
+        }
+    });
+}
+
 function request_view_tq(id) {
     request_template_include("/include/tq/view", {"id": id});
 }
@@ -71,29 +94,6 @@ function request_load_tqs() {
                     add_tq_ui(item);
                 });
             }
-        },
-        error: function (data, exception) {
-            alert(data.responseText);
-        }
-    });
-}
-
-function request_template_include(url, data_dict) {
-    start_loading_animation();
-
-    $.ajax({
-        url: url,
-        data: data_dict,
-        success: function (data) {
-            stop_loading_animation();
-            let json = JSON.parse(data);
-            let html = json.html.replace(new RegExp("\>[\s]+\<", "g"), "><");
-
-            // Apply css
-            $("head link#dynamic-css").attr("href", json.css);
-
-            $("#center-panel").empty();
-            $("#center-panel").html(html);
         },
         error: function (data, exception) {
             alert(data.responseText);
@@ -223,60 +223,6 @@ function request_check_export_visibility() {
 }
 
 // UX
-function hide_top_bar_controls() {
-    $("#left-panel").hide();
-    $("#right-panel").hide();
-    $("#project-name").hide();
-    $(".top-button").hide();
-    $("#left-panel-hamburger").css("opacity", "0");
-}
-
-function fit_modals() {
-    let modals = [];
-    modals.push($("#simple-modal"));
-    modals.push($("#col-rm-ui-modal"));
-    modals.push($("#script-rm-ui-modal"));
-
-    modals.forEach(function (m) {
-        m.css("margin-left", ($(document).width() / 2) - m.outerWidth() / 2);
-    });
-}
-
-function resize_panels() {
-    let doc_width = $(document).width();
-
-    let lp_width = $("#left-panel").width();
-    let rp_width = $("#right-panel").width();
-    if ($("#right-panel").css("display") === "none") rp_width = 0;
-
-    let c_width = doc_width - lp_width - rp_width;
-
-    $("#tf-table-container").css("width", c_width-80);
-
-    $("#left-panel").css("height", $(window).height());
-    $("#right-panel").css("height", $(window).height());
-}
-
-function left_panel_toggle() {
-    if ($("#left-panel").width() > 100) {
-        $("#left-panel").css("width", "56px");
-        $(".panel-button p").hide();
-        $(".panel-header").hide();
-        $("#footer").hide();
-    } else if ($("#left-panel").width() < 100) {
-        $("#left-panel").css("width", "220px");
-        $(".panel-button p").show();
-        $(".panel-header").show();
-        $("#footer").show();
-    }
-}
-
-function show_new_project_ui() {
-    $("#left-panel").show("slide", {direction: "left"}, 300);
-    $("#project-name").show();
-    $("#left-panel-hamburger").css("opacity", "1");
-}
-
 function animate_loading() {
     $("#top-bar").animate({
         outlineColor: next_anim_color
@@ -310,6 +256,41 @@ function stop_loading_animation() {
     });
 }
 
+function hide_top_bar_controls() {
+    $("#left-panel").hide();
+    $("#right-panel").hide();
+    $("#project-name").hide();
+    $(".top-button").hide();
+    $("#left-panel-hamburger").css("opacity", "0");
+}
+
+
+function fit_modals() {
+    let modals = [];
+    modals.push($("#simple-modal"));
+    modals.push($("#col-rm-ui-modal"));
+    modals.push($("#script-rm-ui-modal"));
+
+    modals.forEach(function (m) {
+        m.css("margin-left", ($(document).width() / 2) - m.outerWidth() / 2);
+    });
+}
+
+function resize_panels() {
+    let doc_width = $(document).width();
+
+    let lp_width = $("#left-panel").width();
+    let rp_width = $("#right-panel").width();
+    if ($("#right-panel").css("display") === "none") rp_width = 0;
+
+    let c_width = doc_width - lp_width - rp_width;
+
+    $("#tf-table-container").css("width", c_width-80);
+
+    $("#left-panel").css("height", $(window).height());
+    $("#right-panel").css("height", $(window).height());
+}
+
 function reset_left_panel() {
     $("#tqs-container").empty();
     $("#rms-container .panel-button").css("display", "none");
@@ -317,9 +298,31 @@ function reset_left_panel() {
     resize_panels();
 }
 
+function left_panel_toggle() {
+    if ($("#left-panel").width() > 100) {
+        $("#left-panel").css("width", "56px");
+        $(".panel-button p").hide();
+        $(".panel-header").hide();
+        $("#footer").hide();
+    } else if ($("#left-panel").width() < 100) {
+        $("#left-panel").css("width", "220px");
+        $(".panel-button p").show();
+        $(".panel-header").show();
+        $("#footer").show();
+    }
+}
+
+
+function show_new_project_ui() {
+    $("#left-panel").show("slide", {direction: "left"}, 300);
+    $("#project-name").show();
+    $("#left-panel-hamburger").css("opacity", "1");
+}
+
 function start_new_project() {
     request_start_new_project();
 }
+
 
 function register_left_panel_events() {
     $("#logo").click(function (e) {
@@ -366,6 +369,7 @@ function register_top_button_events() {
         request_template_include("/include/project/user_projects", {})
     });
 }
+
 
 var main = function () {
     fit_modals();
