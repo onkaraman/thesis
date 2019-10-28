@@ -127,7 +127,7 @@ def data_to_row_rm(when_data, then_data, existing_id=None):
     if existing_id:
         rm = RuleModule.objects.get(pk=existing_id)
     else:
-        rm.name = "Zeilenregel %d " % (len(when_data) + len(then_data))
+        rm.name = "Neue Zeilenregel"
         rm.rule_type = "row"
 
     if_cond = []
@@ -181,9 +181,12 @@ def do_create_row_rm(request):
         try:
             when_data = json.loads(request.GET["when_data"])
             then_data = json.loads(request.GET["then_data"])
-            rm = data_to_row_rm(when_data, then_data)
-            if rm:
-                success = True
+            try:
+                rm = data_to_row_rm(when_data, then_data)
+                if rm:
+                    success = True
+            except Exception:
+                pass
         except TypeError:
             print("do_create_row_rm: TypeError")
 
@@ -308,8 +311,8 @@ def render_all_rm(request):
         success = True
         proj = Project.objects.get(pk=valid_user.last_opened_project_id)
         ff = FinalFusion.objects.get(project=proj)
-        rule_modules = RuleModule.objects.filter(final_fusion=ff, archived=False)
-        script_modules = ScriptModule.objects.filter(final_fusion=ff, archived=False)
+        rule_modules = RuleModule.objects.filter(final_fusion=ff, archived=False).order_by("pk")
+        script_modules = ScriptModule.objects.filter(final_fusion=ff, archived=False).order_by("pk")
 
         types_display = {
             "col": "COL",

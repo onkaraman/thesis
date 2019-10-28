@@ -55,6 +55,7 @@ function apply_single_row_rm(obj) {
     $("#row-rm-ui-modal #rm-name").text(obj.name);
     $("#row-rm-ui-modal #edit-mode").text("bearbeiten");
     $("#row-rm-ui-modal .save-button").addClass("edit");
+    $("#row-rm-ui-modal .save-button").prop("disabled", false);
 
     for (let and_bracket = 0; and_bracket < if_conditions.length; and_bracket += 1) {
         for (let i = 0; i < if_conditions[and_bracket].length; i += 1) {
@@ -75,7 +76,21 @@ function apply_single_row_rm(obj) {
         let item = then_cases[i];
         let last_added = $($("#then-container").children()[$("#then-container").children().length - 1]);
         last_added.find(".pick-col-button .sel-name").text(item["ffc_name"]);
-        last_added.find(".pick-col-button .sel-name").attr("id", item["id"]);
+
+        // TODO: CHECK IF DYN ID CAN BE FETCHED FROM DROPDOWN
+        let columns = $("#head-tr").find(".col-name-container p");
+
+        for (let i = 0; i < columns.length; i += 1) {
+            if ($(columns[i])[0].innerText === item["ffc_name"]) {
+                let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
+                last_added.find(".pick-col-button .sel-name").attr("id", id);
+                break;
+            }
+            else {
+                last_added.find(".pick-col-button .sel-name").attr("id", item["id"]);
+            }
+        }
+
         last_added.find(".pick-then-condition .sel-name").text(item["action"]);
         last_added.find(".then-value").val(item["value"]);
 
@@ -83,6 +98,7 @@ function apply_single_row_rm(obj) {
             last_added.find(".with-value").show();
             last_added.find(".with-value").val(item["value_replace"]);
         } else if (item["action"] === "IGNORE") {
+            last_added.find(".then-value").val("");
             last_added.find(".then-value").prop("disabled", true);
         }
     }
@@ -106,11 +122,17 @@ function get_row_when_data() {
             when_data.push(and_bracket);
             and_bracket = [];
         } else {
-            and_bracket.push({
+            let obj = {
                 "id": $(when_items[i]).find(".pick-col-button .sel-name").attr("id"),
                 "condition": $(when_items[i]).find(".pick-when-condition").text().trim(),
                 "value": $(when_items[i]).find(".when-value").val().trim()
-            });
+            };
+
+            if (obj.value.length === 0 || obj.condition === "WHEN") {
+                $(when_items[i]).find(".pick-when-condition").css("color", "#efff00");
+                return;
+            }
+            else and_bracket.push(obj);
         }
     }
 
@@ -135,7 +157,12 @@ function get_row_then_data() {
         if (obj["action"] === "REPLACE") obj["value_replace"] = child.find(".with-value").val().trim();
         if (parseInt(obj["id"]) === -1) obj["dyn_col"] = child.find(".dyncol-value").val().trim();
 
-        then_data.push(obj);
+        if (obj.value.length === 0 || obj.action === "THEN") {
+                child.find(".pick-then-condition").css("color", "#efff00");
+                return;
+            }
+        else then_data.push(obj);
+
     }
     return then_data;
 }
@@ -485,7 +512,8 @@ function request_delete_rm() {
 
             if (json.success) {
                 hide_simple_modal();
-                request_get_all_rm();
+                $("#rms-container").click();
+                // request_get_all_rm(); Will be called anyway
             }
         },
         error: function (data, exception) {
@@ -961,6 +989,7 @@ function show_row_rm_ui_modal() {
     let spanner = $("#spanner");
 
     $("#row-rm-ui-modal #rm-name").text("Neue Spaltenregel");
+    $("#row-rm-ui-modal .save-button").prop("disabled", true);
 
     spanner.fadeIn(200);
     modal.fadeIn(200);
@@ -1101,7 +1130,6 @@ function add_then_container() {
         "</div>" +
         "<input type='text' class='form-control dyncol-value'>" +
         "</div>" +
-
         "</div>" +
 
         "<div class='dropdown'>" +
@@ -1144,6 +1172,10 @@ function add_then_container() {
             $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
             $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
         }
+    });
+
+    last_added.find(".then-value").keypress(function (e) {
+        $("#row-rm-ui-modal .save-button").prop("disabled", false);
     });
 
     last_added.find(".delete").click(function (e) {
@@ -1433,8 +1465,8 @@ var main = function () {
     register_script_rm_events();
     register_open_rm_events();
 
+    $("#rm-activate-checkbox").prop('checked', false);
     $("#right-panel").show("slide", {direction: "right"}, 200);
-
     $("#name-display h1").text($("#ef-name").text());
 
     $("#page-r").click(function (e) {
@@ -1453,14 +1485,6 @@ var main = function () {
             current_page -= 1;
             update_pagination();
         }
-    });
-
-
-    $("#rm-activate-checkbox").on("change." + _ns, function () {
-        let checked = $(this).prop('checked');
-
-        if (checked) request_tf_preview_with_rm();
-        else request_tf_preview();
     });
 
     $("#append-container #apply-button").click(function (e) {
@@ -1587,7 +1611,7 @@ $(document).on("click." + _ns, ".rm-delete", function (e) {
     let msg = "Möchten Sie wirklich <b>" + name + "</b> löschen?";
     delete_id = $(e.currentTarget.parentElement).attr("id");
 
-    if ($(e.currentTarget.parentElement).find(".type").text() === "script") {
+    if ($(e.currentTarget.parentElement).find(".type").text() === "SCR") {
         show_simple_modal("Regelmodul löschen", msg, request_delete_sm);
     } else {
         show_simple_modal("Regelmodul löschen", msg, request_delete_rm);
@@ -1602,6 +1626,7 @@ $(document).on("click." + _ns, ".created-rm-item", function (e) {
 });
 
 $(document).on("change." + _ns, "#rm-activate-checkbox", function (e) {
+    e.preventDefault();
     let checked = $(this).prop('checked');
 
     $("#rm-activate-checkbox").prop("disabled", true);

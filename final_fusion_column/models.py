@@ -31,6 +31,7 @@ class FinalFusionColumn(models.Model):
         return {
             "pure_name": self.display_column_name,
             "name": name,
+            "dynamic": self.source_tq == None,
             "rows": self.rows_json
         }
 
