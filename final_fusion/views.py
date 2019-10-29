@@ -168,15 +168,16 @@ def do_check_export_button_visibility(request):
 
     valid_user = token_checker.token_is_valid(request)
     if valid_user:
-        proj = Project.objects.get(pk=valid_user.last_opened_project_id)
-        try:
-            ff = FinalFusion.objects.get(project=proj)
-            ffcs = FinalFusionColumn.objects.filter(final_fusion=ff, archived=False)
-            if len(ffcs) > 0:
-                visible = True
-                tf_name = ffcs[0].final_fusion.name
-        except ObjectDoesNotExist:
-            pass
+        if valid_user.last_opened_project_id:
+            proj = Project.objects.get(pk=valid_user.last_opened_project_id)
+            try:
+                ff = FinalFusion.objects.get(project=proj)
+                ffcs = FinalFusionColumn.objects.filter(final_fusion=ff, archived=False)
+                if len(ffcs) > 0:
+                    visible = True
+                    tf_name = ffcs[0].final_fusion.name
+            except ObjectDoesNotExist:
+                pass
     return HttpResponse(json.dumps({
         "visible": visible,
         "tf_name": tf_name

@@ -258,13 +258,14 @@ def render_all_tqs(request):
     valid_user = token_checker.token_is_valid(request)
 
     if valid_user:
-        project = Project.objects.get(pk=valid_user.last_opened_project_id)
-        for tq in TQFile.objects.filter(project=project, archived=False):
-            tq_list.append({
-                "id": tq.pk,
-                "name": tq.display_file_name
-            })
-        success = True
+        if valid_user.last_opened_project_id:
+            project = Project.objects.get(pk=valid_user.last_opened_project_id)
+            for tq in TQFile.objects.filter(project=project, archived=False):
+                tq_list.append({
+                    "id": tq.pk,
+                    "name": tq.display_file_name
+                })
+            success = True
 
     return HttpResponse(json.dumps(
         {

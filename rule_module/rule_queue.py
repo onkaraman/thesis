@@ -34,7 +34,7 @@ class RuleQueue:
         self.rule_modules = list(RuleModule.objects.filter(final_fusion=ff, archived=False).order_by("pk"))
         self.script_modules = ScriptModule.objects.filter(final_fusion=ff, archived=False).order_by("pk")
 
-    def replace_content(self, orig, haystack, needle):
+    def replace_content(self, orig, haystack, needle, append=False):
         """
         replace_content
         """
@@ -52,7 +52,7 @@ class RuleQueue:
             if haystack in content:
                 combined = "%s, %s" % (content, c_needle)
                 return self.span_tag % combined
-        elif len(orig) > 1 and len(needle) > 1:
+        elif len(orig) > 1 and len(needle) > 1 and append:
             orig = "%s, %s" % (orig, needle)
         else:
             orig = orig.replace(haystack, needle)
