@@ -210,6 +210,7 @@ function request_check_export_visibility() {
 
             if (json.visible) {
                 $("#endfusion-button").show();
+                $("#rms-container .panel-button").text(json.tf_name);
                 $("#rms-container .panel-button").show();
             } else {
                 $("#endfusion-button").hide();

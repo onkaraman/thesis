@@ -1,3 +1,4 @@
+import json
 from django.db import models
 from django.utils import timezone
 from final_fusion.models import FinalFusion
@@ -34,6 +35,21 @@ class FinalFusionColumn(models.Model):
             "dynamic": self.source_tq == None,
             "rows": self.rows_json
         }
+
+    def has_numeric_content(self):
+        """
+        :return: True if all rows on this column are numeric.
+        """
+        for r in json.loads(self.rows_json):
+            if not str(r).isdigit():
+                return False
+        return True
+
+    def get_rows_as_list(self):
+        """
+        :return: Will return list containing all row items.
+        """
+        return [i for i in json.loads(self.rows_json)]
 
     def __str__(self):
         if self.source_tq:

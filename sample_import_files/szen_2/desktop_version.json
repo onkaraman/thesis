@@ -1,0 +1,23 @@
+[
+  {
+    "platform": "car-apps.com",
+    "distribution version": 11.2,
+    "downloads": 18233,
+    "unique_downloads": 4002,
+    "interaction (min/day)": 34
+  },
+  {
+    "platform": "autobild.de",
+    "distribution version": 11.3,
+    "downloads": 22019,
+    "unique_downloads": 7771,
+    "interaction (min/day)": 24
+  },
+  {
+    "platform": "edrive.org",
+    "distribution version": 11.2,
+    "downloads": 199201,
+    "unique_downloads": 33603,
+    "interaction (min/day)": 23
+  }
+]

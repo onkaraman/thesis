@@ -1,0 +1,16 @@
+Aufgabenliste um Szenario 2 zu realisieren
+(FT = Fusionstool)
+-------------------------------------------
+
+#1
+Einzelne TQs in das FT laden.
+
+#2
+Pro TQ die Spalten "Platform", "Downloads", "Unique downloads" und "Interaction (min/day)" der TF hinzufügen.
+
+#3
+Die TF so formatieren, dass Werte unter den gleichen Spaltennamen zusammengefasst werden.
+
+#4
+Spalte "Summe Downloads" erstellen: Spaltenregel: WENN platform CONTAINS "*", DANN Neue Spalte: "Summe DL" mit APPLY "-"
+

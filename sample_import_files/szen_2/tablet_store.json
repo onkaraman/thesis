@@ -1,0 +1,30 @@
+[
+  {
+    "platform": "play store",
+    "distribution version": 8.3,
+    "downloads": 8503,
+    "unique_downloads": 716,
+    "interaction (min/day)": 23
+  },
+  {
+    "platform": "play store",
+    "distribution version": 6.9,
+    "downloads": 7810,
+    "unique_downloads": 4519,
+    "interaction (min/day)": 8
+  },
+  {
+    "platform": "apple store",
+    "distribution version": 1.3,
+    "downloads": 1701,
+    "unique_downloads": 1403,
+    "interaction (min/day)": 23
+  },
+  {
+    "platform": "apple store",
+    "distribution version": 7.7,
+    "downloads": 2198,
+    "unique_downloads": 964,
+    "interaction (min/day)": 7
+  }
+]

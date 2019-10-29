@@ -12,5 +12,5 @@ Aufgabenliste um Szenario 1 zu realisieren
 	Wenn ("tool_x_code" = DJ10+1e) UND ("cad_valide" = 0), dann Spalte "Fehlercode" = FFT
 	Wenn (cad_valide = 1) UND (cac_valide = 0), dann Spalte "Fehlercode" = CAF
 	Wenn (cad_valide = 0) UND (cac_valide = 1), dann Spalte "Fehlercode" = CAG
-	Wenn (bauteilcode CONTAINS 2x den gleichen Buchstaben), dann Spalte "Fehlercode" = "DVT"
+	Wenn (bauteilcode CONTAINS 2x den gleichen Buchstaben), dann Spalte "Fehlercode" = "DUPLO"
 	Wenn (bauteilversion > 5), dann bauteilcode mit Präfix "2012: "

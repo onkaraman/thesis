@@ -178,7 +178,8 @@ function request_tf_preview() {
             let json = JSON.parse(data);
 
             if (json.success) {
-                $("#ignore-duplicates-cb").prop('checked', json.ignore_duplicates)
+                $("#ignore-duplicates-cb").prop('checked', json.ignore_duplicates);
+                $("#preview-tf-container #name-display h1").text(json.ff_name);
 
                 render_table_heads(json.headers);
                 render_table_body(json.headers, json.rows);
@@ -1433,8 +1434,6 @@ function register_script_rm_events() {
         rename.show();
         rename.focus();
     });
-
-    $("#script-rm-ui-modal").draggable();
 }
 
 function register_open_rm_events() {

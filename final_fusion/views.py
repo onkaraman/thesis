@@ -164,17 +164,23 @@ def do_check_export_button_visibility(request):
     do_check_export_button_visibility
     """
     visible = False
+    tf_name = ""
 
     valid_user = token_checker.token_is_valid(request)
     if valid_user:
         proj = Project.objects.get(pk=valid_user.last_opened_project_id)
         try:
             ff = FinalFusion.objects.get(project=proj)
-            if len(FinalFusionColumn.objects.filter(final_fusion=ff, archived=False)) > 0:
+            ffcs = FinalFusionColumn.objects.filter(final_fusion=ff, archived=False)
+            if len(ffcs) > 0:
                 visible = True
+                tf_name = ffcs[0].final_fusion.name
         except ObjectDoesNotExist:
             pass
-    return HttpResponse(json.dumps({"visible": visible}))
+    return HttpResponse(json.dumps({
+        "visible": visible,
+        "tf_name": tf_name
+    }))
 
 
 def do_count_duplicates(request):
@@ -302,6 +308,7 @@ def render_preview_table(request):
     success = False
     ignore_duplicates = False
     table = {"out_headers": None, "out_rows": None}
+    ff_name = ""
 
     valid_user = token_checker.token_is_valid(request)
     if valid_user:
@@ -309,6 +316,7 @@ def render_preview_table(request):
 
         proj = Project.objects.get(pk=valid_user.last_opened_project_id)
         ff = FinalFusion.objects.get(project=proj)
+        ff_name = ff.name
 
         if len(table["out_rows"]) > 0:
             success = True
@@ -317,6 +325,7 @@ def render_preview_table(request):
     return HttpResponse(json.dumps(
         {
             "success": success,
+            "ff_name": ff_name,
             "ignore_duplicates": ignore_duplicates,
             "headers": table["out_headers"],
             "rows": table["out_rows"]

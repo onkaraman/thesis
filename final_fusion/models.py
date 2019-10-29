@@ -43,6 +43,12 @@ class FinalFusion(models.Model):
 
             cv[short_name] = f.get_as_json()["name"]
 
+            if f.has_numeric_content():
+                rows = f.get_rows_as_list()
+                if sum(rows) > 0:
+                    cv["%s.SUM" % short_name] = sum(rows)
+                    cv["%s.AVG" % short_name] = int(sum(rows)/len(rows))
+
         return cv
 
     @staticmethod

@@ -42,6 +42,11 @@ class ScriptModule(models.Model):
             # Check if all _row entries are still there
             if not self.row_structure_retained():
                 msg.append("_row structure change not allowed")
+        except ValueError as verr:
+            # Only do exception if it's because of a float
+            if "float(" not in self.code_content or "int(" not in self.code_content:
+                msg.append(verr.args[0])
+
         except Exception as exc:
             msg.append("Python code is invalid")
             if exc.args:
@@ -81,13 +86,14 @@ class ScriptModule(models.Model):
         orig = row.copy()
         exec_vars = {"_row": row}
         pre_imports = "import math, re, random\n"
+        code_content = "%s%s" % (pre_imports, self.code_content)
 
         cv = self.final_fusion.get_col_vars()
         for k in cv.keys():
             row[k] = row.pop(cv[k])
 
         try:
-            exec(self.code_content, globals(), exec_vars)
+            exec(code_content, globals(), exec_vars)
         except KeyError as ke:
             pass
 

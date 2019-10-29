@@ -1,0 +1,20 @@
+[
+  {
+    "platform": "MBUX",
+    "distribution version": 3.1,
+    "downloads": 90819,
+    "unique_downloads": 87002,
+    "interaction (min/day)": 41,
+    "category": "Unterhaltung",
+    "model": "E"
+  },
+  {
+    "platform": "MBUX",
+    "distribution version": 3.3,
+    "downloads": 70011,
+    "unique_downloads": 55413,
+    "interaction (min/day)": 34,
+    "category": "Unterhaltung",
+    "model": "EQC"
+  }
+]
