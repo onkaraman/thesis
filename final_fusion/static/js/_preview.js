@@ -489,6 +489,11 @@ function request_get_all_rm() {
                 JSON.parse(json.items).forEach(function (item) {
                     add_rm_col_item(item);
                 });
+
+                if ($("#rm-activate-checkbox").prop('checked')) {
+                    $("#rm-activate-checkbox").prop('checked', false);
+                    request_tf_preview();
+                }
             }
         },
         error: function (data, exception) {

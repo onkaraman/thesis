@@ -44,7 +44,7 @@ class ScriptModule(models.Model):
                 msg.append("_row structure change not allowed")
         except ValueError as verr:
             # Only do exception if it's because of a float
-            if "float(" not in self.code_content or "int(" not in self.code_content:
+            if "float(" not in self.code_content:
                 msg.append(verr.args[0])
 
         except Exception as exc:
@@ -69,7 +69,10 @@ class ScriptModule(models.Model):
         row_structure_retained
         """
         exec_vars = {"_row": self.final_fusion.get_col_vars()}
-        exec(self.code_content, globals(), exec_vars)
+        pre_imports = "import math, re, random\n"
+        code_content = "%s%s" % (pre_imports, self.code_content)
+
+        exec(code_content, globals(), exec_vars)
 
         if "_row" not in exec_vars:
             return False
@@ -88,9 +91,13 @@ class ScriptModule(models.Model):
         pre_imports = "import math, re, random\n"
         code_content = "%s%s" % (pre_imports, self.code_content)
 
+        # Replace long var names with short var names so the script can interpret user input
         cv = self.final_fusion.get_col_vars()
         for k in cv.keys():
-            row[k] = row.pop(cv[k])
+            if not (".SUM" in k or ".AVG" in k):
+                row[k] = row.pop(cv[k])
+            else:
+                row[k] = cv[k]
 
         try:
             exec(code_content, globals(), exec_vars)
@@ -98,10 +105,13 @@ class ScriptModule(models.Model):
             pass
 
         for k in cv.keys():
-            row[cv[k]] = row.pop(k)
-            if row[cv[k]] != orig[cv[k]]:
-                if changes_visible:
-                    row[cv[k]] = edit_style % row[cv[k]]
+            # Reverse name linking
+            if not (".SUM" in k or ".AVG" in k):
+                row[cv[k]] = row.pop(k)
+
+                if row[cv[k]] != orig[cv[k]]:
+                    if changes_visible:
+                        row[cv[k]] = edit_style % row[cv[k]]
 
     def __str__(self):
         return "#%d: %s" % (self.pk, self.name)
