@@ -59,7 +59,7 @@ class RuleQueue:
 
         return orig
 
-    def apply(self):
+    def apply(self, export=False):
         """
         apply
         """
@@ -76,6 +76,16 @@ class RuleQueue:
 
             elif rm.rule_type == "row":
                 self.apply_row_rms(if_condition, then_cases)
+
+        if export:
+            out_rows = []
+            for r in self.table["out_rows"]:
+                d = {}
+                for k in r.keys():
+                    if ".SUM" not in k and ".AVG" not in k:
+                        d[k] = r[k]
+                out_rows.append(d)
+            self.table["out_rows"] = out_rows
 
     def apply_col_rms(self, rm, if_cond, then_cases):
         """
@@ -124,8 +134,10 @@ class RuleQueue:
                 if all(bool_vals):
                     # Alle then cases übernehmen
                     for tc in then_cases:
+                        do_append = tc["id"] == "-1"
                         try:
                             ffc = FinalFusionColumn.objects.get(pk=tc["id"]).get_as_json()
+                            do_append = ffc["dynamic"]
                         except ObjectDoesNotExist:
                             ffc = None
 
@@ -138,11 +150,12 @@ class RuleQueue:
                             if tc["action"] == APPLY:
                                 if tc["ffc_name"] in row:
                                     row[tc["ffc_name"]] = self.replace_content(row[tc["ffc_name"]],
-                                                                               row[tc["ffc_name"]], tc["value"])
+                                                                               row[tc["ffc_name"]], tc["value"],
+                                                                               append=do_append)
                                 elif ffc["name"] in row:
                                     # For cols with (source) in name
                                     row[ffc["name"]] = self.replace_content(row[ffc["name"]], row[ffc["name"]],
-                                                                            tc["value"])
+                                                                            tc["value"], append=do_append)
 
                             elif tc["action"] == REPLACE:
                                 if tc["ffc_name"] in row:

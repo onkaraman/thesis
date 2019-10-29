@@ -372,7 +372,7 @@ def render_final_fusion(request):
         table = get_preview_table(valid_user)
         rq = RuleQueue(table, changes_visible=False)
         rq.add_all_rule_modules(valid_user)
-        rq.apply()
+        rq.apply(export=True)
 
         if ff.ignore_duplicates:
             rq.table["out_rows"] = ff.remove_duplicates(rq.table["out_rows"])
