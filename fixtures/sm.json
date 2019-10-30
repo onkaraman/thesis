@@ -1,0 +1,112 @@
+[
+{
+    "model": "script_module.scriptmodule",
+    "pk": 1,
+    "fields": {
+        "creation_date": "2019-10-08T08:46:28.000Z",
+        "archived": true,
+        "name": "Script Module",
+        "final_fusion": 1,
+        "code_content": "# For each row, do\nif \"anne\" in _row[\"FIR\"]:\n    _row[\"FIR\"] = _row[\"FIR\"][::-1]\n"
+    }
+},
+{
+    "model": "script_module.scriptmodule",
+    "pk": 2,
+    "fields": {
+        "creation_date": "2019-10-08T11:55:25.351Z",
+        "archived": true,
+        "name": "Script Module",
+        "final_fusion": 1,
+        "code_content": "# For each row, do\nif \"anne\" in _row[\"FIR\"]:\n    _row[\"FIR\"] = _row[\"FIR\"][::-1] + \"G\"\n"
+    }
+},
+{
+    "model": "script_module.scriptmodule",
+    "pk": 3,
+    "fields": {
+        "creation_date": "2019-10-08T12:08:33.364Z",
+        "archived": true,
+        "name": "Script Module",
+        "final_fusion": 1,
+        "code_content": "# For each row, do\nif \"anne\" in _row[\"FIR\"]:\n    _row[\"FIR\"] = _row[\"FIR\"][::-1] + \" G\"\n"
+    }
+},
+{
+    "model": "script_module.scriptmodule",
+    "pk": 4,
+    "fields": {
+        "creation_date": "2019-10-08T12:12:04.653Z",
+        "archived": true,
+        "name": "SkriptregelCC",
+        "final_fusion": 1,
+        "code_content": "# For each row, do\nif \"anne\" in _row[\"FIR\"]:\n    _row[\"FIR\"] = _row[\"FIR\"][::-1] + \" \u00d6_\"\n"
+    }
+},
+{
+    "model": "script_module.scriptmodule",
+    "pk": 5,
+    "fields": {
+        "creation_date": "2019-10-22T14:26:11.618Z",
+        "archived": true,
+        "name": "Papentin-Regel",
+        "final_fusion": 1,
+        "code_content": "# For each row, do\nif _row[\"FIR\"] == \"Aldus\":\n    _row[\"FIR\"] = \"Papentin\""
+    }
+},
+{
+    "model": "script_module.scriptmodule",
+    "pk": 6,
+    "fields": {
+        "creation_date": "2019-10-28T12:13:44.022Z",
+        "archived": true,
+        "name": "Script Module",
+        "final_fusion": 1,
+        "code_content": "# For each row, do\nif _row[\"FIR\"] == \"Gilbert\":\n    _row[\"CARL\"] = 1"
+    }
+},
+{
+    "model": "script_module.scriptmodule",
+    "pk": 7,
+    "fields": {
+        "creation_date": "2019-10-29T08:23:03.246Z",
+        "archived": false,
+        "name": "2x gleichen Buchstaben",
+        "final_fusion": 8,
+        "code_content": "# For each row, do\nif len(_row[\"BAUE\"]) > len(set(_row[\"BAUE\"])):\n    _row[\"FEH\"] = \"DUPLO\""
+    }
+},
+{
+    "model": "script_module.scriptmodule",
+    "pk": 8,
+    "fields": {
+        "creation_date": "2019-10-29T08:48:27.105Z",
+        "archived": false,
+        "name": "Script Module",
+        "final_fusion": 8,
+        "code_content": "if float(_row[\"BAUN\"]) > 5:\n    _row[\"BAUE\"] = \"2012: %s\" % _row[\"BAUE\"]"
+    }
+},
+{
+    "model": "script_module.scriptmodule",
+    "pk": 9,
+    "fields": {
+        "creation_date": "2019-10-29T12:16:54.673Z",
+        "archived": false,
+        "name": "Show sum",
+        "final_fusion": 9,
+        "code_content": "# For each row, do\n_row[\"SUM\"] = _row[\"DOW.SUM\"]"
+    }
+},
+{
+    "model": "script_module.scriptmodule",
+    "pk": 10,
+    "fields": {
+        "creation_date": "2019-10-29T12:43:45.643Z",
+        "archived": false,
+        "name": "Script Module",
+        "final_fusion": 9,
+        "code_content": "# For each row, do\nshare = (float(_row[\"DOW\"]) * 100)/_row[\"DOW.SUM\"]\n_row[\"% A\"] = round(share)"
+    }
+}
+]

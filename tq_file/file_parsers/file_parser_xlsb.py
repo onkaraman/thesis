@@ -6,13 +6,18 @@ from pyxlsb import open_workbook as open_xlsb
 
 class FileParserXLSB(FileParser):
     """
-    FileParserXLSB
+    Concretization of the abstrtact class for XLSB-Formats.
     """
 
     def handles_file_type(self, extension):
         return extension == "xlsb"
 
     def start_parse(self, file_path, data=None):
+        """
+        Will first take all columns of the excel and will then read each row.
+        Then it will create a dictionary for each row by zipping column names and row entries.
+        Each row dict will be added to list, which in turn will be returned as a JSON.
+        """
         with open_xlsb(file_path) as wb:
 
             cols = []
@@ -33,6 +38,10 @@ class FileParserXLSB(FileParser):
 
         return json.dumps(parsable)
 
-    def get_sheet_names(self, file_path):
+    @staticmethod
+    def get_sheet_names(file_path):
+        """
+        Will return the list of sheet names this Excel is containing.
+        """
         with open_xlsb(file_path) as wb:
             return wb.sheets

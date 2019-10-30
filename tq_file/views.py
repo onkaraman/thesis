@@ -19,7 +19,10 @@ from .tq_flattener import TQFlattener
 
 def delegate_to_parser(file_path, extension, sheet):
     """
-    delegate_to_parser_
+    :param file_path: Path where the uploaded file is.
+    :param extension: Detected extension of the file.
+    :param sheet: Which sheet to parse, in case of Excel-Formats.
+    :return: A JSON containing the parsed contents of the original file.
     """
     json_parser = FileParserJSON()
     xml_parser = FileParserXML()
@@ -43,7 +46,8 @@ def delegate_to_parser(file_path, extension, sheet):
 
 def preparse_get_sheets(file_path, extension):
     """
-    preparse_get_sheet
+    :return: A list of sheet names the Excel-Format (file_path) contains.
+    Used to prompt the frontend with a choice.
     """
     xls_x_parser = FileParserXLSx()
     xlsb_parser = FileParserXLSB()
@@ -59,13 +63,17 @@ def preparse_get_sheets(file_path, extension):
 
 def do_select_column(request):
     """
-    do_select_column
+    Will add or remove a column of a contextual TQ to the TF of the project.
+    If this column has been already added to the TF, its respective FFC will be archived and thereby removed.
+    request["tq_id"]: ID of the TQ, needed to select the columnf rom.
+    request["col_name"]: Name of the column to select/deselect from the TF.
     """
     added = False
 
     valid_user = token_checker.token_is_valid(request)
     if valid_user and "tq_id" in request.GET and ArgsChecker.is_number(request.GET["tq_id"]) \
             and "col_name" in request.GET and not ArgsChecker.str_is_malicious(request.GET["col_name"]):
+
         tq_id = request.GET["tq_id"]
         col_name = request.GET["col_name"]
 
@@ -77,6 +85,7 @@ def do_select_column(request):
             ffc_fetch = FinalFusionColumn.objects.filter(final_fusion=ef, source_tq=tq, source_column_name=col_name)
 
             if len(ffc_fetch) == 0:
+                # FFC/Column wasn't found, meaning it hasn't been selected yet = Add to TF by creation.
                 FinalFusionColumn.objects.create(
                     final_fusion=ef,
                     source_tq=tq,
@@ -86,6 +95,7 @@ def do_select_column(request):
                 )
                 added = True
             elif len(ffc_fetch) == 1:
+                # FFC was found, meaning it was already selected = Remove by archiving.
                 if not ffc_fetch[0].archived:
                     ffc_fetch[0].archived = True
                     ffc_fetch[0].save()
@@ -102,7 +112,7 @@ def do_select_column(request):
 
 def do_select_all(request):
     """
-    do_select_all
+    Will automatically select all columns of the TQ (request['tq_id']) to the current TF of the project.
     """
     success = False
 
@@ -132,7 +142,8 @@ def do_select_all(request):
 
 def do_upload_tq(request):
     """
-    do_upload_tq
+    Will upload a TQ to the server to continue with further processes.
+    1. Upload file, 2. Check extension, 3. Delegate to a parser and create a TQ from its result.
     """
     success = False
     msg = None
@@ -154,6 +165,8 @@ def do_upload_tq(request):
                     for chunk in file.chunks():
                         destination.write(chunk)
 
+                # If the uploaded file is an Excel-File, it needs to be preparsed to get the sheet names of it.
+                # The parser needs to know which sheet to parse.
                 if (extension == "xlsx" or extension == "xlsb") and len(request.GET["sheet_names"]) < 1 \
                         and not ArgsChecker.str_is_malicious(request.GET["sheet_names"]):
                     sheets = preparse_get_sheets(file_path, extension)
@@ -168,6 +181,7 @@ def do_upload_tq(request):
                         sheet_names = [x for x in request.GET["sheet_names"].split(",") if len(x) > 1]
 
                     if len(sheet_names) > 0:
+                        # Create a single TQ for every sheet of the uploaded Excel file.
                         for sheet in sheet_names:
                             json_parsed = delegate_to_parser(file_path, extension, sheet)
 
@@ -182,6 +196,7 @@ def do_upload_tq(request):
                             else:
                                 msg = "Uploaded file not supported"
                     else:
+                        # Standard case, just parse the file.
                         json_parsed = delegate_to_parser(file_path, extension, None)
 
                         if json_parsed and TQFlattener.keys_are_even(json_parsed):
@@ -215,7 +230,7 @@ def do_upload_tq(request):
 
 def do_rename(request):
     """
-    do_rename
+    Will rename a TQ according to request['name'].
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -233,7 +248,7 @@ def do_rename(request):
 
 def do_delete(request):
     """
-    do_delete
+    Will remove a TQ by archiving it.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -250,7 +265,8 @@ def do_delete(request):
 
 def render_all_tqs(request):
     """
-    render_all_tqs
+    Will list all uploaded TQs of the project. Mainly used for frontend presentation.
+    TQs which have been deleted/archived will not be shown.
     """
     success = False
     tq_list = []
@@ -276,7 +292,7 @@ def render_all_tqs(request):
 
 def i_render_single_tq(request):
     """
-    i_render_single_tq
+    Will render a single TQ with its metadata by inclusion.
     """
     valid_user = token_checker.token_is_valid(request)
     if valid_user and "id" in request.GET and ArgsChecker.is_number(request.GET["id"]):
@@ -291,7 +307,7 @@ def i_render_single_tq(request):
 
 def render_single_tq_table(request):
     """
-    i_render_single_tq_table
+    Will render the contents of a TQ.
     """
     success = False
     table_data = None
@@ -314,7 +330,7 @@ def render_single_tq_table(request):
 
 def i_render_import(request):
     """
-    i_render_import
+    Will render the import page for TQs by inclusion.
     """
     valid_user = token_checker.token_is_valid(request)
     if valid_user:

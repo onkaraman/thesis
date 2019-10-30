@@ -4,12 +4,12 @@ from flatten_json import flatten
 
 class TQFlattener:
     """
-    TQFlattener
+    This class will flatten parsed JSON-TQs by moving all keys to the first level of the structure.
     """
     @staticmethod
     def flatten(json_str):
         """
-        flatten
+        :return The flattened JSON.
         """
         flat = []
 
@@ -20,7 +20,7 @@ class TQFlattener:
     @staticmethod
     def keys_are_even(json_str):
         """
-        keys_are_even
+        :return True if every row of the TQ has exactly the same keys (none missing or unknown).
         """
         keys = []
         for j in json.loads(json_str):

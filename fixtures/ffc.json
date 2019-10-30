@@ -1,0 +1,1322 @@
+[
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 195,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:13.966Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 28,
+        "source_column_name": "bauteilname",
+        "display_column_name": "bauteilname",
+        "rows_json": "[\"Scheibenwischer-Knopf\", \"Tempomat-Knopf\", \"Blinker Hebel\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 196,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:13.982Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 28,
+        "source_column_name": "bauteilversion",
+        "display_column_name": "bauteilversion",
+        "rows_json": "[\"1.3\", \"3.3\", \"8.1\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 197,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:13.991Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 28,
+        "source_column_name": "bauteilcode",
+        "display_column_name": "bauteilcode",
+        "rows_json": "[\"1438\", \"G491\", \"JJ33P\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 198,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:13.999Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 28,
+        "source_column_name": "bauteilposition",
+        "display_column_name": "bauteilposition",
+        "rows_json": "[\"(10, -139, 301)\", \"(11, -134, 304)\", \"(8, -127, 297)\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 199,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.008Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 28,
+        "source_column_name": "ausrichtung",
+        "display_column_name": "ausrichtung",
+        "rows_json": "[\"L\", \"L\", \"L\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 200,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.017Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 28,
+        "source_column_name": "tool_x_code",
+        "display_column_name": "tool_x_code",
+        "rows_json": "[\"TT+1he\", \"DJ10+1e\", \"DJ10+1e\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 201,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.033Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 28,
+        "source_column_name": "cad_valide",
+        "display_column_name": "cad_valide",
+        "rows_json": "[1, 1, 0]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 202,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.046Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 28,
+        "source_column_name": "cac_valide",
+        "display_column_name": "cac_valide",
+        "rows_json": "[0, 1, 1]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 203,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.064Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 30,
+        "source_column_name": "bauteilname",
+        "display_column_name": "bauteilname",
+        "rows_json": "[\"Xeno Glasscheibe\", \"Rahmen G1\", \"Lichtsensor\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 204,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.084Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 30,
+        "source_column_name": "bauteilversion",
+        "display_column_name": "bauteilversion",
+        "rows_json": "[\"6.0\", \"12.3\", \"2.1\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 205,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.102Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 30,
+        "source_column_name": "bauteilcode",
+        "display_column_name": "bauteilcode",
+        "rows_json": "[\"BBN1+3\", \"UUEH1+0\", \"KGD11D\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 206,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.120Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 30,
+        "source_column_name": "bauteilposition",
+        "display_column_name": "bauteilposition",
+        "rows_json": "[\"(2, 24, -12)\", \"(2, 33, -18)\", \"(2, 41, -19)\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 207,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.135Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 30,
+        "source_column_name": "ausrichtung",
+        "display_column_name": "ausrichtung",
+        "rows_json": "[\"M\", \"M\", \"M\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 208,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.145Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 30,
+        "source_column_name": "tool_x_code",
+        "display_column_name": "tool_x_code",
+        "rows_json": "[\"ZEHH+B1\", \"EJH11+Bn\", \"PQOKD+C1\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 209,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.156Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 30,
+        "source_column_name": "cad_valide",
+        "display_column_name": "cad_valide",
+        "rows_json": "[1, 0, 1]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 210,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.167Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 30,
+        "source_column_name": "cac_valide",
+        "display_column_name": "cac_valide",
+        "rows_json": "[1, 1, 1]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 211,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.175Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "bauteilname",
+        "display_column_name": "bauteilname",
+        "rows_json": "[\"Lenks\\u00e4ule\", \"EPS-Sensor\", \"Lautst\\u00e4rkeregler\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 212,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.186Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "bauteilversion",
+        "display_column_name": "bauteilversion",
+        "rows_json": "[\"3.12\", \"1.9\", \"4.2\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 213,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.194Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "bauteilcode",
+        "display_column_name": "bauteilcode",
+        "rows_json": "[\"KK183\", \"810D\", \"KKDAN\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 214,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.204Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "bauteilposition",
+        "display_column_name": "bauteilposition",
+        "rows_json": "[\"(31, -51, 101)\", \"(14, -63, 78)\", \"(22, -77, 67)\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 215,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.213Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "ausrichtung",
+        "display_column_name": "ausrichtung",
+        "rows_json": "[\"L\", \"R\", \"L\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 216,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.222Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "tool_x_code",
+        "display_column_name": "tool_x_code",
+        "rows_json": "[\"LJ8+XX\", \"HHDB1+1\", \"FFQGW+0\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 217,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.232Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "cad_valide",
+        "display_column_name": "cad_valide",
+        "rows_json": "[1, 1, 1]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 218,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.240Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "cac_valide",
+        "display_column_name": "cac_valide",
+        "rows_json": "[1, 0, 1]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 219,
+    "fields": {
+        "creation_date": "2019-10-24T13:17:14.251Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "konstrukteur",
+        "display_column_name": "konstrukteur",
+        "rows_json": "[\"P. Schwallbach\", \"A.H. Devrim\", \"G. Skroegen\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 220,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:25.177Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 28,
+        "source_column_name": "bauteilname",
+        "display_column_name": "bauteilname",
+        "rows_json": "[\"Scheibenwischer-Knopf\", \"Tempomat-Knopf\", \"Blinker Hebel\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 221,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:25.189Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 28,
+        "source_column_name": "bauteilversion",
+        "display_column_name": "bauteilversion",
+        "rows_json": "[\"1.3\", \"3.3\", \"8.1\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 222,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:25.195Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 28,
+        "source_column_name": "bauteilcode",
+        "display_column_name": "bauteilcode",
+        "rows_json": "[\"1438\", \"G491\", \"JJ33P\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 223,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:25.202Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 28,
+        "source_column_name": "bauteilposition",
+        "display_column_name": "bauteilposition",
+        "rows_json": "[\"(10, -139, 301)\", \"(11, -134, 304)\", \"(8, -127, 297)\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 224,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:25.209Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 28,
+        "source_column_name": "ausrichtung",
+        "display_column_name": "ausrichtung",
+        "rows_json": "[\"L\", \"L\", \"L\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 225,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:25.219Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 28,
+        "source_column_name": "tool_x_code",
+        "display_column_name": "tool_x_code",
+        "rows_json": "[\"TT+1he\", \"DJ10+1e\", \"DJ10+1e\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 226,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:25.225Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 28,
+        "source_column_name": "cad_valide",
+        "display_column_name": "cad_valide",
+        "rows_json": "[1, 1, 0]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 227,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:25.231Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 28,
+        "source_column_name": "cac_valide",
+        "display_column_name": "cac_valide",
+        "rows_json": "[0, 1, 1]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 228,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:35.678Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 30,
+        "source_column_name": "bauteilname",
+        "display_column_name": "bauteilname",
+        "rows_json": "[\"Xeno Glasscheibe\", \"Rahmen G1\", \"Lichtsensor\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 229,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:35.694Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 30,
+        "source_column_name": "bauteilversion",
+        "display_column_name": "bauteilversion",
+        "rows_json": "[\"6.0\", \"12.3\", \"2.1\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 230,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:35.703Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 30,
+        "source_column_name": "bauteilcode",
+        "display_column_name": "bauteilcode",
+        "rows_json": "[\"BBN1+3\", \"UUEH1+0\", \"KGD11D\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 231,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:35.712Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 30,
+        "source_column_name": "bauteilposition",
+        "display_column_name": "bauteilposition",
+        "rows_json": "[\"(2, 24, -12)\", \"(2, 33, -18)\", \"(2, 41, -19)\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 232,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:35.721Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 30,
+        "source_column_name": "ausrichtung",
+        "display_column_name": "ausrichtung",
+        "rows_json": "[\"M\", \"M\", \"M\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 233,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:35.730Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 30,
+        "source_column_name": "tool_x_code",
+        "display_column_name": "tool_x_code",
+        "rows_json": "[\"ZEHH+B1\", \"EJH11+Bn\", \"PQOKD+C1\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 234,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:35.739Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 30,
+        "source_column_name": "cad_valide",
+        "display_column_name": "cad_valide",
+        "rows_json": "[1, 0, 1]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 235,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:35.747Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 30,
+        "source_column_name": "cac_valide",
+        "display_column_name": "cac_valide",
+        "rows_json": "[1, 1, 1]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 236,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:40.240Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "bauteilname",
+        "display_column_name": "bauteilname",
+        "rows_json": "[\"Lenks\\u00e4ule\", \"EPS-Sensor\", \"Lautst\\u00e4rkeregler\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 237,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:40.254Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "bauteilversion",
+        "display_column_name": "bauteilversion",
+        "rows_json": "[\"3.12\", \"1.9\", \"4.2\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 238,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:40.264Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "bauteilcode",
+        "display_column_name": "bauteilcode",
+        "rows_json": "[\"KK183\", \"810D\", \"KKDAN\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 239,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:40.278Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "bauteilposition",
+        "display_column_name": "bauteilposition",
+        "rows_json": "[\"(31, -51, 101)\", \"(14, -63, 78)\", \"(22, -77, 67)\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 240,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:40.291Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "ausrichtung",
+        "display_column_name": "ausrichtung",
+        "rows_json": "[\"L\", \"R\", \"L\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 241,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:40.303Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "tool_x_code",
+        "display_column_name": "tool_x_code",
+        "rows_json": "[\"LJ8+XX\", \"HHDB1+1\", \"FFQGW+0\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 242,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:40.316Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "cad_valide",
+        "display_column_name": "cad_valide",
+        "rows_json": "[1, 1, 1]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 243,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:40.326Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "cac_valide",
+        "display_column_name": "cac_valide",
+        "rows_json": "[1, 0, 1]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 244,
+    "fields": {
+        "creation_date": "2019-10-24T13:21:40.339Z",
+        "archived": true,
+        "final_fusion": 8,
+        "source_tq": 31,
+        "source_column_name": "konstrukteur",
+        "display_column_name": "konstrukteur",
+        "rows_json": "[\"P. Schwallbach\", \"A.H. Devrim\", \"G. Skroegen\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 245,
+    "fields": {
+        "creation_date": "2019-10-24T13:22:00.501Z",
+        "archived": false,
+        "final_fusion": 8,
+        "source_tq": null,
+        "source_column_name": "bauteilname",
+        "display_column_name": "bauteilname",
+        "rows_json": "[\"Scheibenwischer-Knopf\", \"Tempomat-Knopf\", \"Blinker Hebel\", \"Xeno Glasscheibe\", \"Rahmen G1\", \"Lichtsensor\", \"Lenks\\u00e4ule\", \"EPS-Sensor\", \"Lautst\\u00e4rkeregler\"]",
+        "rm_dependency": null,
+        "manually_removable": true
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 246,
+    "fields": {
+        "creation_date": "2019-10-24T13:22:00.516Z",
+        "archived": false,
+        "final_fusion": 8,
+        "source_tq": null,
+        "source_column_name": "bauteilversion",
+        "display_column_name": "bauteilversion",
+        "rows_json": "[\"1.3\", \"3.3\", \"8.1\", \"6.0\", \"12.3\", \"2.1\", \"3.12\", \"1.9\", \"4.2\"]",
+        "rm_dependency": null,
+        "manually_removable": true
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 247,
+    "fields": {
+        "creation_date": "2019-10-24T13:22:00.533Z",
+        "archived": false,
+        "final_fusion": 8,
+        "source_tq": null,
+        "source_column_name": "bauteilcode",
+        "display_column_name": "bauteilcode",
+        "rows_json": "[\"1438\", \"G491\", \"JJ33P\", \"BBN1+3\", \"UUEH1+0\", \"KGD11D\", \"KK183\", \"810D\", \"KKDAN\"]",
+        "rm_dependency": null,
+        "manually_removable": true
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 248,
+    "fields": {
+        "creation_date": "2019-10-24T13:22:00.549Z",
+        "archived": false,
+        "final_fusion": 8,
+        "source_tq": null,
+        "source_column_name": "bauteilposition",
+        "display_column_name": "bauteilposition",
+        "rows_json": "[\"(10, -139, 301)\", \"(11, -134, 304)\", \"(8, -127, 297)\", \"(2, 24, -12)\", \"(2, 33, -18)\", \"(2, 41, -19)\", \"(31, -51, 101)\", \"(14, -63, 78)\", \"(22, -77, 67)\"]",
+        "rm_dependency": null,
+        "manually_removable": true
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 249,
+    "fields": {
+        "creation_date": "2019-10-24T13:22:00.566Z",
+        "archived": false,
+        "final_fusion": 8,
+        "source_tq": null,
+        "source_column_name": "ausrichtung",
+        "display_column_name": "ausrichtung",
+        "rows_json": "[\"L\", \"L\", \"L\", \"M\", \"M\", \"M\", \"L\", \"R\", \"L\"]",
+        "rm_dependency": null,
+        "manually_removable": true
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 250,
+    "fields": {
+        "creation_date": "2019-10-24T13:22:00.583Z",
+        "archived": false,
+        "final_fusion": 8,
+        "source_tq": null,
+        "source_column_name": "tool_x_code",
+        "display_column_name": "tool_x_code",
+        "rows_json": "[\"TT+1he\", \"DJ10+1e\", \"DJ10+1e\", \"ZEHH+B1\", \"EJH11+Bn\", \"PQOKD+C1\", \"LJ8+XX\", \"HHDB1+1\", \"FFQGW+0\"]",
+        "rm_dependency": null,
+        "manually_removable": true
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 251,
+    "fields": {
+        "creation_date": "2019-10-24T13:22:00.598Z",
+        "archived": false,
+        "final_fusion": 8,
+        "source_tq": null,
+        "source_column_name": "cad_valide",
+        "display_column_name": "cad_valide",
+        "rows_json": "[1, 1, 0, 1, 0, 1, 1, 1, 1]",
+        "rm_dependency": null,
+        "manually_removable": true
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 252,
+    "fields": {
+        "creation_date": "2019-10-24T13:22:00.617Z",
+        "archived": false,
+        "final_fusion": 8,
+        "source_tq": null,
+        "source_column_name": "cac_valide",
+        "display_column_name": "cac_valide",
+        "rows_json": "[0, 1, 1, 1, 1, 1, 1, 0, 1]",
+        "rm_dependency": null,
+        "manually_removable": true
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 253,
+    "fields": {
+        "creation_date": "2019-10-24T13:22:00.624Z",
+        "archived": false,
+        "final_fusion": 8,
+        "source_tq": null,
+        "source_column_name": "konstrukteur",
+        "display_column_name": "konstrukteur",
+        "rows_json": "[\"P. Schwallbach\", \"A.H. Devrim\", \"G. Skroegen\"]",
+        "rm_dependency": null,
+        "manually_removable": true
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 257,
+    "fields": {
+        "creation_date": "2019-10-28T09:59:40.084Z",
+        "archived": false,
+        "final_fusion": 1,
+        "source_tq": 5,
+        "source_column_name": "first_name",
+        "display_column_name": "first_name",
+        "rows_json": "[\"Aleta\", \"Gilbert\", \"Chevy\", \"Broddie\", \"Phillip\", \"Suzanne\", \"Yvonne\", \"Orelee\", \"Micky\", \"Ginelle\", \"Aldus\", \"Nevsa\", \"Rafaelita\", \"Yorker\", \"Colver\", \"Gerard\", \"Delphinia\", \"Roda\", \"Ebony\", \"Birgit\", \"Odey\", \"Ty\", \"Vinny\", \"Frances\", \"Salim\", \"Jermaine\", \"Gaby\", \"Ted\", \"Salvatore\", \"Marlo\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 258,
+    "fields": {
+        "creation_date": "2019-10-28T09:59:41.440Z",
+        "archived": false,
+        "final_fusion": 1,
+        "source_tq": 5,
+        "source_column_name": "last_name",
+        "display_column_name": "last_name",
+        "rows_json": "[\"Wyatt\", \"Furmston\", \"Flockhart\", \"Kryszkiecicz\", \"Vaadeland\", \"Ruzic\", \"Winspare\", \"Birkenshaw\", \"Fairman\", \"Collomosse\", \"Bilson\", \"Newlin\", \"Loads\", \"Hampshaw\", \"Gobbett\", \"Thomasen\", \"Slator\", \"Aizik\", \"Underdown\", \"Mc-Kerley\", \"Basnall\", \"Lydford\", \"Tallent\", \"Twopenny\", \"Tubby\", \"McGeagh\", \"Compfort\", \"Wainscot\", \"Livesey\", \"Petts\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 259,
+    "fields": {
+        "creation_date": "2019-10-28T09:59:46.928Z",
+        "archived": false,
+        "final_fusion": 1,
+        "source_tq": 6,
+        "source_column_name": "car",
+        "display_column_name": "car",
+        "rows_json": "[\"Mazda\", \"Mazda\", \"Volvo\", \"Lexus\", \"Toyota\", \"Audi\", \"Infiniti\", \"Buick\", \"Mitsubishi\", \"Hummer\", \"Nissan\", \"Volkswagen\", \"Chevrolet\", \"Oldsmobile\", \"Nissan\", \"Infiniti\", \"Subaru\", \"Lincoln\", \"Buick\", \"Volvo\", \"Pontiac\", \"Saab\", \"Citro\\u00c3\\u00abn\", \"Kia\", \"Volvo\", \"Audi\", \"Kia\", \"Dodge\", \"Mercury\", \"Infiniti\", \"BMW\", \"Ford\", \"Maybach\", \"Lotus\", \"Maserati\", \"Chevrolet\", \"Volkswagen\", \"Porsche\", \"Acura\", \"GMC\", \"Nissan\", \"Chevrolet\", \"Ferrari\", \"Suzuki\", \"BMW\", \"Aston Martin\", \"Ford\", \"Toyota\", \"Acura\", \"Chevrolet\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 260,
+    "fields": {
+        "creation_date": "2019-10-28T09:59:47.784Z",
+        "archived": false,
+        "final_fusion": 1,
+        "source_tq": 6,
+        "source_column_name": "car_model",
+        "display_column_name": "car_model",
+        "rows_json": "[\"Mazda2\", \"B-Series\", \"XC90\", \"RX\", \"Previa\", \"200\", \"FX\", \"Century\", \"Mirage\", \"H1\", \"Titan\", \"Golf\", \"Express 1500\", \"Silhouette\", \"Maxima\", \"Q\", \"SVX\", \"Navigator L\", \"Riviera\", \"S70\", \"Sunbird\", \"9-3\", \"2CV\", \"Carens\", \"XC90\", \"5000S\", \"Sorento\", \"Dakota\", \"Grand Marquis\", \"QX\", \"5 Series\", \"GT500\", \"62\", \"Elan\", \"Karif\", \"2500\", \"Type 2\", \"911\", \"Legend\", \"Vandura G3500\", \"Versa\", \"Suburban 1500\", \"F430\", \"Kizashi\", \"X5 M\", \"V8 Vantage\", \"Aerostar\", \"Celica\", \"RL\", \"3500\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 270,
+    "fields": {
+        "creation_date": "2019-10-28T13:55:53.612Z",
+        "archived": false,
+        "final_fusion": 8,
+        "source_tq": null,
+        "source_column_name": "Fehlercode",
+        "display_column_name": "Fehlercode",
+        "rows_json": "[]",
+        "rm_dependency": 59,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 271,
+    "fields": {
+        "creation_date": "2019-10-29T10:06:33.056Z",
+        "archived": true,
+        "final_fusion": 9,
+        "source_tq": 35,
+        "source_column_name": "platform",
+        "display_column_name": "platform",
+        "rows_json": "[\"play store\", \"play store\", \"apple store\", \"apple store\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 272,
+    "fields": {
+        "creation_date": "2019-10-29T10:06:35.844Z",
+        "archived": true,
+        "final_fusion": 9,
+        "source_tq": 35,
+        "source_column_name": "downloads",
+        "display_column_name": "downloads",
+        "rows_json": "[8503, 7810, 1701, 2198]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 273,
+    "fields": {
+        "creation_date": "2019-10-29T10:06:39.170Z",
+        "archived": true,
+        "final_fusion": 9,
+        "source_tq": 35,
+        "source_column_name": "unique_downloads",
+        "display_column_name": "unique_downloads",
+        "rows_json": "[716, 4519, 1403, 964]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 274,
+    "fields": {
+        "creation_date": "2019-10-29T10:06:41.565Z",
+        "archived": true,
+        "final_fusion": 9,
+        "source_tq": 35,
+        "source_column_name": "interaction (min/day)",
+        "display_column_name": "interaction (min/day)",
+        "rows_json": "[23, 8, 23, 7]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 275,
+    "fields": {
+        "creation_date": "2019-10-29T10:06:45.251Z",
+        "archived": true,
+        "final_fusion": 9,
+        "source_tq": 33,
+        "source_column_name": "platform",
+        "display_column_name": "platform",
+        "rows_json": "[\"MBUX\", \"MBUX\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 276,
+    "fields": {
+        "creation_date": "2019-10-29T10:06:46.541Z",
+        "archived": true,
+        "final_fusion": 9,
+        "source_tq": 33,
+        "source_column_name": "downloads",
+        "display_column_name": "downloads",
+        "rows_json": "[90819, 70011]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 277,
+    "fields": {
+        "creation_date": "2019-10-29T10:06:49.316Z",
+        "archived": true,
+        "final_fusion": 9,
+        "source_tq": 33,
+        "source_column_name": "unique_downloads",
+        "display_column_name": "unique_downloads",
+        "rows_json": "[87002, 55413]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 278,
+    "fields": {
+        "creation_date": "2019-10-29T10:06:50.267Z",
+        "archived": true,
+        "final_fusion": 9,
+        "source_tq": 33,
+        "source_column_name": "interaction (min/day)",
+        "display_column_name": "interaction (min/day)",
+        "rows_json": "[41, 34]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 279,
+    "fields": {
+        "creation_date": "2019-10-29T10:06:54.232Z",
+        "archived": true,
+        "final_fusion": 9,
+        "source_tq": 34,
+        "source_column_name": "platform",
+        "display_column_name": "platform",
+        "rows_json": "[\"play store\", \"play store\", \"apple store\", \"apple store\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 280,
+    "fields": {
+        "creation_date": "2019-10-29T10:06:55.042Z",
+        "archived": true,
+        "final_fusion": 9,
+        "source_tq": 34,
+        "source_column_name": "downloads",
+        "display_column_name": "downloads",
+        "rows_json": "[12503, 6612, 33103, 14200]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 281,
+    "fields": {
+        "creation_date": "2019-10-29T10:06:55.812Z",
+        "archived": true,
+        "final_fusion": 9,
+        "source_tq": 34,
+        "source_column_name": "unique_downloads",
+        "display_column_name": "unique_downloads",
+        "rows_json": "[4100, 1304, 7701, 3122]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 282,
+    "fields": {
+        "creation_date": "2019-10-29T10:06:56.550Z",
+        "archived": true,
+        "final_fusion": 9,
+        "source_tq": 34,
+        "source_column_name": "interaction (min/day)",
+        "display_column_name": "interaction (min/day)",
+        "rows_json": "[11, 14, 9, 22]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 283,
+    "fields": {
+        "creation_date": "2019-10-29T10:07:11.645Z",
+        "archived": true,
+        "final_fusion": 9,
+        "source_tq": 32,
+        "source_column_name": "platform",
+        "display_column_name": "platform",
+        "rows_json": "[\"car-apps.com\", \"autobild.de\", \"edrive.org\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 284,
+    "fields": {
+        "creation_date": "2019-10-29T10:07:12.971Z",
+        "archived": true,
+        "final_fusion": 9,
+        "source_tq": 32,
+        "source_column_name": "downloads",
+        "display_column_name": "downloads",
+        "rows_json": "[18233, 22019, 199201]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 285,
+    "fields": {
+        "creation_date": "2019-10-29T10:07:13.645Z",
+        "archived": true,
+        "final_fusion": 9,
+        "source_tq": 32,
+        "source_column_name": "unique_downloads",
+        "display_column_name": "unique_downloads",
+        "rows_json": "[4002, 7771, 33603]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 286,
+    "fields": {
+        "creation_date": "2019-10-29T10:07:14.347Z",
+        "archived": true,
+        "final_fusion": 9,
+        "source_tq": 32,
+        "source_column_name": "interaction (min/day)",
+        "display_column_name": "interaction (min/day)",
+        "rows_json": "[34, 24, 23]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 287,
+    "fields": {
+        "creation_date": "2019-10-29T10:07:43.362Z",
+        "archived": false,
+        "final_fusion": 9,
+        "source_tq": null,
+        "source_column_name": "platform",
+        "display_column_name": "platform",
+        "rows_json": "[\"play store\", \"play store\", \"apple store\", \"apple store\", \"MBUX\", \"MBUX\", \"play store\", \"play store\", \"apple store\", \"apple store\", \"car-apps.com\", \"autobild.de\", \"edrive.org\"]",
+        "rm_dependency": null,
+        "manually_removable": true
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 288,
+    "fields": {
+        "creation_date": "2019-10-29T10:07:43.453Z",
+        "archived": false,
+        "final_fusion": 9,
+        "source_tq": null,
+        "source_column_name": "downloads",
+        "display_column_name": "downloads",
+        "rows_json": "[8503, 7810, 1701, 2198, 90819, 70011, 12503, 6612, 33103, 14200, 18233, 22019, 199201]",
+        "rm_dependency": null,
+        "manually_removable": true
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 289,
+    "fields": {
+        "creation_date": "2019-10-29T10:07:43.612Z",
+        "archived": false,
+        "final_fusion": 9,
+        "source_tq": null,
+        "source_column_name": "unique_downloads",
+        "display_column_name": "unique_downloads",
+        "rows_json": "[716, 4519, 1403, 964, 87002, 55413, 4100, 1304, 7701, 3122, 4002, 7771, 33603]",
+        "rm_dependency": null,
+        "manually_removable": true
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 290,
+    "fields": {
+        "creation_date": "2019-10-29T10:07:43.702Z",
+        "archived": false,
+        "final_fusion": 9,
+        "source_tq": null,
+        "source_column_name": "interaction (min/day)",
+        "display_column_name": "interaction (min/day)",
+        "rows_json": "[23, 8, 23, 7, 41, 34, 11, 14, 9, 22, 34, 24, 23]",
+        "rm_dependency": null,
+        "manually_removable": true
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 292,
+    "fields": {
+        "creation_date": "2019-10-29T12:35:41.185Z",
+        "archived": false,
+        "final_fusion": 9,
+        "source_tq": null,
+        "source_column_name": "% Anteil",
+        "display_column_name": "% Anteil",
+        "rows_json": "[]",
+        "rm_dependency": 66,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 293,
+    "fields": {
+        "creation_date": "2019-10-29T12:56:53.982Z",
+        "archived": false,
+        "final_fusion": 21,
+        "source_tq": 36,
+        "source_column_name": "first_name",
+        "display_column_name": "first_name",
+        "rows_json": "[\"Aleta\", \"Gilbert\", \"Chevy\", \"Broddie\", \"Phillip\", \"Suzanne\", \"Yvonne\", \"Orelee\", \"Micky\", \"Ginelle\", \"Aldus\", \"Nevsa\", \"Rafaelita\", \"Yorker\", \"Colver\", \"Gerard\", \"Delphinia\", \"Roda\", \"Ebony\", \"Birgit\", \"Odey\", \"Ty\", \"Vinny\", \"Frances\", \"Salim\", \"Jermaine\", \"Gaby\", \"Ted\", \"Salvatore\", \"Marlo\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 294,
+    "fields": {
+        "creation_date": "2019-10-29T12:56:54.609Z",
+        "archived": false,
+        "final_fusion": 21,
+        "source_tq": 36,
+        "source_column_name": "last_name",
+        "display_column_name": "last_name",
+        "rows_json": "[\"Wyatt\", \"Furmston\", \"Flockhart\", \"Kryszkiecicz\", \"Vaadeland\", \"Ruzic\", \"Winspare\", \"Birkenshaw\", \"Fairman\", \"Collomosse\", \"Bilson\", \"Newlin\", \"Loads\", \"Hampshaw\", \"Gobbett\", \"Thomasen\", \"Slator\", \"Aizik\", \"Underdown\", \"Mc-Kerley\", \"Basnall\", \"Lydford\", \"Tallent\", \"Twopenny\", \"Tubby\", \"McGeagh\", \"Compfort\", \"Wainscot\", \"Livesey\", \"Petts\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+},
+{
+    "model": "final_fusion_column.finalfusioncolumn",
+    "pk": 295,
+    "fields": {
+        "creation_date": "2019-10-29T12:56:57.770Z",
+        "archived": false,
+        "final_fusion": 21,
+        "source_tq": 36,
+        "source_column_name": "email",
+        "display_column_name": "email",
+        "rows_json": "[\"awyatt0@plala.or.jp\", \"gfurmston1@tinyurl.com\", \"cflockhart2@businesswire.com\", \"bkryszkiecicz3@odnoklassniki.ru\", \"pvaadeland4@economist.com\", \"sruzic5@4shared.com\", \"ywinspare6@scientificamerican.com\", \"obirkenshaw7@dedecms.com\", \"mfairman8@weather.com\", \"gcollomosse9@ca.gov\", \"abilsona@hud.gov\", \"nnewlinb@sitemeter.com\", \"rloadsc@amazon.com\", \"yhampshawd@trellian.com\", \"cgobbette@digg.com\", \"gthomasenf@geocities.com\", \"dslatorg@quantcast.com\", \"raizikh@wufoo.com\", \"eunderdowni@icq.com\", \"bmckerleyj@paginegialle.it\", \"obasnallk@delicious.com\", \"tlydfordl@intel.com\", \"vtallentm@sogou.com\", \"ftwopennyn@nhs.uk\", \"stubbyo@stanford.edu\", \"jmcgeaghp@nasa.gov\", \"gcompfortq@jiathis.com\", \"twainscotr@seesaa.net\", \"sliveseys@tiny.cc\", \"mpettst@washingtonpost.com\"]",
+        "rm_dependency": null,
+        "manually_removable": false
+    }
+}
+]

@@ -1,0 +1,758 @@
+[
+{
+    "model": "rule_module.rulemodule",
+    "pk": 16,
+    "fields": {
+        "creation_date": "2019-09-25T11:32:51.534Z",
+        "archived": true,
+        "name": "Zeilenregel 3 ",
+        "final_fusion": 1,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"1\", \"condition\": \"IS\", \"value\": \"Nutella\", \"ffc_name\": \"FIRST NAME\"}], [{\"id\": \"1\", \"condition\": \"CONTAINS\", \"value\": \"eta\", \"ffc_name\": \"FIRST NAME\"}]]",
+        "then_cases": "[{\"id\": \"-1\", \"action\": \"APPLY\", \"value\": \"DAMN\", \"dyn_col\": \"Dynamisch1\", \"ffc_name\": \"Dynamisch1\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 17,
+    "fields": {
+        "creation_date": "2019-09-30T09:04:41.004Z",
+        "archived": true,
+        "name": "Ignoriere wenn \"Yvonne\"",
+        "final_fusion": 1,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"1\", \"condition\": \"IS\", \"value\": \"Yvonne\", \"ffc_name\": \"FIRST NAME\"}]]",
+        "then_cases": "[{\"action\": \"IGNORE\", \"value\": \"\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 18,
+    "fields": {
+        "creation_date": "2019-09-30T09:08:18.878Z",
+        "archived": true,
+        "name": "Zeilenregel 2 ",
+        "final_fusion": 1,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"5\", \"condition\": \"IS\", \"value\": \"Ruzic\", \"ffc_name\": \"LAST NAME\"}]]",
+        "then_cases": "[{\"id\": \"1\", \"action\": \"APPLY\", \"value\": \"HANY\", \"ffc_name\": \"FIRST NAME\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 19,
+    "fields": {
+        "creation_date": "2019-10-14T10:26:47.922Z",
+        "archived": true,
+        "name": "\"~lip\" zu \"~lop\"",
+        "final_fusion": 1,
+        "rule_type": "col",
+        "col_subject": "[1]",
+        "if_conditions": "{\"when_contains\": \"lip\"}",
+        "then_cases": "{\"then_replace\": \"lop\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 20,
+    "fields": {
+        "creation_date": "2019-10-15T08:16:47.651Z",
+        "archived": false,
+        "name": "When Trey, then JEEZY",
+        "final_fusion": 2,
+        "rule_type": "col",
+        "col_subject": "[22]",
+        "if_conditions": "{\"when_contains\": \"Trey\"}",
+        "then_cases": "{\"then_apply\": \"JEEZY\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 21,
+    "fields": {
+        "creation_date": "2019-10-15T08:16:48.017Z",
+        "archived": true,
+        "name": "When Trey, then JEEZY",
+        "final_fusion": 2,
+        "rule_type": "col",
+        "col_subject": "[22]",
+        "if_conditions": "{\"when_contains\": \"Trey\"}",
+        "then_cases": "{\"then_apply\": \"JEEZY\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 22,
+    "fields": {
+        "creation_date": "2019-10-15T08:16:48.376Z",
+        "archived": true,
+        "name": "When Trey, then JEEZY",
+        "final_fusion": 2,
+        "rule_type": "col",
+        "col_subject": "[22]",
+        "if_conditions": "{\"when_contains\": \"Trey\"}",
+        "then_cases": "{\"then_apply\": \"JEEZY\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 23,
+    "fields": {
+        "creation_date": "2019-10-15T08:16:47.651Z",
+        "archived": true,
+        "name": "When Trey, then JEEZY",
+        "final_fusion": 1,
+        "rule_type": "col",
+        "col_subject": "[22]",
+        "if_conditions": "{\"when_contains\": \"Trey\"}",
+        "then_cases": "{\"then_apply\": \"JEEZY\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 24,
+    "fields": {
+        "creation_date": "2019-10-16T08:25:14.437Z",
+        "archived": true,
+        "name": "When 11, then 22",
+        "final_fusion": 1,
+        "rule_type": "col",
+        "col_subject": "[1]",
+        "if_conditions": "{\"when_contains\": \"11\"}",
+        "then_cases": "{\"then_replace\": \"22\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 25,
+    "fields": {
+        "creation_date": "2019-10-24T13:23:39.259Z",
+        "archived": true,
+        "name": "When KKDAN, then SMA:1",
+        "final_fusion": 8,
+        "rule_type": "col",
+        "col_subject": "[247]",
+        "if_conditions": "{\"when_is\": \"KKDAN\"}",
+        "then_cases": "{\"then_apply\": \"SMA:1\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 26,
+    "fields": {
+        "creation_date": "2019-10-24T13:23:39.507Z",
+        "archived": true,
+        "name": "When KKDAN, then SMA:1",
+        "final_fusion": 8,
+        "rule_type": "col",
+        "col_subject": "[247]",
+        "if_conditions": "{\"when_is\": \"KKDAN\"}",
+        "then_cases": "{\"then_apply\": \"SMA:1\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 27,
+    "fields": {
+        "creation_date": "2019-10-24T13:25:08.379Z",
+        "archived": true,
+        "name": "When KKDAN, then CC100",
+        "final_fusion": 8,
+        "rule_type": "col",
+        "col_subject": "[247]",
+        "if_conditions": "{\"when_is\": \"KKDAN\"}",
+        "then_cases": "{\"then_apply\": \"CC100\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 28,
+    "fields": {
+        "creation_date": "2019-10-24T13:25:08.702Z",
+        "archived": true,
+        "name": "When KKDAN, then CC100",
+        "final_fusion": 8,
+        "rule_type": "col",
+        "col_subject": "[247]",
+        "if_conditions": "{\"when_is\": \"KKDAN\"}",
+        "then_cases": "{\"then_apply\": \"CC100\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 29,
+    "fields": {
+        "creation_date": "2019-10-24T13:42:05.083Z",
+        "archived": true,
+        "name": "When 810D, then XX",
+        "final_fusion": 8,
+        "rule_type": "col",
+        "col_subject": "[247]",
+        "if_conditions": "{\"when_is\": \"810D\"}",
+        "then_cases": "{\"then_apply\": \"XX\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 30,
+    "fields": {
+        "creation_date": "2019-10-24T13:48:29.560Z",
+        "archived": true,
+        "name": "Kakarotto",
+        "final_fusion": 8,
+        "rule_type": "col",
+        "col_subject": "[247]",
+        "if_conditions": "{\"when_is\": \"KK183\"}",
+        "then_cases": "{\"then_apply\": \"Kakarotto\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 31,
+    "fields": {
+        "creation_date": "2019-10-24T13:50:55.470Z",
+        "archived": true,
+        "name": "Button",
+        "final_fusion": 8,
+        "rule_type": "col",
+        "col_subject": "[245]",
+        "if_conditions": "{\"when_contains\": \"Knopf\"}",
+        "then_cases": "{\"then_replace\": \"Button\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 32,
+    "fields": {
+        "creation_date": "2019-10-24T13:51:51.726Z",
+        "archived": true,
+        "name": "Jeno",
+        "final_fusion": 8,
+        "rule_type": "col",
+        "col_subject": "[245]",
+        "if_conditions": "{\"when_contains\": \"Xeno\"}",
+        "then_cases": "{\"then_apply\": \"Jeno\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 33,
+    "fields": {
+        "creation_date": "2019-10-24T13:55:37.159Z",
+        "archived": true,
+        "name": "Zeilenregel 2 ",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"245\", \"condition\": \"CONTAINS\", \"value\": \"Blinker\", \"ffc_name\": \"bauteilname\"}]]",
+        "then_cases": "[{\"id\": \"248\", \"action\": \"APPLY\", \"value\": \"WOW\", \"ffc_name\": \"bauteilposition\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 34,
+    "fields": {
+        "creation_date": "2019-10-24T14:18:19.302Z",
+        "archived": true,
+        "name": "Zeilenregel 2 ",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"245\", \"condition\": \"CONTAINS\", \"value\": \"EPS\", \"ffc_name\": \"bauteilname\"}]]",
+        "then_cases": "[{\"id\": \"246\", \"action\": \"APPLY\", \"value\": \"1\", \"ffc_name\": \"bauteilversion\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 35,
+    "fields": {
+        "creation_date": "2019-10-24T14:23:30.525Z",
+        "archived": true,
+        "name": "Zeilenregel 2 ",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"245\", \"condition\": \"CONTAINS\", \"value\": \"Xeno\", \"ffc_name\": \"bauteilname\"}]]",
+        "then_cases": "[{\"id\": \"246\", \"action\": \"REPLACE\", \"value\": \"6\", \"value_replace\": \"VI\", \"ffc_name\": \"bauteilversion\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 36,
+    "fields": {
+        "creation_date": "2019-10-24T14:30:45.241Z",
+        "archived": true,
+        "name": "Zeilenregel 3 ",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"245\", \"condition\": \"CONTAINS\", \"value\": \"Blinka\", \"ffc_name\": \"bauteilname\"}], [{\"id\": \"245\", \"condition\": \"CONTAINS\", \"value\": \"Blinker\", \"ffc_name\": \"bauteilname\"}]]",
+        "then_cases": "[]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 37,
+    "fields": {
+        "creation_date": "2019-10-24T14:34:02.554Z",
+        "archived": true,
+        "name": "Zeilenregel 3 ",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"245\", \"condition\": \"IS\", \"value\": \"V8\", \"ffc_name\": \"bauteilname\"}], [{\"id\": \"245\", \"condition\": \"CONTAINS\", \"value\": \"G1\", \"ffc_name\": \"bauteilname\"}]]",
+        "then_cases": "[]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 38,
+    "fields": {
+        "creation_date": "2019-10-24T14:35:57.951Z",
+        "archived": true,
+        "name": "Zeilenregel 2 ",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"245\", \"condition\": \"CONTAINS\", \"value\": \"G1\", \"ffc_name\": \"bauteilname\"}]]",
+        "then_cases": "[]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 39,
+    "fields": {
+        "creation_date": "2019-10-24T14:36:51.050Z",
+        "archived": true,
+        "name": "Zeilenregel 2 ",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"245\", \"condition\": \"CONTAINS\", \"value\": \"G1\", \"ffc_name\": \"bauteilname\"}]]",
+        "then_cases": "[]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 40,
+    "fields": {
+        "creation_date": "2019-10-24T14:39:16.868Z",
+        "archived": true,
+        "name": "Zeilenregel 2 ",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"245\", \"condition\": \"CONTAINS\", \"value\": \"G1\", \"ffc_name\": \"bauteilname\"}]]",
+        "then_cases": "[{\"id\": \"-1\", \"action\": \"APPLY\", \"value\": \"Agistina\", \"dyn_col\": \"Gigi\", \"ffc_name\": \"Gigi\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 41,
+    "fields": {
+        "creation_date": "2019-10-24T14:43:56.754Z",
+        "archived": true,
+        "name": "When opf, then oph",
+        "final_fusion": 8,
+        "rule_type": "col",
+        "col_subject": "[245]",
+        "if_conditions": "{\"when_contains\": \"opf\"}",
+        "then_cases": "{\"then_apply\": \"oph\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 42,
+    "fields": {
+        "creation_date": "2019-10-24T14:49:29.724Z",
+        "archived": true,
+        "name": "Zeilenregel 2 ",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[]]",
+        "then_cases": "[]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 43,
+    "fields": {
+        "creation_date": "2019-10-24T14:55:54.124Z",
+        "archived": true,
+        "name": "JO",
+        "final_fusion": 8,
+        "rule_type": "col",
+        "col_subject": "[245]",
+        "if_conditions": "{\"when_contains\": \"1\"}",
+        "then_cases": "{\"then_replace\": \"1\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 44,
+    "fields": {
+        "creation_date": "2019-10-24T15:01:24.462Z",
+        "archived": true,
+        "name": "Babuschka",
+        "final_fusion": 8,
+        "rule_type": "col",
+        "col_subject": "[245]",
+        "if_conditions": "{\"when_contains\": \"1\"}",
+        "then_cases": "{\"then_replace\": \"1\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 45,
+    "fields": {
+        "creation_date": "2019-10-28T09:18:59.167Z",
+        "archived": true,
+        "name": "Knopf 2 Jonny",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"245\", \"condition\": \"CONTAINS\", \"value\": \"Knopf\", \"ffc_name\": \"bauteilname\"}, {\"id\": \"246\", \"condition\": \"IS\", \"value\": \"22\", \"ffc_name\": \"bauteilversion\"}]]",
+        "then_cases": "[]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 46,
+    "fields": {
+        "creation_date": "2019-10-28T09:27:13.746Z",
+        "archived": true,
+        "name": "Zeilenregel 3 ",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"245\", \"condition\": \"CONTAINS\", \"value\": \"11\", \"ffc_name\": \"bauteilname\"}], [{\"id\": \"246\", \"condition\": \"CONTAINS\", \"value\": \"22\", \"ffc_name\": \"bauteilversion\"}]]",
+        "then_cases": "[]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 47,
+    "fields": {
+        "creation_date": "2019-10-28T09:38:41.470Z",
+        "archived": true,
+        "name": "SSIO",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"245\", \"condition\": \"IS\", \"value\": \"11\", \"ffc_name\": \"bauteilname\"}, {\"id\": \"247\", \"condition\": \"CONTAINS\", \"value\": \"22\", \"ffc_name\": \"bauteilcode\"}]]",
+        "then_cases": "[{\"id\": \"245\", \"action\": \"APPLY\", \"value\": \"11\", \"ffc_name\": \"bauteilname\"}, {\"id\": \"246\", \"action\": \"APPLY\", \"value\": \"22\", \"ffc_name\": \"bauteilversion\"}, {\"id\": \"247\", \"action\": \"REPLACE\", \"value\": \"AB\", \"value_replace\": \"CD\", \"ffc_name\": \"bauteilcode\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 48,
+    "fields": {
+        "creation_date": "2019-10-28T09:52:38.519Z",
+        "archived": true,
+        "name": "Kn\u00f6pfle",
+        "final_fusion": 8,
+        "rule_type": "col",
+        "col_subject": "[245]",
+        "if_conditions": "{\"when_contains\": \"Knopf\"}",
+        "then_cases": "{\"then_replace\": \"Kn\\u00f6pfle\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 49,
+    "fields": {
+        "creation_date": "2019-10-28T09:54:54.685Z",
+        "archived": true,
+        "name": "007",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"245\", \"condition\": \"CONTAINS\", \"value\": \"Knopf\", \"ffc_name\": \"bauteilname\"}], [{\"id\": \"245\", \"condition\": \"CONTAINS\", \"value\": \"Hebel\", \"ffc_name\": \"bauteilname\"}]]",
+        "then_cases": "[{\"id\": \"247\", \"action\": \"APPLY\", \"value\": \"007\", \"ffc_name\": \"bauteilcode\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 50,
+    "fields": {
+        "creation_date": "2019-10-28T10:06:23.260Z",
+        "archived": true,
+        "name": "Zeilenregel 2 ",
+        "final_fusion": 1,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"257\", \"condition\": \"CONTAINS\", \"value\": \"eta\", \"ffc_name\": \"first_name\"}]]",
+        "then_cases": "[{\"id\": \"-1\", \"action\": \"APPLY\", \"value\": \"1212\", \"dyn_col\": \"Jimmy\", \"ffc_name\": \"Jimmy\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 51,
+    "fields": {
+        "creation_date": "2019-10-28T12:27:43.061Z",
+        "archived": true,
+        "name": "Zeilenregel 2 ",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"250\", \"condition\": \"IS\", \"value\": \"DJ10+1e\", \"ffc_name\": \"tool_x_code\"}, {\"id\": \"251\", \"condition\": \"IS\", \"value\": \"0\", \"ffc_name\": \"cad_valide\"}]]",
+        "then_cases": "[{\"id\": \"-1\", \"action\": \"APPLY\", \"value\": \"FFT\", \"dyn_col\": \"Fehlercode\", \"ffc_name\": \"Fehlercode\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 52,
+    "fields": {
+        "creation_date": "2019-10-28T12:55:17.035Z",
+        "archived": true,
+        "name": "Zeilenregel 2 ",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"251\", \"condition\": \"IS\", \"value\": \"0\", \"ffc_name\": \"cad_valide\"}, {\"id\": \"252\", \"condition\": \"IS\", \"value\": \"1\", \"ffc_name\": \"cac_valide\"}]]",
+        "then_cases": "[{\"id\": \"-1\", \"action\": \"APPLY\", \"value\": \"CAF\", \"dyn_col\": \"Fehlercode\", \"ffc_name\": \"Fehlercode\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 53,
+    "fields": {
+        "creation_date": "2019-10-28T13:20:11.698Z",
+        "archived": true,
+        "name": "What",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"245\", \"condition\": \"CONTAINS\", \"value\": \"G1\", \"ffc_name\": \"bauteilname\"}]]",
+        "then_cases": "[{\"id\": \"-1\", \"action\": \"APPLY\", \"value\": \"12\", \"dyn_col\": \"Rakitic\", \"ffc_name\": \"Rakitic\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 54,
+    "fields": {
+        "creation_date": "2019-10-28T13:22:01.628Z",
+        "archived": true,
+        "name": "Yeah",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"249\", \"condition\": \"IS\", \"value\": \"L\", \"ffc_name\": \"ausrichtung\"}], [{\"id\": \"249\", \"condition\": \"IS\", \"value\": \"M\", \"ffc_name\": \"ausrichtung\"}]]",
+        "then_cases": "[{\"id\": \"-1\", \"action\": \"APPLY\", \"value\": \"1\", \"dyn_col\": \"WHYNOT\", \"ffc_name\": \"WHYNOT\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 55,
+    "fields": {
+        "creation_date": "2019-10-28T13:45:54.825Z",
+        "archived": true,
+        "name": "Zeilenregel 2 ",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"245\", \"condition\": \"IS\", \"value\": \"12\", \"ffc_name\": \"bauteilname\"}]]",
+        "then_cases": "[]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 56,
+    "fields": {
+        "creation_date": "2019-10-28T13:47:50.348Z",
+        "archived": true,
+        "name": "Zeilenregel 2 ",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"245\", \"condition\": \"IS\", \"value\": \"12\", \"ffc_name\": \"bauteilname\"}]]",
+        "then_cases": "[]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 57,
+    "fields": {
+        "creation_date": "2019-10-28T13:48:45.998Z",
+        "archived": true,
+        "name": "Zeilenregel 2 ",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"245\", \"condition\": \"IS\", \"value\": \"1212\", \"ffc_name\": \"bauteilname\"}]]",
+        "then_cases": "[]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 58,
+    "fields": {
+        "creation_date": "2019-10-28T13:50:18.904Z",
+        "archived": true,
+        "name": "Zeilenregel 2 ",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"245\", \"condition\": \"CONTAINS\", \"value\": \"G\", \"ffc_name\": \"bauteilname\"}]]",
+        "then_cases": "[{\"id\": \"-1\", \"action\": \"APPLY\", \"value\": \"1212\", \"dyn_col\": \"GG\", \"ffc_name\": \"GG\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 59,
+    "fields": {
+        "creation_date": "2019-10-28T13:55:53.605Z",
+        "archived": false,
+        "name": "FFT ",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"250\", \"condition\": \"IS\", \"value\": \"DJ10+1e\", \"ffc_name\": \"tool_x_code\"}, {\"id\": \"251\", \"condition\": \"IS\", \"value\": \"0\", \"ffc_name\": \"cad_valide\"}]]",
+        "then_cases": "[{\"id\": \"-1\", \"action\": \"APPLY\", \"value\": \"FFT\", \"dyn_col\": \"Fehlercode\", \"ffc_name\": \"Fehlercode\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 60,
+    "fields": {
+        "creation_date": "2019-10-28T13:57:13.361Z",
+        "archived": false,
+        "name": "CAF",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"251\", \"condition\": \"IS\", \"value\": \"1\", \"ffc_name\": \"cad_valide\"}, {\"id\": \"252\", \"condition\": \"IS\", \"value\": \"0\", \"ffc_name\": \"cac_valide\"}]]",
+        "then_cases": "[{\"id\": \"270\", \"action\": \"APPLY\", \"value\": \"CAF\", \"ffc_name\": \"Fehlercode\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 61,
+    "fields": {
+        "creation_date": "2019-10-28T13:58:24.940Z",
+        "archived": false,
+        "name": "CAG",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"251\", \"condition\": \"IS\", \"value\": \"0\", \"ffc_name\": \"cad_valide\"}, {\"id\": \"252\", \"condition\": \"IS\", \"value\": \"1\", \"ffc_name\": \"cac_valide\"}]]",
+        "then_cases": "[{\"id\": \"270\", \"action\": \"APPLY\", \"value\": \"CAG\", \"ffc_name\": \"Fehlercode\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 62,
+    "fields": {
+        "creation_date": "2019-10-28T13:58:24.940Z",
+        "archived": true,
+        "name": "CAG",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"251\", \"condition\": \"IS\", \"value\": \"0\", \"ffc_name\": \"cad_valide\"}, {\"id\": \"252\", \"condition\": \"IS\", \"value\": \"1\", \"ffc_name\": \"cac_valide\"}]]",
+        "then_cases": "[{\"id\": \"270\", \"action\": \"APPLY\", \"value\": \"CAG\", \"ffc_name\": \"Fehlercode\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 63,
+    "fields": {
+        "creation_date": "2019-10-28T13:55:53.605Z",
+        "archived": true,
+        "name": "FFT 2",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"250\", \"condition\": \"IS\", \"value\": \"DJ10+1e\", \"ffc_name\": \"tool_x_code\"}, {\"id\": \"251\", \"condition\": \"IS\", \"value\": \"0\", \"ffc_name\": \"cad_valide\"}]]",
+        "then_cases": "[{\"id\": \"-1\", \"action\": \"APPLY\", \"value\": \"FFT\", \"dyn_col\": \"Fehlercode\", \"ffc_name\": \"Fehlercode\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 64,
+    "fields": {
+        "creation_date": "2019-10-28T13:55:53.605Z",
+        "archived": true,
+        "name": "FFT 2",
+        "final_fusion": 8,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"250\", \"condition\": \"IS\", \"value\": \"DJ10+1e\", \"ffc_name\": \"tool_x_code\"}, {\"id\": \"251\", \"condition\": \"IS\", \"value\": \"0\", \"ffc_name\": \"cad_valide\"}]]",
+        "then_cases": "[{\"id\": \"270\", \"action\": \"IGNORE\", \"value\": \"FFT 2\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 65,
+    "fields": {
+        "creation_date": "2019-10-29T10:17:31.822Z",
+        "archived": true,
+        "name": "Summe DL Gen",
+        "final_fusion": 9,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"287\", \"condition\": \"CONTAINS\", \"value\": \"*\", \"ffc_name\": \"platform\"}]]",
+        "then_cases": "[{\"id\": \"-1\", \"action\": \"APPLY\", \"value\": \"-\", \"dyn_col\": \"Summe DL\", \"ffc_name\": \"Summe DL\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 66,
+    "fields": {
+        "creation_date": "2019-10-29T12:35:41.170Z",
+        "archived": false,
+        "name": "% Anteil Gen",
+        "final_fusion": 9,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"287\", \"condition\": \"IS\", \"value\": \"*\", \"ffc_name\": \"platform\"}]]",
+        "then_cases": "[{\"id\": \"-1\", \"action\": \"APPLY\", \"value\": \"-\", \"dyn_col\": \"% Anteil\", \"ffc_name\": \"% Anteil\"}]"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 67,
+    "fields": {
+        "creation_date": "2019-10-29T12:57:13.550Z",
+        "archived": false,
+        "name": "Neue Spaltenregel",
+        "final_fusion": 21,
+        "rule_type": "col",
+        "col_subject": "[293]",
+        "if_conditions": "{\"when_contains\": \"ddie\"}",
+        "then_cases": "{\"then_replace\": \"tty\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 68,
+    "fields": {
+        "creation_date": "2019-10-29T13:13:25.597Z",
+        "archived": false,
+        "name": "Neue Spaltenregel",
+        "final_fusion": 8,
+        "rule_type": "col",
+        "col_subject": "[245]",
+        "if_conditions": "{\"when_contains\": \"Knopf\"}",
+        "then_cases": "{\"then_replace\": \"button\"}"
+    }
+},
+{
+    "model": "rule_module.rulemodule",
+    "pk": 69,
+    "fields": {
+        "creation_date": "2019-10-29T13:14:37.322Z",
+        "archived": false,
+        "name": "Neue Zeilenregel",
+        "final_fusion": 21,
+        "rule_type": "row",
+        "col_subject": null,
+        "if_conditions": "[[{\"id\": \"293\", \"condition\": \"CONTAINS\", \"value\": \"nne\", \"ffc_name\": \"first_name\"}]]",
+        "then_cases": "[{\"id\": \"293\", \"action\": \"REPLACE\", \"value\": \"nne\", \"value_replace\": \"nna\", \"ffc_name\": \"first_name\"}]"
+    }
+}
+]

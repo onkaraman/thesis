@@ -19,7 +19,8 @@ class TQFile(models.Model):
 
     def get_as_table(self, user_profile):
         """
-        get_as_table
+        :return All columns and rows of this parsed TQ as a dictionary.
+        Will also check if each row is already added to the TF.
         """
         project = Project.objects.get(pk=user_profile.last_opened_project_id)
         ef = FinalFusion.objects.get(project=project)
@@ -44,7 +45,7 @@ class TQFile(models.Model):
 
     def get_column(self, col_name):
         """
-        get_column
+        :return All content from a specified column of this TQ.
         """
         loaded_js = json.loads(self.content_json)
         ret = []

@@ -75,7 +75,6 @@ WSGI_APPLICATION = 'coda.wsgi.application'
 try:
     if "DOCKER" in os.environ and os.environ["DOCKER"]:
         raise ImportError
-    print("[CODA] Using local DB settings")
     from . import local_settings as ls
 
     DATABASES = {
@@ -90,7 +89,7 @@ try:
     }
     LOCAL_GER_CODE = ls.local_ger_code
 except ImportError as e:
-    print("[VANDA] Using default DB settings")
+    print("[CODA] Using default DB settings")
     # Default DB configuration
     DATABASES = {
         'default': {

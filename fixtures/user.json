@@ -1,0 +1,98 @@
+[
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$150000$otTCVyFW0qcd$alS6WQJ1WmlAGawDE9j0Y2933YPVY48/O/CnPhKvgMQ=",
+        "last_login": "2019-09-03T09:02:43.175Z",
+        "is_superuser": true,
+        "username": "karonur",
+        "first_name": "",
+        "last_name": "",
+        "email": "onur.o.karaman@daimler.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2019-08-06T08:30:46.272Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 25,
+    "fields": {
+        "password": "pbkdf2_sha256$150000$sOTun7iTkOpb$Rfww/1YOliGZ39O6GFzk6cUBg3eXiavzaNT2nXjrS3s=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "jonny@daimler.com",
+        "first_name": "",
+        "last_name": "",
+        "email": "jonny@daimler.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2019-08-20T09:07:35.861Z",
+        "groups": [
+            1
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 26,
+    "fields": {
+        "password": "pbkdf2_sha256$150000$nN1SHRtUMq44$HNXMz9nLpTn0Xf2y8sEC2x8R52X7IcA5nPp0laJlNL0=",
+        "last_login": "2019-10-24T07:50:40.381Z",
+        "is_superuser": true,
+        "username": "onur",
+        "first_name": "",
+        "last_name": "",
+        "email": "onkaraman@outlook.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2019-10-09T11:16:45.448Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 27,
+    "fields": {
+        "password": "pbkdf2_sha256$150000$C21UoU807rZN$0145ljU3u270xBiYpr99Nlgn7I9Sc/SRDKQ7recpfOI=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "radditz@daimler.com",
+        "first_name": "",
+        "last_name": "",
+        "email": "radditz@daimler.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2019-10-29T12:51:14.214Z",
+        "groups": [
+            1
+        ],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 28,
+    "fields": {
+        "password": "pbkdf2_sha256$150000$3FWiGh2IQe0Y$E3L9OygCCfhbjKBx5Qsn+brsM468yJvofUcMdIDeEck=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "goku@daimler.com",
+        "first_name": "",
+        "last_name": "",
+        "email": "goku@daimler.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2019-10-29T12:55:19.145Z",
+        "groups": [
+            1
+        ],
+        "user_permissions": []
+    }
+}
+]

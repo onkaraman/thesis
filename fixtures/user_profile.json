@@ -1,0 +1,42 @@
+[
+{
+    "model": "user_profile.userprofile",
+    "pk": 18,
+    "fields": {
+        "creation_date": "2019-08-20T09:07:35.880Z",
+        "user": 25,
+        "token": 24,
+        "last_opened_project_id": 45
+    }
+},
+{
+    "model": "user_profile.userprofile",
+    "pk": 19,
+    "fields": {
+        "creation_date": "2019-10-09T11:16:45.746Z",
+        "user": 26,
+        "token": 21,
+        "last_opened_project_id": null
+    }
+},
+{
+    "model": "user_profile.userprofile",
+    "pk": 20,
+    "fields": {
+        "creation_date": "2019-10-29T12:51:14.244Z",
+        "user": 27,
+        "token": 25,
+        "last_opened_project_id": 57
+    }
+},
+{
+    "model": "user_profile.userprofile",
+    "pk": 21,
+    "fields": {
+        "creation_date": "2019-10-29T12:55:19.152Z",
+        "user": 28,
+        "token": 26,
+        "last_opened_project_id": 58
+    }
+}
+]

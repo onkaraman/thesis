@@ -1,0 +1,182 @@
+[
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 1,
+    "fields": {
+        "creation_date": "2019-09-02T12:36:41.595Z",
+        "name": "My Final Fusion 2019",
+        "project": 38,
+        "ignore_duplicates": false
+    }
+},
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 2,
+    "fields": {
+        "creation_date": "2019-10-09T11:55:12.558Z",
+        "name": "Final Fusion",
+        "project": 39,
+        "ignore_duplicates": false
+    }
+},
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 3,
+    "fields": {
+        "creation_date": "2019-10-10T08:22:15.814Z",
+        "name": "Final Fusion",
+        "project": 40,
+        "ignore_duplicates": false
+    }
+},
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 4,
+    "fields": {
+        "creation_date": "2019-10-15T11:50:12.603Z",
+        "name": "Final Fusion",
+        "project": 41,
+        "ignore_duplicates": false
+    }
+},
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 5,
+    "fields": {
+        "creation_date": "2019-10-16T09:11:43.702Z",
+        "name": "Final Fusion",
+        "project": 42,
+        "ignore_duplicates": false
+    }
+},
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 6,
+    "fields": {
+        "creation_date": "2019-10-21T13:00:35.722Z",
+        "name": "Final Fusion",
+        "project": 43,
+        "ignore_duplicates": true
+    }
+},
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 7,
+    "fields": {
+        "creation_date": "2019-10-22T13:45:20.478Z",
+        "name": "Final Fusion",
+        "project": 44,
+        "ignore_duplicates": false
+    }
+},
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 8,
+    "fields": {
+        "creation_date": "2019-10-23T08:29:58.413Z",
+        "name": "MonLi 2020",
+        "project": 45,
+        "ignore_duplicates": false
+    }
+},
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 9,
+    "fields": {
+        "creation_date": "2019-10-23T08:29:59.816Z",
+        "name": "Analyse",
+        "project": 46,
+        "ignore_duplicates": false
+    }
+},
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 10,
+    "fields": {
+        "creation_date": "2019-10-23T08:30:00.688Z",
+        "name": "Final Fusion",
+        "project": 47,
+        "ignore_duplicates": false
+    }
+},
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 11,
+    "fields": {
+        "creation_date": "2019-10-23T08:30:01.487Z",
+        "name": "Final Fusion",
+        "project": 48,
+        "ignore_duplicates": false
+    }
+},
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 12,
+    "fields": {
+        "creation_date": "2019-10-23T08:30:01.808Z",
+        "name": "Final Fusion",
+        "project": 49,
+        "ignore_duplicates": false
+    }
+},
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 13,
+    "fields": {
+        "creation_date": "2019-10-23T08:30:02.163Z",
+        "name": "Final Fusion",
+        "project": 50,
+        "ignore_duplicates": false
+    }
+},
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 14,
+    "fields": {
+        "creation_date": "2019-10-23T08:30:02.800Z",
+        "name": "Final Fusion",
+        "project": 51,
+        "ignore_duplicates": false
+    }
+},
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 15,
+    "fields": {
+        "creation_date": "2019-10-23T09:09:56.433Z",
+        "name": "Final Fusion",
+        "project": 52,
+        "ignore_duplicates": false
+    }
+},
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 16,
+    "fields": {
+        "creation_date": "2019-10-23T11:23:43.067Z",
+        "name": "Final Fusion",
+        "project": 53,
+        "ignore_duplicates": false
+    }
+},
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 17,
+    "fields": {
+        "creation_date": "2019-10-24T09:16:17.405Z",
+        "name": "Final Fusion",
+        "project": 1,
+        "ignore_duplicates": false
+    }
+},
+{
+    "model": "final_fusion.finalfusion",
+    "pk": 18,
+    "fields": {
+        "creation_date": "2019-10-28T12:34:52.602Z",
+        "name": "Final Fusion",
+        "project": 55,
+        "ignore_duplicates": false
+    }
+}
+]
