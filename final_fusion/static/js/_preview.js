@@ -77,7 +77,7 @@ function apply_single_row_rm(obj) {
         let last_added = $($("#then-container").children()[$("#then-container").children().length - 1]);
         last_added.find(".pick-col-button .sel-name").text(item["ffc_name"]);
 
-        // TODO: CHECK IF DYN ID CAN BE FETCHED FROM DROPDOWN
+        // CHECK IF DYN ID CAN BE FETCHED FROM DROPDOWN
         let columns = $("#head-tr").find(".col-name-container p");
 
         for (let i = 0; i < columns.length; i += 1) {
@@ -85,8 +85,7 @@ function apply_single_row_rm(obj) {
                 let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
                 last_added.find(".pick-col-button .sel-name").attr("id", id);
                 break;
-            }
-            else {
+            } else {
                 last_added.find(".pick-col-button .sel-name").attr("id", item["id"]);
             }
         }
@@ -101,11 +100,14 @@ function apply_single_row_rm(obj) {
             last_added.find(".then-value").val("");
             last_added.find(".then-value").prop("disabled", true);
         }
+
+        $("#row-rm-ui-modal .dyncol-value").prop("was_dynamic", item["was_dynamic"]);
     }
 
     if (obj["dynamic"]) {
-        $("#row-rm-ui-modal .dyncol-value").show();
-        $("#row-rm-ui-modal .dyncol-value").val($(".cols-dropdown-container .sel-name").text());
+        let dyncol_val = $("#row-rm-ui-modal .dyncol-value");
+        dyncol_val.show();
+        dyncol_val.val($(".cols-dropdown-container .sel-name").text());
         $(".cols-dropdown-container .sel-name").text($(".dropdown-item[id='-1']").text());
     }
 }
@@ -131,8 +133,7 @@ function get_row_when_data() {
             if (obj.value.length === 0 || obj.condition === "WHEN") {
                 $(when_items[i]).find(".pick-when-condition").css("color", "#efff00");
                 return;
-            }
-            else and_bracket.push(obj);
+            } else and_bracket.push(obj);
         }
     }
 
@@ -155,13 +156,14 @@ function get_row_then_data() {
         };
 
         if (obj["action"] === "REPLACE") obj["value_replace"] = child.find(".with-value").val().trim();
-        if (parseInt(obj["id"]) === -1) obj["dyn_col"] = child.find(".dyncol-value").val().trim();
+
+        obj["dyn_col"] = child.find(".dyncol-value").val().trim();
+        obj["was_dynamic"] = child.find(".dyncol-value").prop("was_dynamic");
 
         if (obj.value.length === 0 || obj.action === "THEN") {
-                child.find(".pick-then-condition").css("color", "#efff00");
-                return;
-            }
-        else then_data.push(obj);
+            child.find(".pick-then-condition").css("color", "#efff00");
+            return;
+        } else then_data.push(obj);
 
     }
     return then_data;
@@ -389,7 +391,7 @@ function request_create_row_rm() {
             let json = JSON.parse(data);
             if (json.success) {
                 hide_row_rm_ui_modal();
-                request_get_all_rm();
+                $("#rms-container").click();
             }
         },
         error: function (data, exception) {
@@ -417,7 +419,8 @@ function request_edit_row_rm() {
             let json = JSON.parse(data);
             if (json.success) {
                 hide_row_rm_ui_modal();
-                request_get_all_rm();
+                //request_get_all_rm();
+                $("#rms-container").click();
             }
         },
         error: function (data, exception) {
@@ -492,7 +495,7 @@ function request_get_all_rm() {
 
                 if ($("#rm-activate-checkbox").prop('checked')) {
                     $("#rm-activate-checkbox").prop('checked', false);
-                    request_tf_preview();
+                    //request_tf_preview();
                 }
             }
         },
@@ -853,10 +856,13 @@ function render_table_heads(cols) {
         let man_del = "";
         if (i.manually_removable) man_del = '<i class="far fa-trash-alt man-del"></i>';
 
+        let dynamic = "";
+        if (i.dynamic) dynamic = "dynamic";
+
         head_tr.append('' +
             '<th scope="col" id="' + i.id + '">' +
             '<div class="th-width">' +
-            '<div class="col-name-container"><p>' + i.name + '</p><i class="fas fa-pen"></i>' + man_del + '</div>' +
+            '<div class="col-name-container ' + dynamic + '"><p>' + i.name + '</p><i class="fas fa-pen"></i>' + man_del + '</div>' +
             '<input type="text" class="form-control col-rename-input">' +
             '</div>' +
             '</th>');
@@ -929,7 +935,7 @@ function prepare_restruc_append() {
         let name = $(columns[i])[0].innerText;
         let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
 
-        let item = "<a class='dropdown-item' href='#' id='"+id+"'>"+name+"</a>";
+        let item = "<a class='dropdown-item' href='#' id='" + id + "'>" + name + "</a>";
         a_dropdown.append(item);
         b_dropdown.append(item);
     }
@@ -994,7 +1000,7 @@ function show_row_rm_ui_modal() {
     let modal = $("#row-rm-ui-modal");
     let spanner = $("#spanner");
 
-    $("#row-rm-ui-modal #rm-name").text("Neue Spaltenregel");
+    $("#row-rm-ui-modal #rm-name").text("Neue Zeilenregel");
     $("#row-rm-ui-modal .save-button").prop("disabled", true);
 
     spanner.fadeIn(200);
@@ -1063,12 +1069,12 @@ function hide_open_rm_modal() {
 function add_when_row() {
     let html = "<div class='when-row-container when-item'>" +
         "<div class='dropdown'>" +
-            "<button class='btn btn-primary dropdown-toggle pick-col-button' type='button' data-toggle='dropdown'" +
-            "aria-haspopup='true' aria-expanded='false'>" +
-            "<i class='fas fa-caret-down'></i><span class='sel-name'>Spalte auswählen</span>" +
-            "</button>" +
+        "<button class='btn btn-primary dropdown-toggle pick-col-button' type='button' data-toggle='dropdown'" +
+        "aria-haspopup='true' aria-expanded='false'>" +
+        "<i class='fas fa-caret-down'></i><span class='sel-name'>Spalte auswählen</span>" +
+        "</button>" +
 
-            "<div class='dropdown-menu row-cols-dropdown' aria-labelledby='pick-col-button'>" +
+        "<div class='dropdown-menu row-cols-dropdown' aria-labelledby='pick-col-button'>" +
         "</div>" +
         "</div>" +
         "<div class='dropdown'>" +
@@ -1077,8 +1083,8 @@ function add_when_row() {
         "<i class='fas fa-caret-down'></i><span class='sel-name'>WHEN</span>" +
         "</button>" +
         "<div class='dropdown-menu when-dropdown' aria-labelledby='pick-when-condition'>" +
-            "<a class='dropdown-item when-is' href='#'>IS</a>" +
-            "<a class='dropdown-item when-is' href='#'>CONTAINS</a>" +
+        "<a class='dropdown-item when-is' href='#'>IS</a>" +
+        "<a class='dropdown-item when-is' href='#'>CONTAINS</a>" +
         "</div>" +
         "</div>" +
         "<input type='text' class='form-control when-value'>" +
@@ -1092,10 +1098,12 @@ function add_when_row() {
 
     last_added.find(".row-cols-dropdown").empty();
     for (let i = 0; i < columns.length; i += 1) {
-        let name = $(columns[i])[0].innerText;
-        let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
+        if (!$($(columns[i])[0].parentElement).hasClass("dynamic")) {
+            let name = $(columns[i])[0].innerText;
+            let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
 
-        last_added.find(".row-cols-dropdown").append("<a class='dropdown-item' href='#' id='" + id + "'>" + name + "</a>");
+            last_added.find(".row-cols-dropdown").append("<a class='dropdown-item' href='#' id='" + id + "'>" + name + "</a>");
+        }
     }
 
     last_added.find(".row-cols-dropdown .dropdown-item").click(function (e) {
@@ -1134,7 +1142,7 @@ function add_then_container() {
 
         "<div class='dropdown-menu row-cols-dropdown' aria-labelledby='pick-col-button'>" +
         "</div>" +
-        "<input type='text' class='form-control dyncol-value'>" +
+        "<input type='text' class='form-control dyncol-value' placeholder='Name der dyn. Spalte'>" +
         "</div>" +
         "</div>" +
 
@@ -1163,20 +1171,32 @@ function add_then_container() {
 
     last_added.find(".row-cols-dropdown").empty();
     for (let i = 0; i < columns.length; i += 1) {
-        let name = $(columns[i])[0].innerText;
-        let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
+        if (!$($(columns[i])[0].parentElement).hasClass("dynamic")) {
+            let name = $(columns[i])[0].innerText;
+            let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
 
-        last_added.find(".row-cols-dropdown").append("<a class='dropdown-item' href='#' id='" + id + "'>" + name + "</a>");
+            last_added.find(".row-cols-dropdown").append("<a class='dropdown-item' href='#' id='" + id + "'>" + name + "</a>");
+        }
     }
     last_added.find(".row-cols-dropdown").append("<a class='dropdown-item' href='#' id='-1'>* Neue Spalte</a>");
 
     last_added.find(".row-cols-dropdown .dropdown-item").click(function (e) {
         if (parseInt($(this).attr("id")) === -1) {
             $(this).parent().parent().find(".dyncol-value").show();
+            $(this).parent().parent().parent().parent().find(".then-dropdown").empty();
+            $(this).parent().parent().parent().parent().find(".then-dropdown").append("<a class='dropdown-item then-apply' href='#'>APPLY</a>");
+            $(this).parent().parent().parent().parent().find(".pick-then-condition .sel-name").text("THEN");
+
         } else {
             $(this).parent().parent().find(".dyncol-value").hide();
             $(this).parent().parent().find(".sel-name").text($(this)[0].innerText);
             $(this).parent().parent().find(".sel-name").attr("id", $(this).attr("id"));
+
+            let then_dropdown = $(this).parent().parent().parent().parent().find(".then-dropdown");
+            then_dropdown.empty();
+            then_dropdown.append("<a class='dropdown-item then-apply' href='#'>APPLY</a>");
+            then_dropdown.append("<a class='dropdown-item then-replace' href='#'>REPLACE</a>");
+            then_dropdown.append("<a class='dropdown-item then-ignore' href='#'>IGNORE</a>");
         }
     });
 
@@ -1213,10 +1233,10 @@ function add_created_rm_item(item) {
 
     let html = '<div class="created-rm-item" id="' + item.id + '">' +
         '<p class="from-project">' + item.project_name + '</p>\n' +
-            '<div class="name-container">'+
-                '<p class="rm-type">' + item.type_display + '</p>'+
-                '<p class="name">' + item.name + '</p>'+
-            '</div>' +
+        '<div class="name-container">' +
+        '<p class="rm-type">' + item.type_display + '</p>' +
+        '<p class="name">' + item.name + '</p>' +
+        '</div>' +
         '</div>';
 
     $("#created-rm-container").append(html);
@@ -1290,7 +1310,7 @@ function register_col_rm_events() {
         else request_create_col_rm();
     });
 
-    $(document).on("click." + _ns, "#col-rm-ui-modal #close" ,function (e) {
+    $(document).on("click." + _ns, "#col-rm-ui-modal #close", function (e) {
         e.preventDefault();
         hide_col_rm_ui_modal();
     });

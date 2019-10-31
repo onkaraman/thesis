@@ -146,14 +146,26 @@ def data_to_row_rm(when_data, then_data, existing_id=None):
     for td in then_data:
         ffc = None
 
-        if "id" in td and int(td["id"]) == -1 and len(td["dyn_col"]) > 0:
+        if "id" in td and int(td["id"]) == -1:
             ffc = create_dynamic_column(td["dyn_col"], ff)
+            td["was_dynamic"] = True
             dependencies.append(ffc)
         elif "id" in td:
             ffc = FinalFusionColumn.objects.get(pk=td["id"])
 
+            if "was_dynamic" in td and td["was_dynamic"]:
+                dependencies.append(ffc)
+
+            if ffc.archived and td["was_dynamic"]:
+                ffc.archived = False
+                ffc.save()
+
         if ffc and (td["action"] == rule_queue.APPLY or td["action"] == rule_queue.REPLACE) and len(td["value"]) > 0:
             td["ffc_name"] = ffc.display_column_name
+            if len(td["dyn_col"]) > 0:
+                td["ffc_name"] = td["dyn_col"]
+                ffc.display_column_name = td["dyn_col"]
+
             then_cases.append(td)
         elif td["action"] == rule_queue.IGNORE:
             then_cases.append(td)
@@ -165,8 +177,13 @@ def data_to_row_rm(when_data, then_data, existing_id=None):
 
     for dep_ffc in dependencies:
         dep_ffc.rm_dependency = rm
-        if len(FinalFusionColumn.objects.filter(rm_dependency=rm, source_column_name=dep_ffc.source_column_name)) == 0:
-            dep_ffc.save()
+        dep_ffc.save()
+        # Reapply the FFC ID
+        for tc in then_cases:
+            if "ffc_name" in tc and tc["ffc_name"] == dep_ffc.display_column_name:
+                td["id"] = dep_ffc.pk
+                rm.then_cases = json.dumps(then_cases)
+                rm.save()
     return rm
 
 
@@ -260,7 +277,8 @@ def do_save_edit_row(request):
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
-    if valid_user and "id" in request.GET and ArgsChecker.is_number(request.GET["id"]):
+    if valid_user and "id" in request.GET and ArgsChecker.is_number(request.GET["id"]) \
+            and "when_data" in request.GET and "then_data" in request.GET:
 
         try:
             when_data = json.loads(request.GET["when_data"])

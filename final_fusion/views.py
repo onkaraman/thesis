@@ -247,7 +247,9 @@ def i_render_ff(request):
 
 def get_preview_table(user_profile):
     """
-    get_preview_table
+    Will put all models together to render a cohesive in-progress final fusion table.
+    If a dynamic FFC doesn't have its creator-rule module any longer, it should be archived and thereby
+    not rendered anymore
     """
     out_headers = []
     out_rows = []
@@ -261,14 +263,16 @@ def get_preview_table(user_profile):
 
     for ffc_col in ffc_cols:
         if ffc_col.rm_dependency and \
-                ffc_col.source_column_name not in ffc_col.rm_dependency.depending_dynamic_columns():
-            ffc_col.delete()
+                ffc_col.display_column_name not in ffc_col.rm_dependency.depending_dynamic_columns():
+            ffc_col.archived = True
+            ffc_col.save()
         else:
             as_json = ffc_col.get_as_json()
 
             out_headers.append({
                 "name": as_json["name"],
                 "id": ffc_col.pk,
+                "dynamic": as_json["dynamic"],
                 "manually_removable": ffc_col.manually_removable
             })
 
@@ -304,7 +308,8 @@ def get_preview_table(user_profile):
 
 def render_preview_table(request):
     """
-    render_preview_table
+    Will return the in-progress table of the final fusion without activated rule modules.
+    Will also provide metadata.
     """
     success = False
     ignore_duplicates = False

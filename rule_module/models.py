@@ -25,8 +25,8 @@ class RuleModule(models.Model):
         ret = []
         if not self.archived:
             for td in json.loads(self.then_cases):
-                if "dyn_col" in td:
-                    ret.append(td["dyn_col"])
+                if "was_dynamic" in td and td["was_dynamic"]:
+                    ret.append(td["ffc_name"])
         return ret
 
     def is_valid(self):

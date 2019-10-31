@@ -6,7 +6,9 @@ from project.models import Project
 
 class FinalFusion(models.Model):
     """
-    FinalFusion
+    This model contains minimal data, but serves as a binding element among other
+    models to represent a final fusion OR a "Teilfusion", meaning a final fusion
+    in progress.
     """
     creation_date = models.DateTimeField(default=timezone.now)
     name = models.CharField(max_length=40, default="Final Fusion")
@@ -15,7 +17,7 @@ class FinalFusion(models.Model):
 
     def tq_column_is_added(self, name, tq):
         """
-        tq_column_is_added
+        Will return True if a specified column of a TQ is already part of this fusion.
         """
         from final_fusion_column.models import FinalFusionColumn
         try:
@@ -29,7 +31,8 @@ class FinalFusion(models.Model):
 
     def get_col_vars(self):
         """
-        get_col_vars
+        Used for scripting rule modules. Will return a dictionary of columns of a row with shortened names.
+        Will also provide additional sum and average columns of each column containing only numeric content.
         """
         from final_fusion_column.models import FinalFusionColumn
 
@@ -54,7 +57,8 @@ class FinalFusion(models.Model):
     @staticmethod
     def count_duplicates(user_profile):
         """
-        count_duplicates
+        Will return the count of row-duplicates. A row-duplicate is a row, which is already part of the fusion
+        with all single column elements already present.
         """
         import final_fusion.views as ff_v
 
@@ -74,7 +78,8 @@ class FinalFusion(models.Model):
     @staticmethod
     def remove_duplicates(rows):
         """
-        remove_duplicates
+        Will first go through all rows to find the duplicates by their row-indices. Will then
+        remove the (duplicate) items of the passed row parameter by their indicides.
         """
         checked_rows = []
         indices = []
