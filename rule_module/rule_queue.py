@@ -117,15 +117,20 @@ class RuleQueue:
         for row in self.table["out_rows"]:
             trimmed_col_names = [{"short": c.split("(")[0].strip(), "long": c} for c in list(row.keys())]
 
+            # Create dict to map non-brackets names with original
+            col_name_map = {}
+            for n in row:
+                col_name_map[n.split("(")[0].strip()] = n
+
             for and_bracket in if_condition:
                 # All of the values in the list have to be true
                 bool_vals = [False for i in and_bracket]
 
                 for ic in and_bracket:
                     # Now check if there's something which could apply
-                    for tcn in trimmed_col_names:
-                        if ic["ffc_name"] == tcn["short"]:
-                            col_val = row[tcn["long"]]
+                    for n in col_name_map:
+                        if ic["ffc_name"] == n:
+                            col_val = row[col_name_map[n]]
                             if ic["condition"] == "IS" and str(col_val) == ic["value"] \
                                     or ic["condition"] == CONTAINS and ic["value"] in str(col_val):
                                 bool_vals[and_bracket.index(ic)] = True
@@ -148,19 +153,22 @@ class RuleQueue:
                                 del self.table["out_rows"][self.table["out_rows"].index(row)]
                         else:
                             if tc["action"] == APPLY:
-                                if tc["ffc_name"] in row:
+                                if tc["ffc_name"] in col_name_map:
                                     row[tc["ffc_name"]] = self.replace_content(row[tc["ffc_name"]],
                                                                                row[tc["ffc_name"]], tc["value"],
                                                                                append=do_append)
-                                elif ffc["name"] in row:
+                                elif ffc["name"] in col_name_map:
                                     # For cols with (source) in name
-                                    row[ffc["name"]] = self.replace_content(row[ffc["name"]], row[ffc["name"]],
+                                    row[ffc["name"]] = self.replace_content(row[col_name_map[ffc["name"]]],
+                                                                            row[ffc["name"]],
                                                                             tc["value"], append=do_append)
 
                             elif tc["action"] == REPLACE:
-                                if tc["ffc_name"] in row:
-                                    row[tc["ffc_name"]] = self.replace_content(row[tc["ffc_name"]], tc["value"],
-                                                                               tc["value_replace"])
-                                elif ffc["name"] in row:
-                                    row[ffc["name"]] = self.replace_content(row[ffc["name"]], tc["value"],
-                                                                            tc["value_replace"])
+                                if tc["ffc_name"] in col_name_map:
+                                    row[col_name_map[tc["ffc_name"]]] = self.replace_content(row[col_name_map[tc["ffc_name"]]],
+                                                                                         tc["value"],
+                                                                                         tc["value_replace"])
+                                elif ffc["name"] in col_name_map:
+                                    row[col_name_map[ffc["name"]]] = self.replace_content(row[col_name_map[ffc["name"]]],
+                                                                                      tc["value"],
+                                                                                      tc["value_replace"])

@@ -76,17 +76,18 @@ function apply_single_row_rm(obj) {
         let item = then_cases[i];
         let last_added = $($("#then-container").children()[$("#then-container").children().length - 1]);
         last_added.find(".pick-col-button .sel-name").text(item["ffc_name"]);
+        last_added.find(".pick-col-button .sel-name").attr("id", item["id"]);
 
         // CHECK IF DYN ID CAN BE FETCHED FROM DROPDOWN
-        let columns = $("#head-tr").find(".col-name-container p");
+        if (item["id"] === "-1") {
+            let columns = $("#head-tr").find(".col-name-container p");
 
-        for (let i = 0; i < columns.length; i += 1) {
-            if ($(columns[i])[0].innerText === item["ffc_name"]) {
-                let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
-                last_added.find(".pick-col-button .sel-name").attr("id", id);
-                break;
-            } else {
-                last_added.find(".pick-col-button .sel-name").attr("id", item["id"]);
+            for (let i = 0; i < columns.length; i += 1) {
+                if ($(columns[i])[0].innerText === item["ffc_name"]) {
+                    let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
+                    last_added.find(".pick-col-button .sel-name").attr("id", id);
+                    break;
+                }
             }
         }
 
@@ -101,15 +102,16 @@ function apply_single_row_rm(obj) {
             last_added.find(".then-value").prop("disabled", true);
         }
 
+        if (item["was_dynamic"]) {
+            let dyncol_val = last_added.find("#row-rm-ui-modal .dyncol-value");
+            dyncol_val.show();
+            dyncol_val.val($(".cols-dropdown-container .sel-name").text());
+            //$(".cols-dropdown-container .sel-name").text($(".dropdown-item[id='-1']").text());
+        }
+
         $("#row-rm-ui-modal .dyncol-value").prop("was_dynamic", item["was_dynamic"]);
     }
 
-    if (obj["dynamic"]) {
-        let dyncol_val = $("#row-rm-ui-modal .dyncol-value");
-        dyncol_val.show();
-        dyncol_val.val($(".cols-dropdown-container .sel-name").text());
-        $(".cols-dropdown-container .sel-name").text($(".dropdown-item[id='-1']").text());
-    }
 }
 
 function get_row_when_data() {
@@ -300,6 +302,7 @@ function request_rename_col(col_id, col_name, input) {
                 input.hide();
                 col_name.text(input.val());
                 col_name.css("display", "inline-flex");
+                request_get_all_rm();
             }
         },
         error: function (data, exception) {
@@ -521,7 +524,8 @@ function request_delete_rm() {
 
             if (json.success) {
                 hide_simple_modal();
-                $("#rms-container").click();
+                request_tf_preview();
+                request_get_all_rm();
                 // request_get_all_rm(); Will be called anyway
             }
         },
@@ -1087,7 +1091,7 @@ function add_when_row() {
         "<a class='dropdown-item when-is' href='#'>CONTAINS</a>" +
         "</div>" +
         "</div>" +
-        "<input type='text' class='form-control when-value'>" +
+        "<input type='text' class='form-control when-value' placeholder='Wert (case-sensitive)'>" +
         "<i class='fas fa-times delete'>" +
         "</div>";
 
@@ -1098,11 +1102,12 @@ function add_when_row() {
 
     last_added.find(".row-cols-dropdown").empty();
     for (let i = 0; i < columns.length; i += 1) {
-        if (!$($(columns[i])[0].parentElement).hasClass("dynamic")) {
-            let name = $(columns[i])[0].innerText;
-            let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
+        let name = $(columns[i])[0].innerText;
+        let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
 
-            last_added.find(".row-cols-dropdown").append("<a class='dropdown-item' href='#' id='" + id + "'>" + name + "</a>");
+        last_added.find(".row-cols-dropdown").append("<a class='dropdown-item' href='#' id='" + id + "'>" + name + "</a>");
+
+        if (!$($(columns[i])[0].parentElement).hasClass("dynamic")) {
         }
     }
 
@@ -1172,11 +1177,12 @@ function add_then_container() {
     last_added.find(".row-cols-dropdown").empty();
     for (let i = 0; i < columns.length; i += 1) {
         if (!$($(columns[i])[0].parentElement).hasClass("dynamic")) {
-            let name = $(columns[i])[0].innerText;
-            let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
 
-            last_added.find(".row-cols-dropdown").append("<a class='dropdown-item' href='#' id='" + id + "'>" + name + "</a>");
         }
+        let name = $(columns[i])[0].innerText;
+        let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
+
+        last_added.find(".row-cols-dropdown").append("<a class='dropdown-item' href='#' id='" + id + "'>" + name + "</a>");
     }
     last_added.find(".row-cols-dropdown").append("<a class='dropdown-item' href='#' id='-1'>* Neue Spalte</a>");
 
@@ -1546,12 +1552,14 @@ $(document).ready(main);
 
 $(document).on("click." + _ns, ".col-name-container", function () {
     let col_name = $(this);
+
     let col_id = col_name.parent().parent().attr("id");
     col_name.css("display", "none");
 
     let input = $(this).parent().find(".col-rename-input");
     input.val($(this).text());
     input.show();
+    input.css("width", 120);
     input.focus();
 
     input.keyup(function (e) {

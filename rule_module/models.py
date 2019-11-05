@@ -1,6 +1,7 @@
 import json
 from django.db import models
 from django.utils import timezone
+from django.core.exceptions import ObjectDoesNotExist
 from final_fusion.models import FinalFusion
 
 
@@ -25,7 +26,7 @@ class RuleModule(models.Model):
         ret = []
         if not self.archived:
             for td in json.loads(self.then_cases):
-                if "was_dynamic" in td and td["was_dynamic"]:
+                if "was_dynamic" in td and td["was_dynamic"] and "ffc_name" in td:
                     ret.append(td["ffc_name"])
         return ret
 
@@ -42,7 +43,11 @@ class RuleModule(models.Model):
         elif self.rule_type == "row":
             for cond in json.loads(self.if_conditions):
                 for c in cond:
-                    if len(FinalFusionColumn.objects.filter(pk=c["id"], archived=False)) == 0:
+                    try:
+                        ffc = FinalFusionColumn.objects.get(pk=c["id"], archived=False)
+                        if c["ffc_name"] != ffc.display_column_name:
+                            return False
+                    except ObjectDoesNotExist:
                         return False
             return True
 

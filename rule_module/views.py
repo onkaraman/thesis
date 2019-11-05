@@ -440,8 +440,11 @@ def render_single(request):
                 single["col_subject_id"] = ffc.pk
 
             elif rm.rule_type == "row":
-                if len(FinalFusionColumn.objects.filter(rm_dependency=rm)) == 1:
+                try:
+                    FinalFusionColumn.objects.get(rm_dependency=rm)
                     single["dynamic"] = True
+                except Exception:
+                    pass
 
         except ObjectDoesNotExist:
             pass

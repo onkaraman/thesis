@@ -8,7 +8,7 @@ Onur Karaman, BA 2019
 
 <b>3</b>: Die TF so formatieren, dass Werte unter den gleichen Spaltennamen zusammengefasst werden.
 
-<b>4</b>: Spalte `Summe Downloads` erstellen mit Spaltenregel: 
+<b>4</b>: Spalte `Summe Downloads` erstellen mit Zeilenregel: 
 WENN `platform` CONTAINS `*`, DANN Neue Spalte: `Summe DL` mit APPLY `-`
 
 <b>5</b>: In `Summe DL` die Summe aller DLs eintragen mit Skriptregel:

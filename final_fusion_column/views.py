@@ -16,8 +16,12 @@ def do_rename(request):
     if valid_user and "id" in request.GET and ArgsChecker.is_number(request.GET["id"]) \
             and "name" in request.GET and not ArgsChecker.str_is_malicious(request.GET["name"]):
         try:
+            name = request.GET["name"]
+            name = name.replace("(", "[");
+            name = name.replace(")", "]");
+
             ffc = FinalFusionColumn.objects.get(pk=request.GET["id"], archived=False)
-            ffc.display_column_name = request.GET["name"]
+            ffc.display_column_name = name
             ffc.save()
             success = True
 

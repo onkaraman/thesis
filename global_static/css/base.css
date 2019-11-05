@@ -393,6 +393,7 @@ p {
 
 .rm-col-item .invalid {
     color: #ce1616;
+    font-style: italic;
 }
 
 .rm-col-item .rm-delete {
