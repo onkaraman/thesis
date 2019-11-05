@@ -154,10 +154,6 @@ td .ruled {
     margin-top: 11px;
 }
 
-#append-container #inline-items {
-    display: inline-flex;
-}
-
 .restruct-title {
     font-size: 16px;
     color: var(--cyan-strong);
@@ -172,6 +168,11 @@ td .ruled {
     margin-top: 6px;
     margin-bottom: 13px;
     padding-left: 10px;
+}
+
+#gen-col-toggle {
+    margin-top: 12px;
+    margin-left: 1px;
 }
 
 #append-container .dropdown-menu {
@@ -206,12 +207,13 @@ td .ruled {
 }
 
 #append-container #apply-button {
-    margin-left: 40px;
+    margin-left: 11px;
     height: 30px;
     width: 150px;
     padding-top: 3px;
     background-color: var(--green);
     border-color: #6B9841;
+    margin-top: 10px;
 }
 
 #append-container #apply-button .fas {

@@ -287,6 +287,7 @@ function resize_panels() {
     let c_width = doc_width - lp_width - rp_width;
 
     $("#tf-table-container").css("width", c_width-80);
+    $("#structure-changes-container").css("width", c_width-80);
 
     $("#left-panel").css("height", $(window).height());
     $("#right-panel").css("height", $(window).height());

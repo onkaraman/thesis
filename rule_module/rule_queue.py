@@ -97,12 +97,12 @@ class RuleQueue:
             if subject_name in row:
                 if "when_contains" in if_cond:
                     if "then_apply" in then_cases:
-                        if if_cond["when_contains"] in row[subject_name]:
+                        if if_cond["when_contains"] in str(row[subject_name]):
                             row[subject_name] = self.span_tag % then_cases["then_apply"]
                     elif "then_replace" in then_cases:
                         # Important to check if already in span
-                        if if_cond["when_contains"] in row[subject_name]:
-                            row[subject_name] = self.replace_content(row[subject_name], if_cond["when_contains"],
+                        if if_cond["when_contains"] in str(row[subject_name]):
+                            row[subject_name] = self.replace_content(str(row[subject_name]), if_cond["when_contains"],
                                                                      then_cases["then_replace"])
 
                 if "when_is" in if_cond and "then_apply" in then_cases:
