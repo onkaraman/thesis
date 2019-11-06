@@ -6,7 +6,8 @@ from final_fusion.models import FinalFusion
 
 class ScriptModule(models.Model):
     """
-    ScriptModule
+    Script-rule modules have their own class since they work in a different way.
+    Instead of saving when- and then-data, objects of this class only need scripts to execute.
     """
     creation_date = models.DateTimeField(default=timezone.now)
     archived = models.BooleanField(default=False)
@@ -16,7 +17,10 @@ class ScriptModule(models.Model):
 
     def check_validity(self):
         """
-        check_validity
+        Will check whether this object's code content is valid. Validity rules are
+        1: No import statements, 2: No eval(), exec() or print() calls,
+        3: No _row structure changes (i. e. you can't edit the dictionary which represents the row itself).
+        Otherwise, it will check if the passed code will work as Python code.
         """
         msg = []
 
@@ -66,7 +70,7 @@ class ScriptModule(models.Model):
 
     def row_structure_retained(self):
         """
-        row_structure_retained
+        Will check whether the the _row-dictionary itself has been modified.
         """
         exec_vars = {"_row": self.final_fusion.get_col_vars()}
         pre_imports = "import math, re, random\n"
@@ -84,7 +88,9 @@ class ScriptModule(models.Model):
 
     def apply_to_row(self, row, edit_style, changes_visible):
         """
-        apply_to_row
+        Will apply the code of this rm to the passed row parameter. Will prepare the code (by adding imports),
+        and then execute it on the row, which itself will be passed via 'exec_vars'. After completion, the modified
+        row values will be re-applied to the row itself (the code uses only short-hands for row names).
         """
         orig = row.copy()
         exec_vars = {"_row": row}

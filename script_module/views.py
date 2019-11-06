@@ -10,7 +10,8 @@ from script_module.models import ScriptModule
 
 def do_validate_code(request):
     """
-    do_validate_code
+    Will check whether the passed code (by request) is valid script code.
+    Creates a temporary script module and will return the result of its validation method.
     """
     valid_user = token_checker.token_is_valid(request)
 
@@ -27,7 +28,8 @@ def do_validate_code(request):
 
 def do_create(request):
     """
-    do_create
+    Will create a script module based on the passed information from the web request.
+    The rule module will only be saved if its code is valid.
     """
     sucess = False
     valid_user = token_checker.token_is_valid(request)
@@ -50,7 +52,7 @@ def do_create(request):
 
 def do_edit(request):
     """
-    do_create
+    Will edit a rule module by overriding the differences.
     """
     sucess = False
     valid_user = token_checker.token_is_valid(request)
@@ -69,7 +71,7 @@ def do_edit(request):
 
 def do_delete_sm(request):
     """
-    do_delete_rm
+    Will delete this rule module by archiving.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -87,7 +89,7 @@ def do_delete_sm(request):
 
 def render_single(request):
     """
-    render_single
+    Will render a single script-rm for the UI.
     """
     success = False
     single = None
