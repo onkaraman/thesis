@@ -964,6 +964,7 @@ function show_col_rm_ui_modal() {
 
         $(".col-rm-dropdown").append("<a class='dropdown-item' href='#' id='" + id + "'>" + name + "</a>");
     }
+    $("#select-col-button .sel-name").text("Spalte auswählen");
 
     let title = $("#col-name-container #title");
     let rename = $("#col-name-container #rename");
@@ -1552,14 +1553,15 @@ $(document).ready(main);
 
 $(document).on("click." + _ns, ".col-name-container", function () {
     let col_name = $(this);
-
     let col_id = col_name.parent().parent().attr("id");
     col_name.css("display", "none");
+    let col_name_width = col_name.width();
+
 
     let input = $(this).parent().find(".col-rename-input");
     input.val($(this).text());
     input.show();
-    input.css("width", 120);
+    input.css("width", col_name_width + 30);
     input.focus();
 
     input.keyup(function (e) {

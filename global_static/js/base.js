@@ -291,6 +291,26 @@ function resize_panels() {
 
     $("#left-panel").css("height", $(window).height());
     $("#right-panel").css("height", $(window).height());
+
+    let notes_box = $("#new-projects-container #notes-box");
+
+    if (doc_width < 1200) {
+        notes_box.css("margin-left", 0);
+        notes_box.css("margin-top", 20);
+        notes_box.css("float", "none");
+        notes_box.css("display", "inline-grid");
+    }
+    if (doc_width > 1050) {
+        notes_box.css("margin-left", 50);
+        notes_box.css("margin-top", 10);
+    }
+
+    if (doc_width > 1550) {
+        notes_box.css("display", "block");
+
+        notes_box.css("margin-left", 110);
+        notes_box.css("float", "left");
+    }
 }
 
 function reset_left_panel() {
@@ -305,17 +325,28 @@ function left_panel_toggle() {
         $("#left-panel").css("width", "56px");
         $(".panel-button p").hide();
         $(".panel-header").hide();
+
+        $("#rms-container .panel-button").css("font-size", 7);
+        $("#rms-container .panel-button").css("color", "#184b88");
+
         $("#footer").hide();
     } else if ($("#left-panel").width() < 100) {
         $("#left-panel").css("width", "220px");
         $(".panel-button p").show();
         $(".panel-header").show();
+
+        $("#rms-container .panel-button").css("font-size", "");
+        $("#rms-container .panel-button").css("color", "");
+
         $("#footer").show();
     }
 }
 
 
 function show_new_project_ui() {
+    reset_left_panel();
+    request_check_export_visibility();
+
     $("#left-panel").show("slide", {direction: "left"}, 300);
     $("#project-name").show();
     $("#left-panel-hamburger").css("opacity", "1");

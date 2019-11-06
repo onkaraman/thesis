@@ -115,8 +115,6 @@ class RuleQueue:
         apply_row_rms
         """
         for row in self.table["out_rows"]:
-            trimmed_col_names = [{"short": c.split("(")[0].strip(), "long": c} for c in list(row.keys())]
-
             # Create dict to map non-brackets names with original
             col_name_map = {}
             for n in row:

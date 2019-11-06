@@ -12,7 +12,7 @@ import dashboard.includer as dashboard_includer
 
 def do_rename(request):
     """
-    do_rename
+    Will rename a TF
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
