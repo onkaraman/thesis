@@ -26,3 +26,5 @@ Those are located in `sample_import_files/`. The files of the two scenarios ment
 | RM| Regelmodul | Rule module |
 | SM | Script-Modul | Script rule module |
 
+#### > Legal info
+This thesis was developed during my time in Daimler AG (thesis employment). It is <u>not</u> official in-house software in any way and does <u>not</u> contain sensitive data. Yet still, I am the author of this app, which effectively makes me the copyright holder. I thank everybody who supported me during my time in Daimler.

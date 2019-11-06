@@ -12,7 +12,7 @@ import dashboard.includer as dashboard_includer
 
 def do_rename(request):
     """
-    Will rename a TF
+    Will rename a TF according to the submitted info. The name will be applied for the EF, too.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -29,7 +29,9 @@ def do_rename(request):
 
 def do_append_cols(request):
     """
-    do_append_cols
+    Will append two columns of a TF into a new, dynamic one: A-Column + B-Column = AB-Column by appending
+    B-Rows under A-Rows. If input instructs, the source A- and B-Columns will be removed from the TF
+    after appending.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -74,7 +76,10 @@ def do_append_cols(request):
 
 def do_unionize_columns(request):
     """
-    do_unionize_columns
+    Will append columns similar to method 'do_append_cols()'. First it will get all FFCs of the TF and then
+    group all those with the same column-name into seperate lists (mapped by a dictionary). Then, it will
+    append the rows of each list into new, dynamic FFCs, which will carry the same name which united the
+    column names from the beginning of the process.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -118,7 +123,8 @@ def do_unionize_columns(request):
 
 def do_remove_appended(request):
     """
-    do_remove_appended
+    Simply a remove function for FFCs. Since 'normal' FFCs can be removed by deselection (via TQ UI), dynamic or
+    appended rows have no direct TQ-Source and therefore need to be removed manually.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -141,7 +147,7 @@ def do_remove_appended(request):
 
 def do_get_col_vars(request):
     """
-    do_get_col_vars
+    Will return the shortened column vars for scripting modules to the UI. See FinalFusion-Model for more details.
     """
     success = False
     cv = {}
@@ -161,7 +167,8 @@ def do_get_col_vars(request):
 
 def do_check_export_button_visibility(request):
     """
-    do_check_export_button_visibility
+    The export-button for the final fusion will only be visible in the UI, if the TF contains at least one FFC
+    (selected into it).
     """
     visible = False
     tf_name = ""
@@ -186,7 +193,7 @@ def do_check_export_button_visibility(request):
 
 def do_count_duplicates(request):
     """
-    do_check_export_button_visibility
+    Will return the duplicate count of the TF. See model for more info.
     """
     count = 0
 
@@ -205,7 +212,7 @@ def do_count_duplicates(request):
 
 def do_apply_duplicates_settings(request):
     """
-    do_apply_duplicates_settings
+    Will apply whether duplicates should be exported (in EF) or not, by saving that setting to the FF-Model itself.
     """
     success = False
 
@@ -229,7 +236,7 @@ def do_apply_duplicates_settings(request):
 
 def i_render_preview_tf(request):
     """
-    i_render_preview_tf
+    Will provide inclusion data of the preview UI for the frontend.
     """
     valid_user = token_checker.token_is_valid(request)
     if valid_user:
@@ -238,7 +245,7 @@ def i_render_preview_tf(request):
 
 def i_render_ff(request):
     """
-    i_render_preview_tf
+    Will provide inclusion data of the export UI for the frontend.
     """
     valid_user = token_checker.token_is_valid(request)
     if valid_user:
@@ -308,8 +315,8 @@ def get_preview_table(user_profile):
 
 def render_preview_table(request):
     """
-    Will return the in-progress table of the final fusion without activated rule modules.
-    Will also provide metadata.
+    Will return the in-progress table of the final fusion, the TF, without activated rule modules.
+    Will also provide metadata for further frontend display options.
     """
     success = False
     ignore_duplicates = False
@@ -340,7 +347,7 @@ def render_preview_table(request):
 
 def render_preview_table_with_rm(request):
     """
-    render_preview_table_with_rm
+    Will return render data of the TF, in which added rules modules are applied (changes visible).
     """
     success = False
     table = {"out_headers": None, "out_rows": None}
@@ -366,7 +373,7 @@ def render_preview_table_with_rm(request):
 
 def render_final_fusion(request):
     """
-    render_final_fusion
+    Will render table data of the FF/Export, in which rule module changes are applied (changes not visible).
     """
     ret = {}
     valid_user = token_checker.token_is_valid(request)
