@@ -12,6 +12,9 @@ from rule_module import rule_queue as rule_queue
 
 
 def convert_request_bool_values(get_params):
+    """
+    Helper method. Will convert strings like 'true' to actual True values.
+    """
     d = {}
     for key in get_params.keys():
         if get_params[key] == "true":
@@ -25,7 +28,7 @@ def convert_request_bool_values(get_params):
 
 def col_rule_condition_check(request):
     """
-    col_rule_condition_check
+    Will check whether the conditions of a column-rm are contentually correct.
     """
     if "when_is" in request.GET and "when_contains" in request.GET \
             and "when_value" in request.GET and not ArgsChecker.str_is_malicious(request.GET["when_value"]) \
@@ -36,9 +39,12 @@ def col_rule_condition_check(request):
     return False
 
 
-def request_to_col_rm(request, id=None):
+def request_to_col_rm(request, _id=None):
     """
-    request_to_col_rm
+    :param request: The request from the rule module UI.
+    :param _id: Is not none when this is a edit-case. If edit, only changes will be overridden.
+
+    Will turn a web request for a column-rm to an actual rule module object.
     """
     get_params = convert_request_bool_values(request.GET)
 
@@ -53,8 +59,8 @@ def request_to_col_rm(request, id=None):
     then_value = get_params["then_value"]
 
     rm = RuleModule()
-    if id:
-        rm = RuleModule.objects.get(pk=id)
+    if _id:
+        rm = RuleModule.objects.get(pk=_id)
 
     if len(when_value) > 0 and len(then_value) > 0:
         try:
@@ -91,7 +97,7 @@ def request_to_col_rm(request, id=None):
 
 def do_create_col_rm(request):
     """
-    do_create_col_rm
+    Will create a column rule module from the web request.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -106,7 +112,9 @@ def do_create_col_rm(request):
 
 def create_dynamic_column(name, ff):
     """
-    create_dynamic_column
+    :param name: The name of this FFC.
+    :param ff: The final fusion this column will be attached to.
+    Will create a dynamic column for a row-rm.
     """
     # Make sure shit won't get created multiple times
     ffc = FinalFusionColumn()
@@ -119,7 +127,10 @@ def create_dynamic_column(name, ff):
 
 def data_to_row_rm(when_data, then_data, existing_id=None):
     """
-    data_to_row_rm
+    Will turn a web request to create a column-rm to an actual col-rm.
+    :param when_data: The when-data, configrued via UI.
+    :param then_data: Then-data, configured via UI.
+    :param existing_id: If not None, this is an edit case in which only changes of the rm will be overridden.
     """
     ff = FinalFusionColumn.objects.get(id=when_data[0][0]["id"]).final_fusion
     rm = RuleModule()
@@ -133,6 +144,7 @@ def data_to_row_rm(when_data, then_data, existing_id=None):
     if_cond = []
     then_cases = []
 
+    # And-Brackets are conditions between or-seperators of the UI.
     for and_bracket in when_data:
         to_add = []
         for wd in and_bracket:
@@ -142,6 +154,7 @@ def data_to_row_rm(when_data, then_data, existing_id=None):
                 to_add.append(wd)
         if_cond.append(to_add)
 
+    # Items in this list will be FFCs wich depend on this rm.
     dependencies = []
     for td in then_data:
         ffc = None
@@ -189,7 +202,7 @@ def data_to_row_rm(when_data, then_data, existing_id=None):
 
 def do_create_row_rm(request):
     """
-    do_create_row_rm
+    Will take a user request to create a row-rm to create an actual rm via 'data_to_row_rm()'.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -212,7 +225,7 @@ def do_create_row_rm(request):
 
 def do_delete_rm(request):
     """
-    do_delete_rm
+    Will delete a rule module by archiving.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -230,7 +243,7 @@ def do_delete_rm(request):
 
 def do_rename_rm(request):
     """
-    do_rename_rm
+    Will rename a rule module.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -256,7 +269,7 @@ def do_rename_rm(request):
 
 def do_save_edit_col(request):
     """
-    do_save_edit_col
+    Will edit a col-rm by taking the existing one and overriding the new changes.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -273,7 +286,7 @@ def do_save_edit_col(request):
 
 def do_save_edit_row(request):
     """
-    do_save_edit_col
+    Will edit a row-rm by taking the existing one and overriding the new changes.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -294,7 +307,7 @@ def do_save_edit_row(request):
 
 def do_transfer_rm(request):
     """
-    do_transfer_rm
+    Will take a rule module from another project to add it to the current project.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -319,7 +332,7 @@ def do_transfer_rm(request):
 
 def render_all_rm(request):
     """
-    render_all_rm
+    Will return a JSON-Object containing all rule modules of the currently opened project/TF.
     """
     success = False
     ret = []
@@ -365,7 +378,7 @@ def render_all_rm(request):
 
 def render_filtered(request):
     """
-    render_filtered
+    Will render rule modules which contain 'filter_name' in their names. Used for rm-search.
     """
     success = False
     items = []
@@ -416,7 +429,7 @@ def render_filtered(request):
 
 def render_single(request):
     """
-    render_single
+    Will return a JSON-Object of details about the current rm.
     """
     success = False
     single = None

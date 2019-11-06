@@ -1,5 +1,3 @@
-import json
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -10,7 +8,8 @@ from project.models import Project
 
 def render_dashboard(request):
     """
-    render_dashboard
+    Will render the dashboard (currently just showing a short intro to the app) and will fetch the
+    user name to enter the user profile page.
     """
     dic = {}
     valid_user = token_checker.token_is_valid(request)

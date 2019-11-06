@@ -3,12 +3,13 @@ from django.http import HttpResponse
 import security.token_checker as token_checker
 from security.args_checker import ArgsChecker
 from .models import FinalFusionColumn
-from rule_module.models import RuleModule
 
 
 def do_rename(request):
     """
-    do_rename
+    Will rename a single FFC. Will replace () to [] to prevent internal mismatching.
+    If the FFC has a rule module dependency (i. e. the FFC is dynamic), the rule module itself
+    will be updated also.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -17,8 +18,8 @@ def do_rename(request):
             and "name" in request.GET and not ArgsChecker.str_is_malicious(request.GET["name"]):
         try:
             name = request.GET["name"]
-            name = name.replace("(", "[");
-            name = name.replace(")", "]");
+            name = name.replace("(", "[")
+            name = name.replace(")", "]")
 
             ffc = FinalFusionColumn.objects.get(pk=request.GET["id"], archived=False)
             ffc.display_column_name = name

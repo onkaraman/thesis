@@ -69,7 +69,7 @@ urlpatterns = [
     url(r'^api/ff/export_visible/$', ff_v.do_check_export_button_visibility),
     url(r'^api/ff/export_content/$', ff_v.render_final_fusion),
 
-    # RM API
+    # RM APId
     url(r'^api/rm/get_single/$', rm_v.render_single),
     url(r'^api/rm/get_filtered/$', rm_v.render_filtered),
     url(r'^api/rm/get_all/$', rm_v.render_all_rm),

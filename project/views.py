@@ -15,7 +15,7 @@ from script_module.models import ScriptModule
 
 def do_create_new(request):
     """
-    do_create_new
+    Will create a new project and simultaneously a new Final Fusion also.
     """
     success = False
     name = None
@@ -41,7 +41,8 @@ def do_create_new(request):
 
 def do_load(request):
     """
-    do_load
+    Will open/load a new project and save the project's ID into the user's profile,
+    to make sure that the same project gets automatically reopened when the user return to the app.
     """
     success = False
     name = None
@@ -63,7 +64,7 @@ def do_load(request):
 
 def do_autoload(request):
     """
-    do_autoload
+    Will provide the last opened project ID.
     """
     success = False
     proj_id = None
@@ -85,7 +86,7 @@ def do_autoload(request):
 
 def do_rename(request):
     """
-    do_rename
+    Will rename the currently opened project.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -101,7 +102,7 @@ def do_rename(request):
 
 def do_delete_project(request):
     """
-    do_delete_project
+    Will delete a project by archiving.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -119,7 +120,8 @@ def do_delete_project(request):
 
 def i_render_user_projects(request):
     """
-    render_overview
+    Will provide content for project UI inclusion. Will count added TQs and rule modules to pass
+    them for display.
     """
     valid_user = token_checker.token_is_valid(request)
     dic = {}
@@ -146,7 +148,7 @@ def i_render_user_projects(request):
 
 def i_render_new_project(request):
     """
-    i_render_new_project
+    Will return content to render the landing page UI of a project (where you can create notes).
     """
     valid_user = token_checker.token_is_valid(request)
     if valid_user:
@@ -155,7 +157,7 @@ def i_render_new_project(request):
 
 def render_project_details(request):
     """
-    render_project_details
+    Will render project details for display at the landing page UI.
     """
     success = False
 

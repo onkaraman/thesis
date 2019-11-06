@@ -8,7 +8,9 @@ from rule_module.models import RuleModule
 
 class FinalFusionColumn(models.Model):
     """
-    FinalFusionColumn
+    An object of this model will be created, when a column of a TQ will be selected for inclusion
+    into the TF. A single object of this class contains only row data of selected column.
+    FFC objects in composition form a TF/EF.
     """
     creation_date = models.DateTimeField(default=timezone.now)
     archived = models.BooleanField(default=False)
@@ -22,7 +24,7 @@ class FinalFusionColumn(models.Model):
 
     def get_as_json(self):
         """
-        get_as_json
+        Will return key information of this FFC in JSON-Form.
         """
         if self.source_tq:
             name = "%s (%s)" % (self.display_column_name, self.source_tq.display_file_name)
@@ -32,7 +34,7 @@ class FinalFusionColumn(models.Model):
         return {
             "pure_name": self.display_column_name,
             "name": name,
-            "dynamic": self.source_tq == None,
+            "dynamic": self.source_tq is None,
             "rows": self.rows_json
         }
 

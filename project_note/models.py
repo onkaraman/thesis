@@ -5,7 +5,7 @@ from project.models import Project
 
 class ProjectNote(models.Model):
     """
-    ProjectNote
+    A project note exists within the landing page view of a project.
     """
     creation_date = models.DateTimeField(default=timezone.now)
     archived = models.BooleanField(default=False)

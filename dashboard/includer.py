@@ -14,7 +14,14 @@ def get_static_path(filename):
 
 def get_as_json(template_url, template_context=None, different_css=None, different_js=None):
     """
-    get_as_json
+    Will return a JSON-Object to the frontend, which contains all relevant inclusion data derived from the
+    template_url alone. If the template_url is 'hello.html', then this method will also return 'hello.css'
+    and 'hello.js', based on the template name alone.
+
+    :param template_url: Where the actual HTML-File is.
+    :param template_context: The contextual dictionary for the template, will be used for template-tags.
+    :param different_css: If this is provided, this path will be used for the inclusion's CSS.
+    :param different_js: Same deal.
     """
     if ".html" not in template_url:
         raise Exception("Template URL doesn't seem legit")

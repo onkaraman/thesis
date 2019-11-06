@@ -9,7 +9,7 @@ from project_note.models import ProjectNote
 
 def do_create(request):
     """
-    do_create
+    Will create a note and attach it to the current project of the user.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -32,7 +32,7 @@ def do_create(request):
 
 def do_delete(request):
     """
-    do_delete
+    Will remove a note by archiving.
     """
     success = False
     valid_user = token_checker.token_is_valid(request)
@@ -54,7 +54,7 @@ def do_delete(request):
 
 def render_all(request):
     """
-    render_all
+    Will return a dictionary containing all notes of a project.
     """
     valid_user = token_checker.token_is_valid(request)
     items = []

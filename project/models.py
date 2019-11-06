@@ -5,7 +5,7 @@ from user_profile.models import UserProfile
 
 class Project(models.Model):
     """
-    Project
+    Projects contain TQs, FFCs and one Fusion by key relation.
     """
     creation_date = models.DateTimeField(default=timezone.now)
     archived = models.BooleanField(default=False)

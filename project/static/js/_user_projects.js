@@ -1,3 +1,29 @@
+// Requests
+function request_delete_project() {
+    start_loading_animation();
+
+    $.ajax({
+        url: "/api/project/delete",
+        data: {
+            "id": delete_project_id,
+        },
+        success: function (data) {
+            stop_loading_animation();
+            delete_project_id = 0;
+
+            let json = JSON.parse(data);
+
+            if (json.success) {
+                hide_simple_modal();
+                $("#load-project").click();
+            }
+        },
+        error: function (data, exception) {
+            alert(data.responseText);
+        }
+    });
+}
+
 var main = function () {
     request_load_tqs();
 
