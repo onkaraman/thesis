@@ -1177,9 +1177,6 @@ function add_then_container() {
 
     last_added.find(".row-cols-dropdown").empty();
     for (let i = 0; i < columns.length; i += 1) {
-        if (!$($(columns[i])[0].parentElement).hasClass("dynamic")) {
-
-        }
         let name = $(columns[i])[0].innerText;
         let id = $($(columns[i])[0].parentElement.parentElement.parentElement).attr("id");
 
@@ -1237,7 +1234,6 @@ function add_rm_col_item(item) {
 }
 
 function add_created_rm_item(item) {
-
     let html = '<div class="created-rm-item" id="' + item.id + '">' +
         '<p class="from-project">' + item.project_name + '</p>\n' +
         '<div class="name-container">' +

@@ -164,21 +164,15 @@ class RuleQueue:
                         else:
                             if tc["action"] == APPLY:
                                 if tc["ffc_name"] in col_name_map:
-                                    row[tc["ffc_name"]] = self.replace_content(row[tc["ffc_name"]],
-                                                                               row[tc["ffc_name"]], tc["value"],
-                                                                               append=do_append)
-                                elif ffc["name"] in col_name_map:
-                                    # For cols with (source) in name
-                                    row[ffc["name"]] = self.replace_content(row[col_name_map[ffc["name"]]],
-                                                                            row[ffc["name"]],
-                                                                            tc["value"], append=do_append)
+                                    mapped = row[col_name_map[tc["ffc_name"]]]
+                                    row[col_name_map[tc["ffc_name"]]] = self.replace_content(mapped, mapped,
+                                                                                             tc["value"],
+                                                                                             append=do_append)
 
                             elif tc["action"] == REPLACE:
                                 if tc["ffc_name"] in col_name_map:
-                                    row[col_name_map[tc["ffc_name"]]] = self.replace_content(row[col_name_map[tc["ffc_name"]]],
+                                    mapped = row[col_name_map[tc["ffc_name"]]]
+                                    row[col_name_map[tc["ffc_name"]]] = self.replace_content(mapped,
                                                                                          tc["value"],
                                                                                          tc["value_replace"])
-                                elif ffc["name"] in col_name_map:
-                                    row[col_name_map[ffc["name"]]] = self.replace_content(row[col_name_map[ffc["name"]]],
-                                                                                      tc["value"],
-                                                                                      tc["value_replace"])
+
