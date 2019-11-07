@@ -1,4 +1,5 @@
 import json
+import math
 import pandas as pd
 from .file_parser import FileParser
 from pyxlsb import open_workbook as open_xlsb
@@ -34,6 +35,9 @@ class FileParserXLSB(FileParser):
 
         parsable = []
         for d in data:
+            for i in d:
+                if str(i) == "nan" and math.isnan(i):
+                    return None
             parsable.append(dict(zip(cols, d)))
 
         return json.dumps(parsable)

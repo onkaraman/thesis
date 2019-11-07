@@ -90,6 +90,9 @@ var main = function () {
         $("#possible-errors-container").hide();
         $("#success-upload-container").hide();
 
+        $("#selected-sheets").empty();
+        $("#sheets-container").hide();
+
         let file_name = e.target.files[0].name;
         picked_upload_file = e.target.files[0];
 

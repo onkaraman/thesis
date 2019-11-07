@@ -185,7 +185,7 @@ def do_upload_tq(request):
                         for sheet in sheet_names:
                             json_parsed = delegate_to_parser(file_path, extension, sheet)
 
-                            if json_parsed:
+                            if json_parsed and TQFlattener.keys_are_even(json_parsed):
                                 TQFile.objects.create(
                                     project=valid_user.get_project(),
                                     source_file_name="%s/%s" % (file.name, sheet),
