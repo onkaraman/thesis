@@ -14,6 +14,10 @@ This web application was written with Python, using the Django-Stack. It is inte
 4. Configure web app with `python manage.py migrate`
 5. Start web app with `python manage.py runserver`
 
+#### > Registration
+The web app only accepts @daimler.com email-addresses. You don't need to have an actual @daimler.com address.
+For testing purposes, you can enter <something>@daimler.com as your email address (a confirmation will not be sent).
+
 #### > Sample files
 Those are located in `sample_import_files/`. The files of the two scenarios mentioned in the thesis itself are located in `sample_import_files/szen_1` and `sample_import_files/szen_2`. Instructions on how to use the scenario files are located in those folders as well.
 

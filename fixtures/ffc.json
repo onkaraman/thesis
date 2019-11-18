@@ -946,21 +946,6 @@
 },
 {
     "model": "final_fusion_column.finalfusioncolumn",
-    "pk": 270,
-    "fields": {
-        "creation_date": "2019-10-28T13:55:53.612Z",
-        "archived": false,
-        "final_fusion": 8,
-        "source_tq": null,
-        "source_column_name": "Fehlercode",
-        "display_column_name": "Fehlercode",
-        "rows_json": "[]",
-        "rm_dependency": 59,
-        "manually_removable": false
-    }
-},
-{
-    "model": "final_fusion_column.finalfusioncolumn",
     "pk": 271,
     "fields": {
         "creation_date": "2019-10-29T10:06:33.056Z",
@@ -1261,26 +1246,11 @@
 },
 {
     "model": "final_fusion_column.finalfusioncolumn",
-    "pk": 292,
-    "fields": {
-        "creation_date": "2019-10-29T12:35:41.185Z",
-        "archived": false,
-        "final_fusion": 9,
-        "source_tq": null,
-        "source_column_name": "% Anteil",
-        "display_column_name": "% Anteil",
-        "rows_json": "[]",
-        "rm_dependency": 66,
-        "manually_removable": false
-    }
-},
-{
-    "model": "final_fusion_column.finalfusioncolumn",
     "pk": 293,
     "fields": {
         "creation_date": "2019-10-29T12:56:53.982Z",
         "archived": false,
-        "final_fusion": 21,
+        "final_fusion": 17,
         "source_tq": 36,
         "source_column_name": "first_name",
         "display_column_name": "first_name",
@@ -1295,7 +1265,7 @@
     "fields": {
         "creation_date": "2019-10-29T12:56:54.609Z",
         "archived": false,
-        "final_fusion": 21,
+        "final_fusion": 17,
         "source_tq": 36,
         "source_column_name": "last_name",
         "display_column_name": "last_name",
@@ -1310,7 +1280,7 @@
     "fields": {
         "creation_date": "2019-10-29T12:56:57.770Z",
         "archived": false,
-        "final_fusion": 21,
+        "final_fusion": 17,
         "source_tq": 36,
         "source_column_name": "email",
         "display_column_name": "email",
