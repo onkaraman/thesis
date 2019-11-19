@@ -1056,6 +1056,7 @@ function show_open_rm_modal() {
     let modal = $("#open-rm-modal");
     let spanner = $("#spanner");
 
+    modal.draggable();
     spanner.fadeIn(200);
     modal.fadeIn(200);
 

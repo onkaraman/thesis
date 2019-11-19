@@ -68,11 +68,6 @@ class RuleQueue:
         """
         Will apply all rules modules to the TF/EF rows. Will apply scripts first.
         """
-        for sm in self.script_modules:
-            for row in self.table["out_rows"]:
-                # Modify row by script-rm.
-                sm.apply_to_row(row, self.span_tag, self.changes_visible)
-
         for rm in self.rule_modules:
             if_condition = json.loads(rm.if_conditions)
             then_cases = json.loads(rm.then_cases)
@@ -82,6 +77,11 @@ class RuleQueue:
 
             elif rm.rule_type == "row":
                 self.apply_row_rms(if_condition, then_cases)
+
+        for sm in self.script_modules:
+            for row in self.table["out_rows"]:
+                # Modify row by script-rm.
+                sm.apply_to_row(row, self.span_tag, self.changes_visible)
 
         if export:
             # If export, remove the .SUM and .AVG entries of each row.
