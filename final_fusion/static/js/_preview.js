@@ -1093,7 +1093,7 @@ function add_when_row() {
         "<a class='dropdown-item when-is' href='#'>CONTAINS</a>" +
         "</div>" +
         "</div>" +
-        "<input type='text' class='form-control when-value' placeholder='Wert (case-sensitive)'>" +
+        "<input type='text' class='form-control when-value' placeholder='Wert (case sensitive)'>" +
         "<i class='fas fa-times delete'>" +
         "</div>";
 

@@ -125,7 +125,7 @@ class ScriptModule(models.Model):
                         if exec_vars["_append"] and orig[cv[k]] is not "-":
                             row[cv[k]] = "%s, %s" % (orig[cv[k]], row[cv[k]])
                         else:
-                            row[cv[k]] = edit_style % row[cv[k]]
+                            row[cv[k]] = row[cv[k]]
 
     def __str__(self):
         return "#%d: %s" % (self.pk, self.name)
