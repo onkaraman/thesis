@@ -5,7 +5,7 @@
 <b>Submission date</b>: November 27th, 2019
 
 -------
-This web application was written with Python, using the Django-Stack. It is intended for demonstration only and therefore should not be used for production.<br/>
+This web application was written with Python, using the Django-Stack. It is intended for demonstration only and therefore should not be used for production.
 Note: This app is localized for Germany (according to thesis requirements).
 
 #### > Setup
