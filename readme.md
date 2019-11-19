@@ -1,6 +1,6 @@
 ### Thesis application
 ------
-<b>Title</b>: Development of a web application to connect multiple data sources via control modules
+<b>Title</b>: Development of a web application to connect multiple data sources via control modules<br/>
 <b>Author</b>: Onur Karaman
 <b>Submission date</b>: November 27th, 2019
 

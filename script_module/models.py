@@ -93,7 +93,7 @@ class ScriptModule(models.Model):
         row values will be re-applied to the row itself (the code uses only short-hands for row names).
         """
         orig = row.copy()
-        exec_vars = {"_row": row}
+        exec_vars = {"_row": row, "_append": False}
         pre_imports = "import math, re, random\n"
         code_content = "%s%s" % (pre_imports, self.code_content)
 
@@ -117,7 +117,15 @@ class ScriptModule(models.Model):
 
                 if row[cv[k]] != orig[cv[k]]:
                     if changes_visible:
-                        row[cv[k]] = edit_style % row[cv[k]]
+                        if exec_vars["_append"] and orig[cv[k]] is not "-":
+                            row[cv[k]] = "%s, %s" % (orig[cv[k]], (edit_style % row[cv[k]]))
+                        else:
+                            row[cv[k]] = edit_style % row[cv[k]]
+                    else:
+                        if exec_vars["_append"] and orig[cv[k]] is not "-":
+                            row[cv[k]] = "%s, %s" % (orig[cv[k]], row[cv[k]])
+                        else:
+                            row[cv[k]] = edit_style % row[cv[k]]
 
     def __str__(self):
         return "#%d: %s" % (self.pk, self.name)

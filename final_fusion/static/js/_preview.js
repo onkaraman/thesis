@@ -1032,7 +1032,7 @@ function show_script_rm_ui_modal() {
     let spanner = $("#spanner");
 
     $("#script-rm-ui-modal #save-button").prop("disabled", true);
-    ace.edit("editor").setValue("# For each row, do\n", 1);
+    ace.edit("editor").setValue("# _append = True if result values should be appended.\n# For each row, do:\n", 1);
     $("#script-rm-ui-modal #output-msgs").empty();
 
     spanner.fadeIn(200);
@@ -1415,7 +1415,7 @@ function register_script_rm_events() {
 
     let editor = ace.edit("editor");
     editor.renderer.setScrollMargin(10, 10);
-    editor.setValue("# For each row, do ...\n", 1);
+    editor.setValue("# _append = True if values should be appended.\n# For each row, do ...\n", 1);
     editor.clearSelection();
 
     $(document).on("click." + _ns, "#create-new-script-rm", function (e) {
