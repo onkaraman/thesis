@@ -23,7 +23,7 @@ function request_signup() {
                 window.location = "/";
             } else {
                 error.show();
-                error.text("Server response: " + json.msg);
+                error.text("Fehler: " + json.msg);
             }
         },
         error: function (data, exception) {
@@ -44,11 +44,11 @@ function validate() {
             }
             else {
                 error.show();
-                error.text("Passwords not equal");
+                error.text("Passwörter sind nicht gleich.");
             }
         } else {
             error.show();
-            error.text("Email not valid");
+            error.text("Email nicht valide (muss @daimler.com) sein.");
         }
     return false;
 }

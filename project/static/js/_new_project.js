@@ -13,6 +13,7 @@ function request_project_details() {
                 $("#creation-p #creation-date").text(json.creation_date);
                 $("#creation-p #days").text(json.days_past);
                 $("#creation-p").css("display", "block");
+                $("#share-cb").prop('checked', json.shared);
             }
         },
         error: function (data, exception) {
@@ -95,6 +96,23 @@ function request_all_notes() {
     });
 }
 
+function request_apply_shared_setting() {
+    start_loading_animation();
+
+    $.ajax({
+        data: {
+            "setting": $("#share-cb").prop('checked')
+        },
+        url: "/api/project/apply_shared_setting",
+        success: function (data) {
+            stop_loading_animation();
+        },
+        error: function (data, exception) {
+            stop_loading_animation();
+        }
+    });
+}
+
 // UX
 function add_note_item(i) {
     $("#notes-box").append('' +
@@ -124,6 +142,10 @@ var main = function () {
     request_project_details();
     request_all_notes();
     register_notes_events();
+
+    $("#share-cb").change(function (e) {
+        request_apply_shared_setting();
+    });
 
     setTimeout(function () {
         $("#auto-save").fadeOut();

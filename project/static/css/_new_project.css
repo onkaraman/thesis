@@ -42,6 +42,10 @@
 
 }
 
+#share-container {
+    margin-top: 20px;
+}
+
 #create-note-container{
     margin-top: 35px;
     width: 354px;

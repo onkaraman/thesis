@@ -107,7 +107,7 @@ class ScriptModule(models.Model):
 
         try:
             exec(code_content, globals(), exec_vars)
-        except KeyError as ke:
+        except Exception as ke:
             pass
 
         for k in cv.keys():

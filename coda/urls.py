@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^api/project/load/$', project_v.do_load),
     url(r'^api/project/rename/$', project_v.do_rename),
     url(r'^api/project/delete/$', project_v.do_delete_project),
+    url(r'^api/project/apply_shared_setting/$', project_v.do_apply_shared_settings),
 
     # Project notes API,
     url(r'^api/note/create/$', pn_v.do_create),

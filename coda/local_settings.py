@@ -1,5 +1,5 @@
 engine = "django.db.backends.postgresql_psycopg2"
-name = "coda"
+name = "thesis-app"
 user = "postgres"
 password = "localintern19"
 host = "localhost"

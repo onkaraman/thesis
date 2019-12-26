@@ -118,6 +118,29 @@ def do_delete_project(request):
     return HttpResponse(json.dumps({"success": success}))
 
 
+def do_apply_shared_settings(request):
+    """
+    Will apply whether duplicates should be exported (in EF) or not, by saving that setting to the FF-Model itself.
+    """
+    success = False
+
+    valid_user = token_checker.token_is_valid(request)
+    if valid_user and "setting" in request.GET and not ArgsChecker.str_is_malicious(request.GET["setting"]):
+
+        setting = request.GET["setting"]
+        proj = Project.objects.get(pk=valid_user.last_opened_project_id)
+
+        if setting == "false":
+            proj.shared = False
+        elif setting == "true":
+            proj.shared = True
+
+        proj.save()
+        success = True
+
+    return HttpResponse(json.dumps({"success": success}))
+
+
 def i_render_user_projects(request):
     """
     Will provide content for project UI inclusion. Will count added TQs and rule modules to pass
@@ -126,8 +149,10 @@ def i_render_user_projects(request):
     valid_user = token_checker.token_is_valid(request)
     dic = {}
     if valid_user:
-        projects = Project.objects.filter(user_profile=valid_user, archived=False).order_by("pk")
+        projects = list(Project.objects.filter(user_profile=valid_user, archived=False).order_by("pk"))
+        projects.extend(Project.objects.filter(shared=True, archived=False).order_by("pk"))
         project_list = []
+
         for p in projects:
             ff = FinalFusion.objects.get(project=p)
 
@@ -172,6 +197,7 @@ def render_project_details(request):
                 {
                     "success": True,
                     "creation_date": str(c_date),
+                    "shared": project.shared,
                     "days_past": days_past.days,
                 }))
 

@@ -128,6 +128,7 @@ def do_sign_up(request):
                     success = True
                 except Exception as exc:
                     print(exc)
+                    msg = str(exc)
             else:
                 msg = "User already existing"
 

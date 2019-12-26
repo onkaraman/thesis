@@ -8,6 +8,7 @@ from script_module.models import ScriptModule
 
 # Condition names
 APPLY = "APPLY"
+ATTACH = "ATTACH"
 REPLACE = "REPLACE"
 IGNORE = "IGNORE"
 CONTAINS = "CONTAINS"
@@ -41,12 +42,17 @@ class RuleQueue:
         :param needle: What to replace from the haystack.
         :param append: When True, the post-rm content will be appended to the cell content.
         """
+        orig = str(orig)
+        haystack = str(haystack)
+        needle = str(needle)
+
         self.applied_count += 1
 
         if self.changes_visible:
             needle = self.span_tag % needle
 
         # Already modified cell.
+
         if "span" in orig:
             content = orig.replace("<span class='ruled'>", "").replace("</span>", "")
             haystack = haystack.replace("<span class='ruled'>", "").replace("</span>", "")
@@ -54,7 +60,10 @@ class RuleQueue:
 
             # Check if really something to replace, maybe it was a char from the tags
             if haystack in content:
-                combined = "%s, %s" % (content, c_needle)
+                if append:
+                    combined = "%s, %s" % (content, c_needle)
+                else:
+                    combined = "%s" % c_needle
                 return self.span_tag % combined
 
         elif len(orig) > 1 and len(needle) > 1 and append:
@@ -147,10 +156,9 @@ class RuleQueue:
                     # Now apply all then-cases.
                     for tc in then_cases:
                         # Only dynamic cols have -1 as IDs.
-                        do_append = tc["id"] == "-1"
+
                         try:
                             ffc = FinalFusionColumn.objects.get(pk=tc["id"]).get_as_json()
-                            do_append = ffc["dynamic"]
                         except ObjectDoesNotExist:
                             ffc = None
 
@@ -162,12 +170,12 @@ class RuleQueue:
                                 # Remove this row for the export.
                                 del self.table["out_rows"][self.table["out_rows"].index(row)]
                         else:
-                            if tc["action"] == APPLY:
+                            if tc["action"] == APPLY or tc["action"] == ATTACH:
                                 if tc["ffc_name"] in col_name_map:
                                     mapped = row[col_name_map[tc["ffc_name"]]]
                                     row[col_name_map[tc["ffc_name"]]] = self.replace_content(mapped, mapped,
                                                                                              tc["value"],
-                                                                                             append=do_append)
+                                                                                             append=tc["action"]==ATTACH)
 
                             elif tc["action"] == REPLACE:
                                 if tc["ffc_name"] in col_name_map:

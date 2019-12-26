@@ -329,6 +329,7 @@ function request_create_col_rm() {
         success: function (data) {
             stop_loading_animation();
             $("#col-rm-ui-modal #save-button").prop("disabled", false);
+            $("#select-col-button .sel-name").css("color", "");
 
             let json = JSON.parse(data);
             if (json.success) {
@@ -363,6 +364,7 @@ function request_edit_col_rm() {
         success: function (data) {
             stop_loading_animation();
             $("#col-rm-ui-modal #save-button").prop("disabled", false);
+            $("#select-col-button .sel-name").css("color", "");
 
             let json = JSON.parse(data);
             if (json.success) {
@@ -1160,6 +1162,7 @@ function add_then_container() {
         "</button>" +
         "<div class='dropdown-menu then-dropdown' aria-labelledby='pick-then-condition'>" +
         "<a class='dropdown-item then-apply' href='#'>APPLY</a>" +
+        "<a class='dropdown-item then-attach' href='#'>ATTACH</a>" +
         "<a class='dropdown-item then-replace' href='#'>REPLACE</a>" +
         "<a class='dropdown-item then-ignore' href='#'>IGNORE</a>" +
         "</div>" +
@@ -1200,6 +1203,7 @@ function add_then_container() {
             let then_dropdown = $(this).parent().parent().parent().parent().find(".then-dropdown");
             then_dropdown.empty();
             then_dropdown.append("<a class='dropdown-item then-apply' href='#'>APPLY</a>");
+            then_dropdown.append("<a class='dropdown-item then-attach' href='#'>ATTACH</a>");
             then_dropdown.append("<a class='dropdown-item then-replace' href='#'>REPLACE</a>");
             then_dropdown.append("<a class='dropdown-item then-ignore' href='#'>IGNORE</a>");
         }
@@ -1280,6 +1284,7 @@ function register_col_rm_events() {
         $(this).addClass("btn-selected");
         $("#then-apply").addClass("btn-selected");
         $("#then-replace").prop("disabled", true);
+        $("#col-rm-ui-modal #save-button").prop("disabled", false);
     });
 
     $(document).on("click." + _ns, "#when-contains", function (e) {
@@ -1287,6 +1292,7 @@ function register_col_rm_events() {
         $("#when-is").removeClass("btn-selected");
         $("#then-apply").removeClass("btn-selected");
         $("#then-replace").prop("disabled", false);
+        $("#col-rm-ui-modal #save-button").prop("disabled", false);
     });
 
     $(document).on("click." + _ns, "#then-apply", function (e) {
@@ -1308,6 +1314,11 @@ function register_col_rm_events() {
 
         if ($("#col-name-container #rename").val().length == 0) {
             $("#col-name-container #rename").val($("#col-name-container #rm-name").text());
+        }
+
+        if ($("#select-col-button .sel-name").attr("id") == null) {
+            $("#select-col-button .sel-name").css("color", "yellow");
+            $(this).prop("disabled", false);
         }
 
         if (edit_rm_id !== null) request_edit_col_rm();
@@ -1611,6 +1622,13 @@ $(document).on("click." + _ns, ".then-dropdown .dropdown-item", function (e) {
 
         then_input.prop("disabled", false);
         then_input.attr("placeholder", "Übernehme");
+        dropdown.css("margin-top", "");
+        with_input.hide();
+    } else if ($(this)[0].innerText === "ATTACH") {
+        add_then_button.prop("disabled", false);
+
+        then_input.prop("disabled", false);
+        then_input.attr("placeholder", "Hänge an Zellenwert an");
         dropdown.css("margin-top", "");
         with_input.hide();
     } else {

@@ -173,7 +173,8 @@ def data_to_row_rm(when_data, then_data, existing_id=None):
                 ffc.archived = False
                 ffc.save()
 
-        if ffc and (td["action"] == rule_queue.APPLY or td["action"] == rule_queue.REPLACE) and len(td["value"]) > 0:
+        if ffc and (td["action"] == rule_queue.APPLY or td["action"] == rule_queue.ATTACH or\
+                    td["action"] == rule_queue.REPLACE) and len(td["value"]) > 0:
             td["ffc_name"] = ffc.display_column_name
             if len(td["dyn_col"]) > 0:
                 td["ffc_name"] = td["dyn_col"]
